@@ -5,13 +5,7 @@ import {colors} from '@common/colors';
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
-  return (
-    <View style={styles.backgroud}>
-      <View
-        style={{backgroundColor: '#345', width: 10, height: 10, margin: 10}}
-      />
-    </View>
-  );
+  return <View style={styles.backgroud} />;
 };
 
 const styles = StyleSheet.create({

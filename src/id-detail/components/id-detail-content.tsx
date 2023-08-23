@@ -12,13 +12,8 @@ interface IDDetailContentItem {
 
 export const IDDetailContent: FC<IDDetailContentProps> = ({style}) => {
   const data: Array<IDDetailContentItem> = [{title: 'Santhosh'}];
-  const renderItem = useCallback(item => {
-    return (
-      <TextInput
-        style={{backgroundColor: 'red'}}
-        textProps={{style: {color: 'green'}}}
-      />
-    );
+  const renderItem = useCallback(() => {
+    return <TextInput />;
   }, []);
   return <FlatList style={style} data={data} renderItem={renderItem} />;
 };

@@ -10,16 +10,18 @@ import {Text, TextProps} from './text';
 interface TextInputProps extends ViewProps {
   inputBarProps?: TIP;
   textProps?: TextProps;
+  label?: string;
 }
 
 export const TextInput: FC<TextInputProps> = ({
   style,
   inputBarProps,
   textProps,
+  label,
 }) => {
   return (
     <View style={style}>
-      <Text {...textProps}>asdasasd asd assa asd ad</Text>
+      <Text {...textProps}>{label}</Text>
       <TI {...inputBarProps} />
     </View>
   );
