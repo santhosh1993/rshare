@@ -10,5 +10,9 @@ const themeColors = {
 export const colors = {
   app: {
     background: themeColors.primary3,
+    textFieldBackground: themeColors.primary1,
+  },
+  border: {
+    light: themeColors.primary3 + '20',
   },
 };

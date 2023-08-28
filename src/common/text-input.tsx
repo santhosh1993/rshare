@@ -1,11 +1,13 @@
 import React, {FC} from 'react';
 import {
+  StyleSheet,
   TextInput as TI,
   TextInputProps as TIP,
   View,
   ViewProps,
 } from 'react-native';
 import {Text, TextProps} from './text';
+import {colors} from './colors';
 
 interface TextInputProps extends ViewProps {
   inputBarProps?: TIP;
@@ -20,9 +22,20 @@ export const TextInput: FC<TextInputProps> = ({
   label,
 }) => {
   return (
-    <View style={style}>
+    <View style={[styles.parent, style]}>
       <Text {...textProps}>{label}</Text>
-      <TI {...inputBarProps} />
+      <TI {...inputBarProps} style={[styles.ti, inputBarProps?.style]} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  parent: {paddingHorizontal: 10, marginVertical: 5},
+  ti: {
+    backgroundColor: colors.app.textFieldBackground,
+    marginTop: 5,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: colors.border.light,
+  },
+});
