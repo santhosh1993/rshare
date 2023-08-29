@@ -31,5 +31,6 @@ module.exports = {
         ),
       },
     ],
+    'react-native-reanimated/plugin', //keep this last as its the requirement by reanimated
   ],
 };
