@@ -6,8 +6,8 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import {Text, TextProps} from './text';
-import {colors} from './colors';
+import {Text, TextProps} from '@common/text';
+import {colors} from '@common/colors';
 
 interface TextInputProps extends ViewProps {
   inputBarProps?: TIP;

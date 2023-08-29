@@ -11,7 +11,12 @@ interface IDDetailContentItem {
 }
 
 export const IDDetailContent: FC<IDDetailContentProps> = ({style}) => {
-  const data: Array<IDDetailContentItem> = [{title: 'Santhosh'}];
+  const data: Array<IDDetailContentItem> = [
+    {title: 'Santhosh'},
+    {title: 'Santhosh2 :'},
+    {title: 'Santhosh3'},
+    {title: 'Santhosh4'},
+  ];
   const renderItem = useCallback(({item}: {item: IDDetailContentItem}) => {
     return (
       <TextInput
