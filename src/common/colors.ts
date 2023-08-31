@@ -5,6 +5,7 @@ const themeColors = {
   primary3: '#0d0f13',
   primary4: '#ебебе6',
   primary5: '#4c596d',
+  primary6: '#000000',
 };
 
 export const colors = {
@@ -14,5 +15,8 @@ export const colors = {
   },
   border: {
     light: themeColors.primary3 + '20',
+  },
+  shadow: {
+    dark: themeColors.primary6,
   },
 };
