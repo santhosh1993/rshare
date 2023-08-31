@@ -1,6 +1,6 @@
 import {TextInput} from '@common/text-input';
-import React, {FC, useCallback} from 'react';
-import {FlatList, StyleProp, ViewStyle} from 'react-native';
+import React, {FC, useCallback, useMemo} from 'react';
+import {FlatList, StyleProp, View, ViewStyle} from 'react-native';
 
 interface IDDetailContentProps {
   style?: StyleProp<ViewStyle>;
@@ -42,12 +42,17 @@ export const IDDetailContent: FC<IDDetailContentProps> = ({style}) => {
     );
   }, []);
 
+  const footer = useMemo(() => {
+    return <View style={{height: 60}} />;
+  }, []);
+
   return (
     <FlatList
       style={style}
       data={data}
       keyExtractor={keyExtracter}
       renderItem={renderItem}
+      ListFooterComponent={footer}
     />
   );
 };
