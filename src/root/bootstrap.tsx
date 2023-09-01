@@ -1,5 +1,6 @@
 import React from 'react';
 import {IDDetail} from '../id-detail/id-detail';
+import {Providers} from './providers';
 
 interface InitParams {
   route?: string;
@@ -7,5 +8,9 @@ interface InitParams {
 }
 
 export function BootstrapInner(_: InitParams) {
-  return <IDDetail />;
+  return (
+    <Providers>
+      <IDDetail />
+    </Providers>
+  );
 }

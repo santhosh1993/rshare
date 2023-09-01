@@ -1,16 +1,23 @@
 import React, {FC, memo, useMemo} from 'react';
-import {View} from 'react-native';
+import {
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackProps,
+  View,
+  ViewProps,
+} from 'react-native';
 
 export enum ButtonType {
   PrimaryButton,
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends ViewProps {
   type: ButtonType;
   props: PrimaryButtonProps;
 }
 
-export interface PrimaryButtonProps {}
+export interface PrimaryButtonProps extends ViewProps {
+  feedbackProps?: TouchableWithoutFeedbackProps;
+}
 
 export const Button: FC<ButtonProps> = memo(props => {
   const button = useMemo(() => {
@@ -20,24 +27,25 @@ export const Button: FC<ButtonProps> = memo(props => {
     }
   }, [props]);
 
-  return (
-    <View {...props} style={{backgroundColor: 'red'}}>
-      {button}
-    </View>
-  );
+  return <View {...props}>{button}</View>;
 });
 
 const PrimaryButton: FC<PrimaryButtonProps> = props => {
   return (
-    <View
-      {...props}
-      style={{
-        backgroundColor: 'yellow',
-        marginHorizontal: 16,
-        marginVertical: 12,
-        height: 40,
-        borderRadius: 4,
-      }}
-    />
+    <TouchableWithoutFeedback {...props.feedbackProps}>
+      <View
+        {...props}
+        style={[
+          {
+            backgroundColor: 'yellow',
+            marginHorizontal: 16,
+            marginVertical: 12,
+            height: 40,
+            borderRadius: 4,
+          },
+          props.style,
+        ]}
+      />
+    </TouchableWithoutFeedback>
   );
 };
