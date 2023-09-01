@@ -1,16 +1,24 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, StyleProp, View, ViewStyle} from 'react-native';
 import React, {FC} from 'react';
 import {colors} from '@common/colors';
 
-interface HeaderProps {}
+interface HeaderProps {
+  style?: StyleProp<ViewStyle>;
+}
 
-export const Header: FC<HeaderProps> = () => {
-  return <View style={styles.backgroud} />;
+export const Header: FC<HeaderProps> = props => {
+  return (
+    <View style={[styles.backgroud, props.style]}>
+      <View style={styles.header} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   backgroud: {
     backgroundColor: colors.app.background,
-    height: 40,
+  },
+  header: {
+    height: 60,
   },
 });

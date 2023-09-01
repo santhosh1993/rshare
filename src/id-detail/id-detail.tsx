@@ -12,8 +12,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 export const IDDetail: FC<IDDetailInterface> = () => {
   const {top, bottom} = useSafeAreaInsets();
   return (
-    <View style={[styles.parent, {paddingTop: top}]}>
-      <Header />
+    <View style={styles.parent}>
+      <Header style={{paddingTop: top}} />
       <IDDetailContent style={styles.parent} />
       <View>
         <Shadow type={ShadowDirection.Top} color={colors.shadow.dark} />
