@@ -13,7 +13,7 @@ export const IDDetail: FC<IDDetailInterface> = () => {
   const {top, bottom} = useSafeAreaInsets();
   return (
     <View style={styles.parent}>
-      <Header style={{paddingTop: top}} />
+      <Header style={{paddingTop: top}} title="Create" />
       <IDDetailContent style={styles.parent} />
       <View>
         <Shadow type={ShadowDirection.Top} color={colors.shadow.dark} />

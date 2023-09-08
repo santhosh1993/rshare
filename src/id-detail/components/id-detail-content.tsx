@@ -8,22 +8,18 @@ interface IDDetailContentProps {
 
 interface IDDetailContentItem {
   title: string;
+  placeHolder?: string;
+  maxLength?: number;
 }
 
 export const IDDetailContent: FC<IDDetailContentProps> = ({style}) => {
   const data: Array<IDDetailContentItem> = [
-    {title: 'Santhosh :'},
-    {title: 'Santhosh2 :'},
-    {title: 'Santhosh3 :'},
-    {title: 'Santhosh4 :'},
-    {title: 'Santhosh :'},
-    {title: 'Santhosh2 :'},
-    {title: 'Santhosh3 :'},
-    {title: 'Santhosh4 :'},
-    {title: 'Santhosh :'},
-    {title: 'Santhosh2 :'},
-    {title: 'Santhosh3 :'},
-    {title: 'Santhosh4 :'},
+    {title: 'Project Name', placeHolder: 'Project Name', maxLength: 100},
+    {
+      title: 'Key words',
+      placeHolder: 'Key words of the property',
+      maxLength: 250,
+    },
   ];
 
   const keyExtracter = useCallback(
@@ -36,8 +32,11 @@ export const IDDetailContent: FC<IDDetailContentProps> = ({style}) => {
   const renderItem = useCallback(({item}: {item: IDDetailContentItem}) => {
     return (
       <TextInput
-        label={item.title}
-        inputBarProps={{defaultValue: 'dsny', placeholder: 'safa'}}
+        label={item.title + ' :'}
+        inputBarProps={{
+          placeholder: item.placeHolder,
+          maxLength: item.maxLength,
+        }}
       />
     );
   }, []);
