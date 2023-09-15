@@ -3,7 +3,12 @@ import {
   NavigationContainerRef,
   Route,
 } from '@react-navigation/native'
+import {Home} from '@src/home/home';
 
 function MatchRoute() {
-  return <NavigationContainer></NavigationContainer>
+  return (
+    <NavigationContainer>
+      <Home />
+    </NavigationContainer>
+  );
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "568104290400",
+    "project_id": "r-share-adbe0",
+    "storage_bucket": "r-share-adbe0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568104290400:android:e1a205522703101d455b05",
+        "android_client_info": {
+          "package_name": "com.agentbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568104290400-b5kbfso8hih9okfffc50vvsvtnllp4qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC8aB6P5I0Pdy1gzZLciuf5MklRqxQndg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568104290400-b5kbfso8hih9okfffc50vvsvtnllp4qb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

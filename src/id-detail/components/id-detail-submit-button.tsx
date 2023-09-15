@@ -1,5 +1,4 @@
 import {ButtonType, Button} from '@common/button';
-import {colors} from '@common/colors';
 import React, {FC} from 'react';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 
@@ -13,7 +12,7 @@ export const SubmitButton: FC<SubmitButtonPorps> = props => {
       type={ButtonType.PrimaryButton}
       style={[styles.background, props.style]}
       props={{
-        style: {backgroundColor: 'black'},
+        style: styles.button,
         feedbackProps: {
           onPress: () => {
             console.log('testrs e');
@@ -26,6 +25,9 @@ export const SubmitButton: FC<SubmitButtonPorps> = props => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: 'red',
+    backgroundColor: '#fff',
+  },
+  button: {
+    backgroundColor: '#0f0',
   },
 });
