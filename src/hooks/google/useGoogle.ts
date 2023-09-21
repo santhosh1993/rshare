@@ -15,18 +15,19 @@ export const useGoogle = () => {
   const authenticate = useCallback(async () => {
     console.log('---->>> sing in started');
     try {
-      GoogleSignin.configure();
-      const datap = await GoogleSignin.hasPlayServices({
+      GoogleSignin.configure({
+        webClientId:
+          '568104290400-b5kbfso8hih9okfffc50vvsvtnllp4qb.apps.googleusercontent.com',
+      });
+      await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
-      console.log('-asdfda---->>>', datap);
-      console.log('=====>', await GoogleSignin.isSignedIn());
       // Get the users ID token
-      const data = await GoogleSignin.signIn();
-      console.log(data, '----->>>');
-
+      const signInData = await GoogleSignin.signIn();
       // Create a Google credential with the token
-      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        signInData.idToken,
+      );
 
       // Sign-in the user with the credential
       console.log(await auth().signInWithCredential(googleCredential));
