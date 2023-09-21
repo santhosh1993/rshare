@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "568104290400-orjpo3qbu92h60eo6r004cu90uup98b8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agentbuddy",
+            "certificate_hash": "696acca250b531a8f9cb9850198fd4f71edc62eb"
+          }
+        },
+        {
           "client_id": "568104290400-b5kbfso8hih9okfffc50vvsvtnllp4qb.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "568104290400-b5kbfso8hih9okfffc50vvsvtnllp4qb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "568104290400-v381qrlff034io5qae56mv8hsjkqrbbc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.AgentBuddy"
+              }
             }
           ]
         }

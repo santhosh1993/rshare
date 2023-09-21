@@ -1,10 +1,20 @@
-import React, {memo, FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {useGoogle} from '@src/hooks/google/useGoogle';
+import React, {memo, FC, useCallback} from 'react';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 
 interface NewProjectFabProps {}
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
-  return <View style={styles.parent} />;
+  const {authenticate} = useGoogle();
+  const onPress = useCallback(() => {
+    console.log('--->>>');
+    authenticate();
+  }, []);
+  return (
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.parent} />
+    </TouchableWithoutFeedback>
+  );
 });
 
 const styles = StyleSheet.create({
