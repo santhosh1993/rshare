@@ -16,6 +16,7 @@
     "@react-native-firebase/auth": "^18.4.0",
     "@react-native-google-signin/google-signin": "^10.0.1",
     "@react-navigation/native": "^6.1.7",
+    "axios": "^1.5.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-contacts": "^7.0.6",
