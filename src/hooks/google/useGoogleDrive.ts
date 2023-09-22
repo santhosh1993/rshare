@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useCallback} from 'react';
 
 export const useGoogleDrive = () => {
-  const createRootFolder = useCallback(async () => {
+  const getFolder = useCallback(async (folderName: string) => {
     try {
       const tokens = await GoogleSignin.getTokens();
       const response = await axios.get(
@@ -33,6 +33,10 @@ export const useGoogleDrive = () => {
       }
     }
   }, []);
+
+  const createRootFolder = useCallback(async () => {
+    const rootFolder = await getFolder('rshare');
+  }, [getFolder]);
 
   const createFolder = useCallback(
     async (folderName: string) => {
