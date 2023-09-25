@@ -21,9 +21,14 @@ export const useGoogleAuth = () => {
       const googleCredential = auth.GoogleAuthProvider.credential(
         signInData.idToken,
       );
+
+      auth().signInWithCredential(googleCredential);
+
+      return signInData.user;
     } catch (e) {
       console.log(e);
     }
+    return;
   }, []);
 
   return {authenticate};

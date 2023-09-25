@@ -5,11 +5,11 @@ import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 interface NewProjectFabProps {}
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
-  const {authenticate} = useGoogle();
+  const {createFolder} = useGoogle();
   const onPress = useCallback(() => {
     console.log('--->>>');
-    authenticate();
-  }, []);
+    createFolder('Roooot');
+  }, [createFolder]);
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.parent} />
