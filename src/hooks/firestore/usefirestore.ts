@@ -1,80 +1,87 @@
 import firestore from '@react-native-firebase/firestore';
 import {useCallback} from 'react';
-import {FireStoreCollection} from './firestoreCollections';
 import {useFirestoreEvents} from './useFirestoreEvents';
+import {FirestoreParamsBase} from './firestore.params';
+import {FireStoreCollection} from './firestore.collections';
+import {FirestoreOperationType} from '@src/root/analytics/analytics.Interfaces';
 
-export interface CreateUserInterface {
-  userId: string;
-  name: string;
-  phoneNo: string;
-}
+type FireStoreUpdateDocInfo<K extends FireStoreCollection> = {
+  docId: string;
+  docType: K;
+  docData: Partial<FirestoreParamsBase[K]>;
+};
+
+type FireStoreCreateDocInfo<K extends FireStoreCollection> = {
+  docId: string;
+  docType: K;
+  docData: FirestoreParamsBase[K];
+};
 
 export const useFireStore = () => {
   const {firestoreError, firestoreSuccess} = useFirestoreEvents();
-  const getUserData = useCallback(
-    async (userId: string) => {
+
+  const doc = useCallback((docId: string, docType: FireStoreCollection) => {
+    const document = firestore().collection(docType).doc(docId);
+    return document;
+  }, []);
+
+  const read = useCallback(
+    async (docId: string, docType: FireStoreCollection) => {
       try {
-        const documentSnapshot = await firestore()
-          .collection(FireStoreCollection.USERS)
-          .doc(userId)
-          .get();
-        firestoreSuccess({doc: FireStoreCollection.USERS, type: 'get'});
+        const documentSnapshot = await doc(docId, docType).get();
+        firestoreSuccess({doc: docType, type: FirestoreOperationType.READ});
         return documentSnapshot.data();
       } catch (e) {
         console.log('Error occured', e);
-        firestoreError({doc: FireStoreCollection.USERS, type: 'get'});
+        firestoreError({doc: docType, type: FirestoreOperationType.READ});
+        throw Error('Something went wrong');
       }
-      return;
     },
-    [firestoreError, firestoreSuccess],
+    [doc, firestoreError, firestoreSuccess],
   );
 
-  const updateUser = useCallback(
-    async ({userId, name, phoneNo}: CreateUserInterface) => {
+  const update = useCallback(
+    async <K extends FireStoreCollection>({
+      docId,
+      docType,
+      docData,
+    }: FireStoreUpdateDocInfo<K>) => {
       try {
-        await firestore()
-          .collection(FireStoreCollection.USERS)
-          .doc(userId)
-          .update({name: name, phoneNo: phoneNo});
+        await doc(docId, docType).update({...docData});
         firestoreSuccess({
-          doc: FireStoreCollection.USERS,
-          type: 'update',
+          doc: docType,
+          type: FirestoreOperationType.UPDATE,
         });
       } catch (e) {
         console.log('error on creating the user', e.message);
-        firestoreError({doc: FireStoreCollection.USERS, type: 'update'});
+        firestoreError({doc: docType, type: FirestoreOperationType.UPDATE});
       }
     },
-    [firestoreError, firestoreSuccess],
+    [doc, firestoreError, firestoreSuccess],
   );
 
-  const createUser = useCallback(
-    async ({userId, name, phoneNo}: CreateUserInterface) => {
-      console.log(userId, '------');
+  const create = useCallback(
+    async <K extends FireStoreCollection>({
+      docId,
+      docType,
+      docData,
+    }: FireStoreCreateDocInfo<K>) => {
       try {
-        const getUser = await getUserData(userId);
-        console.log(getUser, '------>>>>');
-        if (getUser !== undefined) {
-        } else {
-          await firestore()
-            .collection(FireStoreCollection.USERS)
-            .doc(userId)
-            .set({name: name, phoneNo: phoneNo});
-        }
+        await doc(docId, docType).set({...docData});
         firestoreSuccess({
           doc: FireStoreCollection.USERS,
-          type: 'set',
+          type: FirestoreOperationType.CREATE,
         });
       } catch (e) {
-        console.log('error on creating the user', e.message);
+        console.log('error on creating data', e.message);
         firestoreError({
           doc: FireStoreCollection.USERS,
-          type: 'set',
+          type: FirestoreOperationType.CREATE,
         });
       }
     },
-    [getUserData, firestoreError, firestoreSuccess],
+    [doc, firestoreError, firestoreSuccess],
   );
 
-  return {getUserData, createUser, updateUser};
+  return {create, update, read};
 };

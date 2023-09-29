@@ -7,6 +7,7 @@ export const useFirestoreEvents = () => {
     params: {
       doc: '',
       type: '',
+      error: 
     },
   });
 
