@@ -32,8 +32,12 @@ export const useFireStore = () => {
         firestoreSuccess({doc: docType, type: FirestoreOperationType.READ});
         return documentSnapshot.data();
       } catch (e) {
-        console.log('Error occured', e);
-        firestoreError({doc: docType, type: FirestoreOperationType.READ});
+        console.log('Error while reading the data', e);
+        firestoreError({
+          doc: docType,
+          type: FirestoreOperationType.READ,
+          error: e,
+        });
         throw Error('Something went wrong');
       }
     },
@@ -53,8 +57,12 @@ export const useFireStore = () => {
           type: FirestoreOperationType.UPDATE,
         });
       } catch (e) {
-        console.log('error on creating the user', e.message);
-        firestoreError({doc: docType, type: FirestoreOperationType.UPDATE});
+        console.log('error on creating the user', e);
+        firestoreError({
+          doc: docType,
+          type: FirestoreOperationType.UPDATE,
+          error: e,
+        });
       }
     },
     [doc, firestoreError, firestoreSuccess],
@@ -73,10 +81,11 @@ export const useFireStore = () => {
           type: FirestoreOperationType.CREATE,
         });
       } catch (e) {
-        console.log('error on creating data', e.message);
+        console.log('error on creating data', e);
         firestoreError({
           doc: FireStoreCollection.USERS,
           type: FirestoreOperationType.CREATE,
+          error: e,
         });
       }
     },

@@ -1,3 +1,4 @@
+import {FirestoreOperationType} from '@src/root/analytics/analytics.Interfaces';
 import {EventKey} from '@src/root/analytics/analytics.Keys';
 import {useAnalytics} from '@src/root/analytics/useAnalytics';
 
@@ -6,8 +7,7 @@ export const useFirestoreEvents = () => {
     name: EventKey.FireStoreError,
     params: {
       doc: '',
-      type: '',
-      error: 
+      type: FirestoreOperationType.UNKNOWN,
     },
   });
 
@@ -15,7 +15,7 @@ export const useFirestoreEvents = () => {
     name: EventKey.FireStoreSuccess,
     params: {
       doc: '',
-      type: '',
+      type: FirestoreOperationType.UNKNOWN,
     },
   });
 

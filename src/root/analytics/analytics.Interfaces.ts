@@ -3,6 +3,7 @@ export enum FirestoreOperationType {
   UPDATE = 'update',
   CREATE = 'create',
   DELETE = 'delete',
+  UNKNOWN = 'unknown',
 }
 
 export interface EventAppLaunchedInterface {}
@@ -10,7 +11,7 @@ export interface EventAppLaunchedInterface {}
 export interface FireStoreErrorInterface {
   doc: string;
   type: FirestoreOperationType;
-  error?: Record<string, never>;
+  error?: unknown;
 }
 
 export interface FireStoreSuccessInterface {
