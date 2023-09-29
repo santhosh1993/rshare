@@ -4,6 +4,21 @@ import {EventParams, EventsParamsBase} from './analytics';
 import {EventKey} from './analytics.Keys';
 import {EventsProvider} from './analytics.provider';
 
+interface DefaultProps {
+  userId: string;
+}
+
+let defaultProps: DefaultProps = {
+  userId: '',
+};
+
+export const updateDefaultProps = (props: Partial<DefaultProps>) => {
+  defaultProps = {
+    ...defaultProps,
+    ...props,
+  };
+};
+
 export const useAnalytics = <K extends EventKey>({
   name,
   params,
@@ -20,6 +35,7 @@ export const useAnalytics = <K extends EventKey>({
     async ({name, params}: EventParams<K>) => {
       await analytics().logEvent(name, {
         ...params,
+        defaultProps: defaultProps,
       });
     },
     [],
