@@ -77,13 +77,13 @@ export const useFireStore = () => {
       try {
         await doc(docId, docType).set({...docData});
         firestoreSuccess({
-          doc: FireStoreCollection.USERS,
+          doc: docType,
           type: FirestoreOperationType.CREATE,
         });
       } catch (e) {
         console.log('error on creating data', e);
         firestoreError({
-          doc: FireStoreCollection.USERS,
+          doc: docType,
           type: FirestoreOperationType.CREATE,
           error: e,
         });
