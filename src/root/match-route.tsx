@@ -3,7 +3,7 @@ import {
   NavigationContainerRef,
   Route,
 } from '@react-navigation/native'
-import {Home} from '@src/home/home';
+import {Home} from '@src/screens/home/home';
 
 function MatchRoute() {
   return (

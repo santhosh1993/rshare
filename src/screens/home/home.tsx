@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {View} from 'react-native';
-import {NewProjectFabProvider} from '@src/new-project-fab/new-project-fab.provider';
+import {NewProjectFabProvider} from '@src/screens/new-project-fab/new-project-fab.provider';
 
 interface HomeProps {}
 

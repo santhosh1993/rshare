@@ -1,5 +1,5 @@
 import {TextInput} from '@common/text-input';
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {View} from 'react-native';
 
 export const DataInputView = memo(() => {
