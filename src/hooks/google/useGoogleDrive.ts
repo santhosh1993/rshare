@@ -2,6 +2,13 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import {useCallback} from 'react';
 
+type GoogleFolder = {
+  id: string;
+  kind: string;
+  mimeType: string;
+  name: string;
+};
+
 export const useGoogleDrive = () => {
   const getFolder = useCallback(async (folderName: string) => {
     try {
@@ -35,7 +42,28 @@ export const useGoogleDrive = () => {
   }, []);
 
   const createRootFolder = useCallback(async () => {
-    const rootFolder = await getFolder('rshare');
+    try {
+      getFolder('rshare');
+
+      const tokens = await GoogleSignin.getTokens();
+      const response = await axios.post(
+        'https://www.googleapis.com/drive/v3/files',
+        {
+          name: 'rshare',
+          mimeType: 'application/vnd.google-apps.folder',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokens.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      console.log('Folder created:', response.data);
+    } catch (error) {
+      console.error('Error creating folder:', error);
+    }
   }, [getFolder]);
 
   const createFolder = useCallback(
@@ -45,5 +73,5 @@ export const useGoogleDrive = () => {
     [createRootFolder],
   );
 
-  return {createFolder};
+  return {createFolder, createRootFolder};
 };

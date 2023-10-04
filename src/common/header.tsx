@@ -21,14 +21,15 @@ export const Header: FC<HeaderProps> = props => {
 
 const styles = StyleSheet.create({
   backgroud: {
-    backgroundColor: colors.app.background,
+    backgroundColor: colors.app.header,
   },
   header: {
     height: 60,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    fontSize: FontSize.xxlarge,
+    fontSize: FontSize.xlarge,
     fontWeight: 'bold',
     color: '#fff',
   },

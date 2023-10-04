@@ -3,6 +3,7 @@ import {Providers} from './providers';
 import {Home} from '../home/home';
 import {useAnalytics} from './analytics/useAnalytics';
 import {EventKey} from './analytics/analytics.Keys';
+import {More} from '@src/more/more';
 
 interface InitParams {
   route?: string;
@@ -18,7 +19,7 @@ export function BootstrapInner(_: InitParams) {
 
   return (
     <Providers>
-      <Home />
+      <More />
     </Providers>
   );
 }
