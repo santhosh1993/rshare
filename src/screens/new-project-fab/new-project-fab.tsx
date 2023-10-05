@@ -1,4 +1,6 @@
 import {useGoogle} from '@src/hooks/google/useGoogle';
+import {useNavigation} from '@src/root/navigation/useNavigation';
+import {Routes} from '@src/root/router/routes';
 import React, {memo, FC, useCallback} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 
@@ -6,10 +8,10 @@ interface NewProjectFabProps {}
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
   const {createFolder} = useGoogle();
+  const nav = useNavigation();
   const onPress = useCallback(() => {
-    console.log('--->>>');
-    createFolder('Roooot');
-  }, [createFolder]);
+    nav.global.navigate({route: Routes.MORE, params: {}});
+  }, [nav]);
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.parent} />

@@ -3,6 +3,7 @@ import React, {FC} from 'react';
 import {colors} from '@common/colors';
 import {Text} from './text';
 import {FontSize} from './font';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -10,8 +11,9 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = props => {
+  const {top} = useSafeAreaInsets();
   return (
-    <View style={[styles.backgroud, props.style]}>
+    <View style={[styles.backgroud, props.style, {paddingTop: top}]}>
       <View style={styles.header}>
         <Text style={styles.title}>{props.title}</Text>
       </View>
