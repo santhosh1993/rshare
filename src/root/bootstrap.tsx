@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {Providers} from './providers';
-import {Home} from '../screens/home/home';
 import {useAnalytics} from './analytics/useAnalytics';
 import {EventKey} from './analytics/analytics.Keys';
-import {More} from '@src/screens/more/more';
+import {MatchRoute} from './match-route';
+import {Routes} from './router/routes';
 
 interface InitParams {
   route?: string;
@@ -19,7 +19,7 @@ export function BootstrapInner(_: InitParams) {
 
   return (
     <Providers>
-      <More />
+      <MatchRoute route={Routes.HOME} params={{}} />
     </Providers>
   );
 }

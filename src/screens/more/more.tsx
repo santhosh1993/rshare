@@ -6,7 +6,7 @@ import {FeedBackButton} from './components/Feedback';
 import {Header} from '@common/header';
 import {UpdateButton} from './components/UpdateButton';
 
-interface MoreInterface {}
+export interface MoreInterface {}
 
 export const More: FC<MoreInterface> = memo(() => {
   return (
