@@ -1365,6 +1365,8 @@ PODS:
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
+  - RNGestureHandler (2.13.1):
+    - React-Core
   - RNGoogleSignin (10.0.1):
     - GoogleSignIn (~> 7.0)
     - React-Core
@@ -1489,6 +1491,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1635,6 +1638,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNReanimated:
@@ -1731,6 +1736,7 @@ SPEC CHECKSUMS:
   RNFBApp: 082df9f8ffba99f23f7aee3ecb64df703e7e1adb
   RNFBAuth: b055663339aef8ce9d63cd5d03e2ea5360a3aca2
   RNFBFirestore: a9837bc0c4d0911ade436787e995fa20a12a77b0
+  RNGestureHandler: 38aa38413896620338948fbb5c90579a7b1c3fde
   RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
   RNReanimated: 726395a2fa2f04cea340274ba57a4e659bc0d9c1
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa

@@ -1,12 +1,12 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home} from '@src/screens/home/home';
 import React from 'react';
 import {BaseRouteParams, Routes} from './router/routes';
 import {More} from '@src/screens/more/more';
-import {SlideInRight} from 'react-native-reanimated';
+import {STACK_NAVIGATION_OPTIONS} from './navigation/navigationOptions';
+import {createStackNavigator} from '@react-navigation/stack';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export function MatchRoute<K extends Routes>(props: {
   route: K;
@@ -16,7 +16,7 @@ export function MatchRoute<K extends Routes>(props: {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={props.route}
-        screenOptions={{headerShown: false, animation: 'slide_from_right'}}>
+        screenOptions={STACK_NAVIGATION_OPTIONS}>
         <Stack.Screen
           name={Routes.HOME}
           component={Home}
