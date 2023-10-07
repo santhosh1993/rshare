@@ -6,9 +6,11 @@ import {FeedBackButton} from './components/Feedback';
 import {Header} from '@common/header';
 import {UpdateButton} from './components/UpdateButton';
 
-export interface MoreInterface {}
+export interface MoreInterface {
+  source: string;
+}
 
-export const More: FC<MoreInterface> = memo(() => {
+const MoreComponent: FC<MoreInterface> = props => {
   return (
     <View style={styles.moreContainer}>
       <View style={styles.nonLoginParent}>
@@ -19,4 +21,6 @@ export const More: FC<MoreInterface> = memo(() => {
       <FeedBackButton />
     </View>
   );
-});
+};
+
+export const More = memo(MoreComponent);

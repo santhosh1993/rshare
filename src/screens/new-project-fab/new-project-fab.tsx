@@ -10,7 +10,13 @@ export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
   const {createFolder} = useGoogle();
   const nav = useNavigation();
   const onPress = useCallback(() => {
-    nav.global.navigate({route: Routes.MORE, params: {}});
+    nav.global.navigate({
+      route: Routes.PROJECTDETAIL,
+      params: {
+        name: 'Project 1',
+        id: 'asdfsadf',
+      },
+    });
   }, [nav]);
   return (
     <TouchableWithoutFeedback onPress={onPress}>
