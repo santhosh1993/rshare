@@ -1,7 +1,7 @@
 import React, {FC, memo, useMemo} from 'react';
 import {
+  Pressable,
   StyleSheet,
-  TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
   View,
   ViewProps,
@@ -14,6 +14,7 @@ import {colors} from './colors';
 export enum ButtonType {
   PrimaryButton,
   ButtonWithArrow,
+  Button,
 }
 
 export interface PrimaryButtonProps extends ViewProps {
@@ -27,12 +28,13 @@ export interface ButtonWithArrowProps extends ViewProps {
 type ButtonParams = {
   [ButtonType.PrimaryButton]: PrimaryButtonProps;
   [ButtonType.ButtonWithArrow]: ButtonWithArrowProps;
+  [ButtonType.Button]: {};
 };
 
-export interface ButtonProps<K extends ButtonType> {
+export interface ButtonProps<K extends ButtonType>
+  extends TouchableWithoutFeedbackProps {
   type: K;
-  props: ButtonParams[K];
-  feedbackProps?: TouchableWithoutFeedbackProps;
+  props?: ButtonParams[K];
 }
 
 export const Button = memo(<K extends ButtonType>(props: ButtonProps<K>) => {
@@ -43,14 +45,10 @@ export const Button = memo(<K extends ButtonType>(props: ButtonProps<K>) => {
       case ButtonType.ButtonWithArrow:
         return <ButtonWithArrow {...props.props} />;
       default:
-        return <></>;
+        return <>{props.children}</>;
     }
   }, [props]);
-  return (
-    <TouchableWithoutFeedback {...props.feedbackProps}>
-      {btnView}
-    </TouchableWithoutFeedback>
-  );
+  return <Pressable {...props}>{btnView}</Pressable>;
 });
 
 const ButtonWithArrow: FC<ButtonWithArrowProps> = props => {
