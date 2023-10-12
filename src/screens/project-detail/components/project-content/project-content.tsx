@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {View} from 'react-native';
 import {styles} from './project-content.styles';
 
@@ -11,16 +11,14 @@ const Tab = createMaterialTopTabNavigator();
 export const ProjectContent = memo(() => {
   const sections = useProjectDetailStore(s => s.data);
 
-  const tabBar = useMemo(() => {}, []);
-
   const tabViews = useMemo(() => {
     return (
       <>
         {sections.map(section => {
           return (
             <Tab.Screen
-              name={section.title + section.title + section.title}
-              children={() => <ProjectSectionContent />}
+              name={section.title}
+              children={() => <ProjectSectionContent {...section} />}
             />
           );
         })}
@@ -30,7 +28,14 @@ export const ProjectContent = memo(() => {
 
   return (
     <View style={styles.container}>
-      <Tab.Navigator>{tabViews}</Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarScrollEnabled: true,
+          lazy: true,
+          lazyPreloadDistance: 2,
+        }}>
+        {tabViews}
+      </Tab.Navigator>
     </View>
   );
 });
