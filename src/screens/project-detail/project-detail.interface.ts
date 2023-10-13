@@ -9,6 +9,7 @@ export interface ContentData {
   url: string;
   fileType: string;
   id: string;
+  index: number;
 }
 
 export interface SectionData {
@@ -34,31 +35,37 @@ export const MockData = [
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '1',
+        index: 0,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '2',
+        index: 1,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '3',
+        index: 2,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '4',
+        index: 3,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '5',
+        index: 4,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '6',
+        index: 5,
       },
     ],
   },
@@ -70,31 +77,37 @@ export const MockData = [
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '1',
+        index: 0,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '2',
+        index: 1,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '3',
+        index: 2,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '4',
+        index: 3,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '5',
+        index: 4,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '6',
+        index: 5,
       },
     ],
   },
@@ -106,31 +119,37 @@ export const MockData = [
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '1',
+        index: 0,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '2',
+        index: 1,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '3',
+        index: 2,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '4',
+        index: 3,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '5',
+        index: 4,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '6',
+        index: 5,
       },
     ],
   },
@@ -142,31 +161,37 @@ export const MockData = [
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '1',
+        index: 0,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '2',
+        index: 1,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '3',
+        index: 2,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '4',
+        index: 3,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '5',
+        index: 4,
       },
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
         fileType: 'IMG',
         id: '6',
+        index: 5,
       },
     ],
   },

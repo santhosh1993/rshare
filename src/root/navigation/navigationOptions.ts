@@ -21,3 +21,33 @@ export const STACK_NAVIGATION_OPTIONS: StackNavigationOptions = {
     backgroundColor: DefaultTheme.colors.background,
   },
 };
+
+export const BOTTOM_SHEET_NAVIGATION_OPTIONS: StackNavigationOptions = {
+  headerShown: false,
+  cardStyle: {backgroundColor: 'transparent'},
+  cardOverlayEnabled: true,
+  presentation: 'transparentModal',
+  cardStyleInterpolator: ({
+    current: {progress},
+    layouts: {
+      screen: {height},
+    },
+  }) => ({
+    cardStyle: {
+      transform: [
+        {
+          translateY: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [height, 0],
+          }),
+        },
+      ],
+    },
+    overlayStyle: {
+      opacity: progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 0.5],
+      }),
+    },
+  }),
+};

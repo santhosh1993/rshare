@@ -8,23 +8,51 @@ import {shadow} from '@common/shadow.styles';
 import {border} from '@common/border.styles';
 import {Image, ImageLoadType} from '@common/image';
 import {colors} from '@common/colors';
+import {Button, ButtonType} from '@common/button';
+import {useNavigation} from '@src/root/navigation/useNavigation';
+import {Routes} from '@src/root/router/routes';
 
-export const ProjectSectionContent = ({content, description}: SectionData) => {
-  const renderItem = useCallback(({item}: {item: ContentData}) => {
-    return (
-      <View style={[styles.card, shadow.container, border.card]}>
-        <Image
-          type={ImageLoadType.fastImage}
-          props={{
-            style: {flex: 1},
-            source: {
-              uri: item.url,
-            },
-          }}
-        />
-      </View>
-    );
-  }, []);
+export const ProjectSectionContent = ({
+  content,
+  description,
+  index,
+}: SectionData) => {
+  const nav = useNavigation();
+
+  const onItemTap = useCallback(
+    ({item}: {item: ContentData}) => {
+      nav.global.navigate({
+        route: Routes.PROJECTDETAILFULLSCREEN,
+        params: {sectionIndex: index, contentIndex: item.index},
+      });
+    },
+    [index, nav.global],
+  );
+
+  const renderItem = useCallback(
+    ({item}: {item: ContentData}) => {
+      return (
+        <Button
+          type={ButtonType.Button}
+          onPress={() => {
+            onItemTap({item});
+          }}>
+          <View style={[styles.card, shadow.container, border.card]}>
+            <Image
+              type={ImageLoadType.fastImage}
+              props={{
+                style: {flex: 1},
+                source: {
+                  uri: item.url,
+                },
+              }}
+            />
+          </View>
+        </Button>
+      );
+    },
+    [onItemTap],
+  );
 
   const seperaterItem = useCallback(() => {
     return <View style={styles.seperator} />;
