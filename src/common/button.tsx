@@ -14,6 +14,7 @@ import {colors} from './colors';
 export enum ButtonType {
   PrimaryButton,
   ButtonWithArrow,
+  RightBarItem,
   Button,
 }
 
@@ -25,10 +26,15 @@ export interface ButtonWithArrowProps extends ViewProps {
   label?: string;
 }
 
+export interface RightBarItemProps extends ViewProps {
+  child?: React.ReactNode;
+}
+
 type ButtonParams = {
   [ButtonType.PrimaryButton]: PrimaryButtonProps;
   [ButtonType.ButtonWithArrow]: ButtonWithArrowProps;
   [ButtonType.Button]: {};
+  [ButtonType.RightBarItem]: RightBarItemProps;
 };
 
 export interface ButtonProps<K extends ButtonType>
@@ -44,12 +50,22 @@ export const Button = memo(<K extends ButtonType>(props: ButtonProps<K>) => {
         return <PrimaryButton {...props.props} />;
       case ButtonType.ButtonWithArrow:
         return <ButtonWithArrow {...props.props} />;
+      case ButtonType.RightBarItem:
+        return <RightBarItem {...props.props} />;
       default:
         return <>{props.children}</>;
     }
   }, [props]);
   return <Pressable {...props}>{btnView}</Pressable>;
 });
+
+const RightBarItem: FC<RightBarItemProps> = props => {
+  return (
+    <View style={[rightBarItemStyles.contaner, props.style]}>
+      {props.child}
+    </View>
+  );
+};
 
 const ButtonWithArrow: FC<ButtonWithArrowProps> = props => {
   return (
@@ -71,6 +87,15 @@ const PrimaryButton: FC<PrimaryButtonProps> = props => {
     </View>
   );
 };
+
+const rightBarItemStyles = StyleSheet.create({
+  contaner: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 const primaryButtonStyles = StyleSheet.create({
   container: {

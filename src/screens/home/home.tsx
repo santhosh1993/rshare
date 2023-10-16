@@ -10,7 +10,7 @@ export const Home: FC<HomeProps> = () => {
   return (
     <NewProjectFabProvider>
       <View style={{flex: 1}}>
-        <Header title="Home" />
+        <Header title="Home" hideBackButton={true} />
         <ShareCard />
       </View>
     </NewProjectFabProvider>

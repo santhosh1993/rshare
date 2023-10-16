@@ -37,13 +37,11 @@ export function MatchRoute<K extends Routes>(props: {
           initialParams={props.params}
           component={SuspendedProjectDetailComponent}
         />
-        <Stack.Group screenOptions={BOTTOM_SHEET_NAVIGATION_OPTIONS}>
-          <Stack.Screen
-            name={Routes.PROJECTDETAILFULLSCREEN}
-            initialParams={props.params}
-            component={SuspendedProjectDetailFullScreenComponent}
-          />
-        </Stack.Group>
+        <Stack.Screen
+          name={Routes.PROJECTDETAILFULLSCREEN}
+          initialParams={props.params}
+          component={SuspendedProjectDetailFullScreenComponent}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

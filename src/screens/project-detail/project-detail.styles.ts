@@ -19,4 +19,11 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 24,
   },
+  shareItem: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shareImage: {width: 24, height: 24},
 });

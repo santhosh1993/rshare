@@ -1,17 +1,32 @@
 import {Header} from '@common/header';
 import {View} from 'react-native';
 import {styles} from './project-detail.styles';
-import React, {FC, memo} from 'react';
+import React, {FC, memo, useCallback, useMemo} from 'react';
 import {ProjectDetailInterface} from './project-detail.interface';
 import {ProjectSharedInfo} from './components/projectSharedInfo';
 import {Routes} from '@src/root/router/routes';
 import {withScreenLoadedEvent} from '@src/core/withScreenLoadedEvent';
 import {ProjectContent} from './components/project-content/project-content';
+import {Button, ButtonType, RightBarItemProps} from '@common/button';
+import SvgShare from '@src/generated/assets/svgs/Share';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
+  const onShareTap = useCallback(() => {}, []);
+  const rightBarItem = useMemo(() => {
+    const shareIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
+    const itemProps: RightBarItemProps = {child: shareIcon};
+    return (
+      <Button
+        type={ButtonType.RightBarItem}
+        onPress={onShareTap}
+        props={itemProps}
+      />
+    );
+  }, [onShareTap]);
+
   return (
     <View style={styles.background}>
-      <Header title={props.name} />
+      <Header title={props.name} rightBarItem={rightBarItem} />
       <ProjectSharedInfo {...props} />
       <ProjectContent />
     </View>

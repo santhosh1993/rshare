@@ -71,10 +71,10 @@ export const MockData = [
   },
   {
     title: 'Santhosh 35',
-    index: 0,
+    index: 1,
     content: [
       {
-        url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
+        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnTON_DJGh5dd0_SmRMJUzq0tD8wLG_iWQtA&usqp=CAU',
         fileType: 'IMG',
         id: '1',
         index: 0,
@@ -113,7 +113,7 @@ export const MockData = [
   },
   {
     title: 'Santhosh 1',
-    index: 1,
+    index: 2,
     content: [
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
@@ -155,7 +155,7 @@ export const MockData = [
   },
   {
     title: 'Santhosh 2',
-    index: 2,
+    index: 3,
     content: [
       {
         url: 'https://assets-news.housing.com/news/wp-content/uploads/2022/01/19120130/Mandir-Design-for-Small-Flats-12-Elegant-small-mandir-designs-for-Indian-homes-11.jpg',
