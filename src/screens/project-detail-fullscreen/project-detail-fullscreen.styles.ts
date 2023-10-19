@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'yellow',
   },
   filterImage: {width: 24, height: 24},
   renderItemContainer: {width: window.width, height: '100%'},

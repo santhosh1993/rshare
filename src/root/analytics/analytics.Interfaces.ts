@@ -18,3 +18,13 @@ export interface FireStoreSuccessInterface {
   doc: string;
   type: FirestoreOperationType;
 }
+
+export interface CreateRconFabClickedInterface {
+  source: string;
+}
+
+export interface ScreenLoadedInterface {
+  route: string;
+}
+
+export interface CreateRconScreenLoaded {}

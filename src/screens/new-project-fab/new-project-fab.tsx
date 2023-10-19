@@ -1,27 +1,40 @@
+import {Button, ButtonType} from '@common/button';
 import {useGoogle} from '@src/hooks/google/useGoogle';
+import {EventKey} from '@src/root/analytics/analytics.Keys';
+import {useAnalytics} from '@src/root/analytics/useAnalytics';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Routes} from '@src/root/router/routes';
 import React, {memo, FC, useCallback} from 'react';
-import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-interface NewProjectFabProps {}
+export interface NewProjectFabProps {
+  source: string;
+}
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
   const {createFolder} = useGoogle();
   const nav = useNavigation();
+  const createRconFabClicked = useAnalytics({
+    name: EventKey.CreateRconFabClicked,
+    params: {
+      source: props.source,
+    },
+  });
+
   const onPress = useCallback(() => {
+    createRconFabClicked();
     nav.global.navigate({
-      route: Routes.PROJECTDETAIL,
+      route: Routes.CreateProject,
       params: {
         name: 'Project 1',
         id: 'asdfsadf',
       },
     });
-  }, [nav]);
+  }, [createRconFabClicked, nav.global]);
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <Button type={ButtonType.Button} onPress={onPress}>
       <View style={styles.parent} />
-    </TouchableWithoutFeedback>
+    </Button>
   );
 });
 

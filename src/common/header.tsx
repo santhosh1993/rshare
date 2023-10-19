@@ -58,6 +58,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  androidHeader: {
+    height: 56,
+    paddingLeft: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
   title: {
     fontSize: FontSize.xlarge,
     fontWeight: 'bold',

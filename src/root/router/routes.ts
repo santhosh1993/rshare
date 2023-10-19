@@ -8,6 +8,7 @@ export enum Routes {
   MORE = 'More',
   PROJECTDETAIL = 'PROJECTDETAIL',
   PROJECTDETAILFULLSCREEN = 'PROJECTDETAILFULLSCREEN',
+  CreateProject = 'CreateProject',
 }
 
 export type BaseRouteParams = {
@@ -15,4 +16,5 @@ export type BaseRouteParams = {
   [Routes.MORE]: MoreInterface;
   [Routes.PROJECTDETAIL]: ProjectDetailInterface;
   [Routes.PROJECTDETAILFULLSCREEN]: ProjectDetailFullScreenInterface;
+  [Routes.CreateProject]: {};
 };
