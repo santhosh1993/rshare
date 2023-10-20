@@ -4,4 +4,5 @@ export interface CreateProjectInterface {}
 
 export interface CreateProjectStoreInterface {
   data: Array<SectionData>;
+  addNewSection: () => void;
 }

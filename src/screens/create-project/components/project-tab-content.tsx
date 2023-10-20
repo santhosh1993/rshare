@@ -2,7 +2,6 @@ import {Accordian} from '@common/accordian';
 import {TextInput} from '@common/text-input';
 import React from 'react';
 import {View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
 
 export const ProjectTabContent = () => {
   return (
