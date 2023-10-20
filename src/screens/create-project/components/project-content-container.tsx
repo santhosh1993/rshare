@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo, useRef} from 'react';
+import React, {memo, useCallback, useMemo} from 'react';
 import {View} from 'react-native';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -7,7 +7,6 @@ import {styles} from '../create-project.styles';
 import {ProjectTabContent} from './project-tab-content';
 import {Button, ButtonType} from '@common/button';
 import SvgAdd from '@src/generated/assets/svgs/Add';
-import {useNavigation} from '@src/root/navigation/useNavigation';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -25,8 +24,6 @@ export const ProjectContent = memo(() => {
     };
   }, []);
 
-  const nav = useNavigation();
-
   const onAddTap = useCallback(() => {
     addNew();
     //TODO: switch the tab on tabcreation
@@ -39,7 +36,7 @@ export const ProjectContent = memo(() => {
           return (
             <Tab.Screen
               name={section.title}
-              children={() => <ProjectTabContent />}
+              children={() => <ProjectTabContent index={section.index} />}
             />
           );
         })}
