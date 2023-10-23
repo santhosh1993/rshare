@@ -1,11 +1,17 @@
 import {create} from 'zustand';
-import {CreateProjectStoreInterface} from './create-project.interface';
-import {MockData} from '../project-detail/project-detail.interface';
+import {
+  AddNewContent,
+  CreateProjectStoreInterface,
+} from './create-project.interface';
+import {
+  createNewProject,
+  mapAddNewContentToContentData,
+} from './create-project.utils';
 
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
     return {
-      data: [MockData[0]],
+      data: [createNewProject('Untitled', 0)],
       addNewSection: () => {
         let data = get().data;
         data.push({
@@ -17,6 +23,18 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         set({
           data: data,
         });
+      },
+      addNewContent: (content: Array<AddNewContent>, index: number) => {
+        let data = get().data;
+        let updatedContent = data[index].content;
+
+        for (let i = 0; i < content.length; i++) {
+          updatedContent.push(mapAddNewContentToContentData(content[i], i));
+        }
+
+        data[index].content = updatedContent;
+
+        set({data: data});
       },
     };
   },

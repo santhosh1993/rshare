@@ -10,7 +10,6 @@ import {border} from '@common/border.styles';
 import {window} from '@common/constants';
 import {Image, ImageLoadType} from '@common/image';
 import {colors} from '@common/colors';
-import {Text} from '@common/text';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AddFiles} from './add-files';
 
@@ -40,6 +39,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
             source: {
               uri: item.url,
             },
+            resizeMode: 'contain',
           }}
         />
       </View>
@@ -54,7 +54,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     setShow(true);
   }, []);
   const listFooterComponent = useCallback(() => {
-    return <View style={{height: 80}} />;
+    return <View style={styles.footer} />;
   }, []);
 
   return (
@@ -75,7 +75,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
         onMomentumScrollEnd={onMomentumScrollEnd}
         ListFooterComponent={listFooterComponent}
       />
-      {show && <AddFiles />}
+      {show && <AddFiles index={index} />}
     </View>
   );
 };
@@ -84,10 +84,11 @@ const styles = StyleSheet.create({
   card: {
     width: (window.width - 28) / 3,
     height: ((window.width - 28) / 3) * 1.3,
-    backgroundColor: 'green',
+    backgroundColor: '#fff',
     overflow: 'hidden',
   },
   contentList: {flex: 1, backgroundColor: colors.app.background, padding: 8},
-  seperator: {height: 4, backgroundColor: 'transparent'},
-  wrapperStyle: {justifyContent: 'space-around'},
+  seperator: {height: 6, backgroundColor: 'transparent'},
+  wrapperStyle: {justifyContent: 'space-between'},
+  footer: {height: 80},
 });
