@@ -46,6 +46,7 @@ export const colors = {
     cardBackground: themeColors.color4,
     header: themeColors.color1,
     conentBackground: themeColors.color4,
+    fabBackground: themeColors.color1,
   },
   border: {
     light: themeColors.primary3 + '20',
