@@ -16,7 +16,6 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         let data = get().data;
         data.push({
           title: 'Untitled' + data.length,
-          index: data.length,
           content: [],
         });
         console.log(data, '------>>>>>>');

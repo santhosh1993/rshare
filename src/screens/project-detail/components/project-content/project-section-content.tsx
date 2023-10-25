@@ -12,30 +12,29 @@ import {Button, ButtonType} from '@common/button';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Routes} from '@src/root/router/routes';
 
-export const ProjectSectionContent = ({
-  content,
-  description,
-  index,
-}: SectionData) => {
+export const ProjectSectionContent = (
+  {content, description}: SectionData,
+  sectionIndex: number,
+) => {
   const nav = useNavigation();
 
   const onItemTap = useCallback(
-    ({item}: {item: ContentData}) => {
+    (index: number) => {
       nav.global.navigate({
         route: Routes.PROJECTDETAILFULLSCREEN,
-        params: {sectionIndex: index, contentIndex: item.index},
+        params: {sectionIndex: sectionIndex, contentIndex: index},
       });
     },
-    [index, nav.global],
+    [nav.global, sectionIndex],
   );
 
   const renderItem = useCallback(
-    ({item}: {item: ContentData}) => {
+    ({item, index}: {item: ContentData; index: number}) => {
       return (
         <Button
           type={ButtonType.Button}
           onPress={() => {
-            onItemTap({item});
+            onItemTap(index);
           }}>
           <View style={[styles.card, shadow.container, border.card]}>
             <Image

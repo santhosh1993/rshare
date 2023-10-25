@@ -25,7 +25,7 @@ export const AddFiles = ({index}: {index: number}) => {
         throw err;
       }
     }
-  }, []);
+  }, [addNewContent, index]);
 
   return (
     <Button type={ButtonType.Button} onPress={pickDocument}>

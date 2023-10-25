@@ -1,4 +1,3 @@
-import {Accordian} from '@common/accordian';
 import {TextInput} from '@common/text-input';
 import React, {useCallback, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -12,6 +11,10 @@ import {Image, ImageLoadType} from '@common/image';
 import {colors} from '@common/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AddFiles} from './add-files';
+import {Accordion} from '@src/components/Accordion';
+import {AccordionBody} from '@src/components/Accordion/AccordionBody';
+import {AccordionHead} from '@src/components/Accordion/AccordionHead';
+import {Text} from '@common/text';
 
 export interface ProjectTabContentInterface {
   index: number;
@@ -29,22 +32,31 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
       return index + item.id;
     }, []);
 
-  const renderItem = useCallback(({item}: {item: ContentData}) => {
-    return (
-      <View style={[styles.card, shadow.container, border.card]}>
-        <Image
-          type={ImageLoadType.fastImage}
-          props={{
-            style: {flex: 1},
-            source: {
-              uri: item.url,
-            },
-            resizeMode: 'contain',
-          }}
-        />
-      </View>
-    );
-  }, []);
+  const renderItem = useCallback(
+    ({item, index}: {item: ContentData; index: number}) => {
+      return (
+        <View
+          style={[
+            styles.card,
+            shadow.container,
+            border.card,
+            index % 3 !== 0 && styles.cardMargin,
+          ]}>
+          <Image
+            type={ImageLoadType.fastImage}
+            props={{
+              style: {flex: 1},
+              source: {
+                uri: item.url,
+              },
+              resizeMode: 'contain',
+            }}
+          />
+        </View>
+      );
+    },
+    [],
+  );
   const {bottom} = useSafeAreaInsets();
   const [show, setShow] = useState(true);
   const onScroll = useCallback(() => {
@@ -58,11 +70,18 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
-      <Accordian title={'Details'}>
-        <TextInput label="Tab Title" />
-        <TextInput label="Tab Description" />
-      </Accordian>
+    <View style={styles.container}>
+      <Accordion style={styles.accordion}>
+        <Accordion.Item id={'category_detail_' + index} initialExpand={true}>
+          <AccordionHead>
+            <Text>Categrory Details</Text>
+          </AccordionHead>
+          <AccordionBody>
+            <TextInput label="Title" />
+            <TextInput label="Description" />
+          </AccordionBody>
+        </Accordion.Item>
+      </Accordion>
       <FlatList
         style={[styles.contentList, {paddingBottom: bottom + 8}]}
         data={data}
@@ -81,14 +100,17 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
 };
 
 const styles = StyleSheet.create({
+  cardMargin: {marginLeft: 8},
+  container: {flex: 1},
+  accordion: {backgroundColor: '#fff'},
   card: {
-    width: (window.width - 28) / 3,
-    height: ((window.width - 28) / 3) * 1.3,
+    width: (window.width - 32) / 3,
+    height: ((window.width - 32) / 3) * 1.35,
     backgroundColor: '#fff',
     overflow: 'hidden',
   },
   contentList: {flex: 1, backgroundColor: colors.app.background, padding: 8},
-  seperator: {height: 6, backgroundColor: 'transparent'},
-  wrapperStyle: {justifyContent: 'space-between'},
+  seperator: {height: 8, backgroundColor: 'transparent'},
+  wrapperStyle: {justifyContent: 'flex-start'},
   footer: {height: 80},
 });

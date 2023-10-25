@@ -32,11 +32,11 @@ export const ProjectContent = memo(() => {
   return (
     <View style={styles.container}>
       <Tab.Navigator screenOptions={screenOptions}>
-        {sections.map(section => {
+        {sections.map((section, index) => {
           return (
             <Tab.Screen
               name={section.title}
-              children={() => <ProjectTabContent index={section.index} />}
+              children={() => <ProjectTabContent index={index} />}
             />
           );
         })}

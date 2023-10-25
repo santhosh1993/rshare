@@ -9,12 +9,10 @@ export interface ContentData {
   url: string;
   fileType: string;
   id: string;
-  index: number;
 }
 
 export interface SectionData {
   title: string;
-  index: number;
   description?: string;
   content: Array<ContentData>;
 }
