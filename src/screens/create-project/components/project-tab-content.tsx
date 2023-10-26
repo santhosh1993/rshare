@@ -14,14 +14,19 @@ import {AddFiles} from './add-files';
 import {Accordion} from '@src/components/Accordion';
 import {AccordionBody} from '@src/components/Accordion/AccordionBody';
 import {AccordionHead} from '@src/components/Accordion/AccordionHead';
-import {Text} from '@common/text';
+import {FontWeight, Text} from '@common/text';
+import {FontSize} from '@common/font';
+import {AccordionIconAnimationType} from '@src/components/Accordion/Accordion.interface';
+import {AccordionIcon} from '@src/components/Accordion/AccordionIcon';
+import SvgChevronDown from '@src/generated/assets/svgs/ChevronDown';
+import {InputType} from '../create-project.interface';
 
 export interface ProjectTabContentInterface {
   index: number;
 }
 
 export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
-  const data = useCreateProjectStore(s => s.data)[index].content;
+  const data = useCreateProjectStore(s => s.data)[index];
 
   const seperaterItem = useCallback(() => {
     return <View style={styles.seperator} />;
@@ -69,22 +74,62 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     return <View style={styles.footer} />;
   }, []);
 
+  const updateText = useCreateProjectStore(s => s.updateText);
+
+  const titleUpdate = useCallback(
+    (text: string) => {
+      updateText(InputType.sectionTitle, text, index);
+    },
+    [index, updateText],
+  );
+
+  const descriptionUpdate = useCallback(
+    (text: string) => {
+      updateText(InputType.sectionDescription, text, index);
+    },
+    [index, updateText],
+  );
+
   return (
     <View style={styles.container}>
       <Accordion style={styles.accordion}>
         <Accordion.Item id={'category_detail_' + index} initialExpand={true}>
-          <AccordionHead>
-            <Text>Categrory Details</Text>
+          <AccordionHead
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 12,
+            }}>
+            <Text
+              fontWeight={FontWeight.MEDIUM}
+              style={{fontSize: FontSize.medium}}>
+              Categrory Details
+            </Text>
+            <AccordionIcon
+              animationType={AccordionIconAnimationType.ROTATION}
+              children={
+                <View style={{width: 16, height: 16}}>
+                  <SvgChevronDown />
+                </View>
+              }
+            />
           </AccordionHead>
           <AccordionBody>
-            <TextInput label="Title" />
-            <TextInput label="Description" />
+            <TextInput
+              label="Title"
+              inputBarProps={{value: data.title, onChangeText: titleUpdate}}
+            />
+            <TextInput
+              label="Description"
+              inputBarProps={{onChangeText: descriptionUpdate}}
+            />
           </AccordionBody>
         </Accordion.Item>
       </Accordion>
       <FlatList
         style={[styles.contentList, {paddingBottom: bottom + 8}]}
-        data={data}
+        data={data.content}
         numColumns={3}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

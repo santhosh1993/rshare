@@ -3,6 +3,8 @@ interface Colors {
   color2: string; // used for shadow
   color3: string; // used for background
   color4: string; // light card background
+  color5: string; // dark color bold text
+  color6: string; // color for medium and normal text
   primary: string;
   primary1: string;
   primary2: string;
@@ -29,6 +31,8 @@ const lightMode: Colors = {
   color2: '#000000',
   color3: '#F5F5F5',
   color4: '#ffffff',
+  color5: '#1A1A1A',
+  color6: '#797979',
   primary: '#222831',
   primary1: '#ffffff',
   primary2: '#37414f',
@@ -56,5 +60,7 @@ export const colors = {
   },
   text: {
     light: themeColors.color4,
+    bold: themeColors.color5,
+    medium: themeColors.color6,
   },
 };

@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     right: 0,
     top: 0,
     width: 40,
-    height: 48,
+    height: 56,
     zIndex: 2,
     justifyContent: 'center',
   },
