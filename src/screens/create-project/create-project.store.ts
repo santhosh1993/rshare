@@ -16,7 +16,13 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
     return {
       data: [initalProject],
       tabs: [initalProject.title],
+      collapseDetails: false,
       details: {title: '', descrption: '', keywords: ''},
+      updateCollapse: collapse => {
+        set({
+          collapseDetails: collapse,
+        });
+      },
       updateText: (type, value, index) => {
         let details = get().details;
         let data = get().data;

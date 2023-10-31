@@ -2,14 +2,12 @@ import {StyleSheet, View} from 'react-native';
 import React, {useCallback} from 'react';
 import DocumentPicker from 'react-native-document-picker';
 import {Button, ButtonType} from '@common/button';
-import {useFiles} from '../hooks/useSaveFiles';
 import {useCreateProjectStore} from '../create-project.store';
 import SvgAttachment from '@src/generated/assets/svgs/Attachment';
 import {colors} from '@common/colors';
 import {shadow} from '@common/shadow.styles';
 
 export const AddFiles = ({index}: {index: number}) => {
-  const {resize} = useFiles();
   const addNewContent = useCreateProjectStore(s => s.addNewContent);
   const pickDocument = useCallback(async () => {
     try {

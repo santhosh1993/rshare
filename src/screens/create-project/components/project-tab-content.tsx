@@ -94,13 +94,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     <View style={styles.container}>
       <Accordion style={styles.accordion}>
         <Accordion.Item id={'category_detail_' + index} initialExpand={true}>
-          <AccordionHead
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: 12,
-            }}>
+          <AccordionHead style={styles.accordionHead}>
             <Text
               fontWeight={FontWeight.MEDIUM}
               style={{fontSize: FontSize.medium}}>
@@ -109,7 +103,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
             <AccordionIcon
               animationType={AccordionIconAnimationType.ROTATION}
               children={
-                <View style={{width: 16, height: 16}}>
+                <View style={styles.accordionIcon}>
                   <SvgChevronDown />
                 </View>
               }
@@ -122,7 +116,12 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
             />
             <TextInput
               label="Description"
-              inputBarProps={{onChangeText: descriptionUpdate}}
+              inputBarProps={{
+                onChangeText: descriptionUpdate,
+                multiline: true,
+                maxLength: 256,
+                value: data.description,
+              }}
             />
           </AccordionBody>
         </Accordion.Item>
@@ -158,4 +157,11 @@ const styles = StyleSheet.create({
   seperator: {height: 8, backgroundColor: 'transparent'},
   wrapperStyle: {justifyContent: 'flex-start'},
   footer: {height: 80},
+  accordionHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 12,
+  },
+  accordionIcon: {width: 16, height: 16},
 });

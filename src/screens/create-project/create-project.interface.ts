@@ -25,6 +25,8 @@ export interface CreateProjectStoreInterface {
   data: Array<SectionData>;
   tabs: Array<string>;
   details: ProjectDetails;
+  collapseDetails: boolean;
+  updateCollapse: (collapse: boolean) => void;
   updateText: (type: InputType, value: string, index?: number) => void;
   addNewSection: () => void;
   addNewContent: (content: Array<AddNewContent>, index: number) => void;
