@@ -19,25 +19,22 @@ export const useLocalFileStore = () => {
     }
   }, []);
 
-  const saveFile = useCallback(
-    async (data: SaveFile) => {
-      try {
-        const filePath = RNFS.DocumentDirectoryPath + data.filepath;
-        const exists = await RNFS.exists(filePath);
-        if (exists) {
-          await RNFS.unlink(filePath);
-        }
-
-        await RNFS.writeFile(filePath, data.contents, data.encodingOrOptions);
-        console.log('-->> File got created', filePath);
-        readFile(filePath);
-      } catch (e) {
-        console.log('-->> Something went wrong', e);
-        throw e;
+  const saveFile = useCallback(async (data: SaveFile) => {
+    try {
+      const filePath = RNFS.DocumentDirectoryPath + data.filepath;
+      const exists = await RNFS.exists(filePath);
+      if (exists) {
+        await RNFS.unlink(filePath);
       }
-    },
-    [readFile],
-  );
+
+      await RNFS.writeFile(filePath, data.contents, data.encodingOrOptions);
+      console.log('-->> File got created', filePath);
+      return filePath;
+    } catch (e) {
+      console.log('-->> Something went wrong', e);
+      throw e;
+    }
+  }, []);
 
   const createDirectory = useCallback(async (directory: string) => {
     try {

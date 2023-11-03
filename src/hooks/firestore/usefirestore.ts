@@ -29,13 +29,13 @@ export const useFireStore = () => {
     async (docId: string, docType: FireStoreCollection) => {
       try {
         const documentSnapshot = await doc(docId, docType).get();
-        firestoreSuccess({doc: docType, type: FirestoreOperationType.READ});
+        firestoreSuccess({doc: docType, type: FirestoreOperationType.read});
         return documentSnapshot.data();
       } catch (e) {
         console.log('Error while reading the data', e);
         firestoreError({
           doc: docType,
-          type: FirestoreOperationType.READ,
+          type: FirestoreOperationType.read,
           error: e,
         });
         throw Error('Something went wrong');
@@ -54,13 +54,13 @@ export const useFireStore = () => {
         await doc(docId, docType).update({...docData});
         firestoreSuccess({
           doc: docType,
-          type: FirestoreOperationType.UPDATE,
+          type: FirestoreOperationType.update,
         });
       } catch (e) {
         console.log('error on creating the user', e);
         firestoreError({
           doc: docType,
-          type: FirestoreOperationType.UPDATE,
+          type: FirestoreOperationType.update,
           error: e,
         });
       }
@@ -78,13 +78,13 @@ export const useFireStore = () => {
         await doc(docId, docType).set({...docData});
         firestoreSuccess({
           doc: docType,
-          type: FirestoreOperationType.CREATE,
+          type: FirestoreOperationType.create,
         });
       } catch (e) {
         console.log('error on creating data', e);
         firestoreError({
           doc: docType,
-          type: FirestoreOperationType.CREATE,
+          type: FirestoreOperationType.create,
           error: e,
         });
       }

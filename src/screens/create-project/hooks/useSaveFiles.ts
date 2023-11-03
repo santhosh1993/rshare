@@ -3,6 +3,8 @@ import {Image} from 'react-native';
 import ImageResizer from 'react-native-image-resizer';
 import {useCreateProjectStore} from '../create-project.store';
 import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
+import {useGoogleDrive} from '@src/hooks/google/useGoogleDrive';
+import {useGoogle} from '@src/hooks/google/useGoogle';
 
 export const useFiles = () => {
   const getSize: (
@@ -51,20 +53,23 @@ export const useFiles = () => {
   });
 
   const {createDirectory, saveFile} = useLocalFileStore();
+  const {authenticate, uploadFile} = useGoogle();
 
   const save = useCallback(async () => {
     try {
       await createDirectory('/temp');
-      await saveFile({
+      const filepath = await saveFile({
         filepath: '/temp/data.json',
         contents: JSON.stringify(data),
         encodingOrOptions: 'utf8',
       });
+      await authenticate();
+      await uploadFile(filepath, 'application/json');
       console.log('-->> File got created');
     } catch (e) {
       console.log('-->> Something went wrong', e);
     }
-  }, [createDirectory, data, saveFile]);
+  }, [authenticate, createDirectory, data, saveFile, uploadFile]);
 
   const dlt = useCallback(() => {}, []);
 

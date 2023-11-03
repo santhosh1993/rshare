@@ -5,4 +5,11 @@ export enum EventKey {
   CreateRconFabClicked = 'CreateRconFabClicked',
   ScreenLoaded = 'ScreenLoaded',
   CreateRconScreenLoaded = 'CreateRconScreenLoaded',
+  ServerFileOperationSuccess = 'ServerFileOperationSuccess',
+  ServerFileOperationFailed = 'ServerFileOperationFailed',
+  LocalFileOperationSuccess = 'LocalFileOperationSuccess',
+  LocalFileOperationFailed = 'LocalFileOperationFailed',
+  CreateProjectInteracted = 'CreateProjectInteracted',
+  ViewProjectInteracted = 'ViewProjectInteracted',
+  CreateProjectFadInteracted = 'CreateProjectFadInteracted',
 }
