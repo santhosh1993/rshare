@@ -5,6 +5,7 @@ import {useCreateProjectStore} from '../create-project.store';
 import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
+import axios from 'axios';
 
 export const useFiles = () => {
   const getSize: (
@@ -60,6 +61,7 @@ export const useFiles = () => {
     async (props: UploadProps) => {
       try {
         const data = await uploadFile(props);
+        console.log(data, '----->>>>>', props);
         await changeAccessToPublic(data.id);
         return await getDownloadableLink(data.id);
       } catch (e) {
@@ -84,9 +86,9 @@ export const useFiles = () => {
           const values = file.url.split('/');
           data.data[section].content[fileIndex].url = await uploadFileToDrive({
             localFilePath: file.url,
-            mimeType: 'media/file-mime-type',
             fileName: values[values.length - 1],
           });
+          console.log(data.data[section].content[fileIndex].url, '--->>>');
         }
       }
 
@@ -96,12 +98,11 @@ export const useFiles = () => {
         contents: JSON.stringify(data),
         encodingOrOptions: 'utf8',
       });
-      await uploadFileToDrive({
+      const fileData = await uploadFileToDrive({
         localFilePath: filepath,
-        mimeType: 'application/json',
         fileName: data.details.title + '.json',
       });
-      console.log('-->> File got created');
+      console.log('-->> File got created', fileData);
     } catch (e) {
       console.log('-->> Something went wrong', e);
     }

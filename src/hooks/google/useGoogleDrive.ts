@@ -4,6 +4,7 @@ import {useCallback} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
 import {useGoogleDriveEvents} from './useGoogleDriveEvents';
 import {FileOperationType} from '@src/root/analytics/analytics.Interfaces';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 type GoogleFolder = {
   id: string;
@@ -14,7 +15,6 @@ type GoogleFolder = {
 
 export type UploadProps = {
   localFilePath: string;
-  mimeType: string;
   fileName: string;
 };
 
@@ -85,30 +85,27 @@ export const useGoogleDrive = () => {
   );
 
   const uploadFile = useCallback(
-    async ({localFilePath, mimeType, fileName}: UploadProps) => {
+    async ({localFilePath, fileName}: UploadProps) => {
       const tokens = await GoogleSignin.getTokens();
       const accessToken = tokens.accessToken;
       const url =
         'https://www.googleapis.com/upload/drive/v3/files?uploadType=media';
+
+      const mimeType = getMimeTypeFromFilePath(localFilePath);
+
+      // Prepare the request headers
       const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': mimeType,
+        'Content-Disposition': `inline; filename="${fileName}"`, // Include the desired name
       };
 
+      // Prepare the request data
+      const data = RNFetchBlob.wrap(localFilePath);
+
+      // Perform the file upload
       try {
-        const response = await RNFetchBlob.fetch('POST', url, headers, [
-          {
-            name: 'name',
-            data: JSON.stringify({
-              name: fileName, // Set the desired file name
-            }),
-          },
-          {
-            name: 'file',
-            filename: fileName,
-            data: RNFetchBlob.wrap(localFilePath),
-          },
-        ]);
+        const response = await RNFetchBlob.fetch('POST', url, headers, data);
 
         if (response.respInfo.status === 200) {
           onDriveAPISuccess({
@@ -117,6 +114,7 @@ export const useGoogleDrive = () => {
             fileType: fileName,
           });
           const fileData = JSON.parse(response.data);
+          console.log(fileData, '--->>> file data', response.respInfo);
           return fileData;
         } else {
           onDriveAPIFailure({
@@ -136,69 +134,61 @@ export const useGoogleDrive = () => {
         console.error('Error uploading file:', error);
         throw error;
       }
+      return;
     },
     [onDriveAPIFailure, onDriveAPISuccess],
   );
 
-  const changeAccessToPublic = useCallback(
-    async (fileId: string) => {
-      try {
-        const tokens = await GoogleSignin.getTokens();
-        const headers = {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${tokens.accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            role: 'reader',
-            type: 'anyone',
-          }),
-        };
+  const changeAccessToPublic = useCallback(async (fileId: string) => {
+    const accessToken = (await GoogleSignin.getTokens()).accessToken;
 
-        const shareResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
-          headers,
-        );
-        onDriveAPISuccess({type: FileOperationType.accessChange});
-      } catch (e) {
-        onDriveAPIFailure({type: FileOperationType.accessChange});
-        throw e;
-      }
-    },
-    [onDriveAPIFailure, onDriveAPISuccess],
-  );
+    const permission = {
+      role: 'reader',
+      type: 'anyone',
+    };
 
-  const getDownloadableLink = useCallback(
-    async (fileId: string) => {
-      try {
-        const tokens = await GoogleSignin.getTokens();
-        const linkResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webViewLink`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${tokens.accessToken}`,
-            },
-          },
-        );
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    };
 
-        if (linkResponse.status === 200) {
-          const linkData = await linkResponse.json();
-          const webViewLink = linkData.webViewLink;
-          onDriveAPISuccess({type: FileOperationType.downloadLink});
-          return webViewLink;
-        } else {
-          onDriveAPIFailure({type: FileOperationType.downloadLink});
-          throw 'Error getting publicly downloadable link.';
-        }
-      } catch (e) {
-        onDriveAPIFailure({type: FileOperationType.downloadLink});
-        throw e;
-      }
-    },
-    [onDriveAPISuccess, onDriveAPIFailure],
-  );
+    try {
+      console.log(fileId, '--->>> file Id');
+      await axios.post(
+        `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
+        permission,
+        config,
+      );
+      console.log('File is now publicly accessible.');
+    } catch (error) {
+      console.error('Error setting file permissions:', error);
+      throw error;
+    }
+  }, []);
+
+  const getDownloadableLink = useCallback(async (fileId: string) => {
+    const accessToken = (await GoogleSignin.getTokens()).accessToken;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webContentLink`,
+        config,
+      );
+      const webContentLink = response.data.webContentLink;
+      console.log('Public download link:', webContentLink);
+      return webContentLink;
+    } catch (error) {
+      console.error('Error getting download link:', error);
+    }
+  }, []);
 
   return {
     createFolder,
@@ -208,3 +198,32 @@ export const useGoogleDrive = () => {
     getDownloadableLink,
   };
 };
+
+function getMimeTypeFromFilePath(filePath: string) {
+  const extension = filePath.split('.').pop() ?? '';
+  let mimeType = 'application/json'; // Default MIME type
+
+  // Define some common MIME types based on extensions
+  const mimeTypesByExtension: Record<string, string> = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    webp: 'image/webp',
+    svg: 'image/svg+xml',
+    mp4: 'video/mp4',
+    webm: 'video/webm',
+    ogg: 'video/ogg',
+    avi: 'video/x-msvideo',
+    json: 'application/json',
+    pdf: 'application/pdf',
+  };
+
+  // Check if a specific MIME type is defined for the extension
+  if (mimeTypesByExtension[extension]) {
+    mimeType = mimeTypesByExtension[extension];
+  }
+
+  return mimeType;
+}

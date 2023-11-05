@@ -12,7 +12,7 @@ export interface NewProjectFabProps {
 }
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
-  const {createFolder} = useGoogle();
+  const {authenticate} = useGoogle();
   const nav = useNavigation();
   const createRconFabClicked = useAnalytics({
     name: EventKey.CreateRconFabClicked,
@@ -21,16 +21,22 @@ export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
     },
   });
 
-  const onPress = useCallback(() => {
+  const onPress = useCallback(async () => {
     createRconFabClicked();
-    nav.global.navigate({
-      route: Routes.CreateProject,
-      params: {
-        name: 'Project 1',
-        id: 'asdfsadf',
-      },
-    });
-  }, [createRconFabClicked, nav.global]);
+    try {
+      await authenticate();
+      nav.global.navigate({
+        route: Routes.CreateProject,
+        params: {
+          name: 'Project 1',
+          id: 'asdfsadf',
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }, [authenticate, createRconFabClicked, nav.global]);
+
   return (
     <Button type={ButtonType.Button} onPress={onPress}>
       <View style={styles.parent} />

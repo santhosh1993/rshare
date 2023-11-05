@@ -5,7 +5,6 @@ import {updateDefaultProps} from '@src/root/analytics/useAnalytics';
 
 export const useGoogleAuth = () => {
   const authenticate = useCallback(async () => {
-    console.log('---->>> sing in started');
     try {
       const scopes = ['https://www.googleapis.com/auth/drive.file'];
 
@@ -17,19 +16,20 @@ export const useGoogleAuth = () => {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
-      const signInData = await GoogleSignin.signIn();
-      const getTokens = await GoogleSignin.getTokens();
+
+      let signInData = await GoogleSignin.signIn();
+
       const googleCredential = auth.GoogleAuthProvider.credential(
         signInData.idToken,
       );
 
-      auth().signInWithCredential(googleCredential);
+      await auth().signInWithCredential(googleCredential);
       updateDefaultProps({userId: signInData.user.id});
+
       return signInData.user;
     } catch (e) {
-      console.log(e);
+      throw e;
     }
-    return;
   }, []);
 
   return {authenticate};

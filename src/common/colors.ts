@@ -5,6 +5,7 @@ interface Colors {
   color4: string; // light card background
   color5: string; // dark color bold text
   color6: string; // color for medium and normal text
+  color7: string; // color for opac background
   primary: string;
   primary1: string;
   primary2: string;
@@ -33,6 +34,7 @@ const lightMode: Colors = {
   color4: '#ffffff',
   color5: '#1A1A1A',
   color6: '#797979',
+  color7: '#000000',
   primary: '#222831',
   primary1: '#ffffff',
   primary2: '#37414f',
@@ -51,6 +53,7 @@ export const colors = {
     header: themeColors.color1,
     conentBackground: themeColors.color4,
     fabBackground: themeColors.color1,
+    opacBackground: themeColors.color7 + '90',
   },
   border: {
     light: themeColors.primary3 + '20',

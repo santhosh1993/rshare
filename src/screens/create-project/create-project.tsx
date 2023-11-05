@@ -10,6 +10,8 @@ import {Button, ButtonType} from '@common/button';
 import {FontWeight, Text} from '@common/text';
 import {colors} from '@common/colors';
 import {useFiles} from './hooks/useSaveFiles';
+import {useCreateProjectStore} from './create-project.store';
+import {Loader} from '@common/Loader';
 
 const CreateProject = () => {
   const {save} = useFiles();
@@ -28,11 +30,14 @@ const CreateProject = () => {
     );
   }, [onSaveTap]);
 
+  const isLoading = useCreateProjectStore(s => s.isLoading);
+
   return (
     <View style={styles.container}>
       <Header title="Create RCON" rightBarItem={rightBarItem} />
       <ProjectDetailsInput />
       <ProjectContent />
+      {isLoading && <Loader title="Creating ..." />}
     </View>
   );
 };
