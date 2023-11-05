@@ -22,10 +22,12 @@ export enum InputType {
 }
 
 export interface CreateProjectStoreInterface {
+  isLoading: boolean;
   data: Array<SectionData>;
   tabs: Array<string>;
   details: ProjectDetails;
   collapseDetails: boolean;
+  setIsLoading: (show: boolean) => void;
   updateCollapse: (collapse: boolean) => void;
   updateText: (type: InputType, value: string, index?: number) => void;
   addNewSection: () => void;

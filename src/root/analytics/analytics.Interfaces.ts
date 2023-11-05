@@ -70,7 +70,7 @@ export interface ScreenLoadedInterface {
   route: string;
 }
 
-export interface CreateRconScreenLoaded extends BaseParamsInterface {}
+export interface CreateRconScreenLoadedInterface extends BaseParamsInterface {}
 
 export interface ServerFileOperationSuccessInterface
   extends BaseParamsInterface {
@@ -79,13 +79,15 @@ export interface ServerFileOperationSuccessInterface
   fileType: string;
 }
 
-export interface ServerFileOperationFailed extends BaseParamsInterface {
+export interface ServerFileOperationFailedInterface
+  extends BaseParamsInterface {
   type: FileOperationType;
   fileSize?: string;
   fileType: string;
 }
 
-export interface LocalFileOperationSuccess extends BaseParamsInterface {
+export interface LocalFileOperationSuccessInterface
+  extends BaseParamsInterface {
   type: FileOperationType;
   fileSize?: string;
   fileType: string;
@@ -97,12 +99,13 @@ export interface LocalFileOperationFailed extends BaseParamsInterface {
   fileType: string;
 }
 
-export interface CreateProjectInteracted extends BaseParamsInterface {
+export interface CreateProjectInteractedInterface extends BaseParamsInterface {
   type: CreateProjectInteractedType;
 }
 
-export interface ViewProjectInteracted extends BaseParamsInterface {
+export interface ViewProjectInteractedInterface extends BaseParamsInterface {
   type: ViewProjectInteractedType;
 }
 
-export interface CreateProjectFadInteracted extends BaseParamsInterface {}
+export interface CreateProjectFadInteractedInterface
+  extends BaseParamsInterface {}

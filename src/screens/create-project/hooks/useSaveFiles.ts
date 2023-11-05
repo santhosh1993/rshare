@@ -3,7 +3,7 @@ import {Image} from 'react-native';
 import ImageResizer from 'react-native-image-resizer';
 import {useCreateProjectStore} from '../create-project.store';
 import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
-import {useGoogleDrive} from '@src/hooks/google/useGoogleDrive';
+import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 
 export const useFiles = () => {
@@ -49,27 +49,64 @@ export const useFiles = () => {
   );
 
   const data = useCreateProjectStore(s => {
-    return {data: s.data, details: s.details};
+    return {data: s.data, details: s.details, setIsLoading: s.setIsLoading};
   });
 
   const {createDirectory, saveFile} = useLocalFileStore();
-  const {authenticate, uploadFile} = useGoogle();
+  const {authenticate, uploadFile, changeAccessToPublic, getDownloadableLink} =
+    useGoogle();
+
+  const uploadFileToDrive = useCallback(
+    async (props: UploadProps) => {
+      try {
+        const data = await uploadFile(props);
+        await changeAccessToPublic(data.id);
+        return await getDownloadableLink(data.id);
+      } catch (e) {
+        throw e;
+      }
+    },
+    [changeAccessToPublic, getDownloadableLink, uploadFile],
+  );
 
   const save = useCallback(async () => {
     try {
+      data.setIsLoading(true);
+      await authenticate();
+
+      for (let section = 0; section < data.data.length; section++) {
+        for (
+          let fileIndex = 0;
+          fileIndex < data.data[section].content.length;
+          fileIndex++
+        ) {
+          const file = data.data[section].content[fileIndex];
+          const values = file.url.split('/');
+          data.data[section].content[fileIndex].url = await uploadFileToDrive({
+            localFilePath: file.url,
+            mimeType: 'media/file-mime-type',
+            fileName: values[values.length - 1],
+          });
+        }
+      }
+
       await createDirectory('/temp');
       const filepath = await saveFile({
         filepath: '/temp/data.json',
         contents: JSON.stringify(data),
         encodingOrOptions: 'utf8',
       });
-      await authenticate();
-      await uploadFile(filepath, 'application/json');
+      await uploadFileToDrive({
+        localFilePath: filepath,
+        mimeType: 'application/json',
+        fileName: data.details.title + '.json',
+      });
       console.log('-->> File got created');
     } catch (e) {
       console.log('-->> Something went wrong', e);
     }
-  }, [authenticate, createDirectory, data, saveFile, uploadFile]);
+    data.setIsLoading(false);
+  }, [authenticate, createDirectory, data, saveFile, uploadFileToDrive]);
 
   const dlt = useCallback(() => {}, []);
 

@@ -7,7 +7,7 @@ export const useFirestoreEvents = () => {
     name: EventKey.FireStoreError,
     params: {
       doc: '',
-      type: FirestoreOperationType.UNKNOWN,
+      type: FirestoreOperationType.unknown,
     },
   });
 
@@ -15,7 +15,7 @@ export const useFirestoreEvents = () => {
     name: EventKey.FireStoreSuccess,
     params: {
       doc: '',
-      type: FirestoreOperationType.UNKNOWN,
+      type: FirestoreOperationType.unknown,
     },
   });
 

@@ -2,6 +2,8 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import {useCallback} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
+import {useGoogleDriveEvents} from './useGoogleDriveEvents';
+import {FileOperationType} from '@src/root/analytics/analytics.Interfaces';
 
 type GoogleFolder = {
   id: string;
@@ -10,7 +12,15 @@ type GoogleFolder = {
   name: string;
 };
 
+export type UploadProps = {
+  localFilePath: string;
+  mimeType: string;
+  fileName: string;
+};
+
 export const useGoogleDrive = () => {
+  const {onDriveAPIFailure, onDriveAPISuccess} = useGoogleDriveEvents();
+
   const getFolder = useCallback(async (folderName: string) => {
     try {
       const tokens = await GoogleSignin.getTokens();
@@ -75,7 +85,7 @@ export const useGoogleDrive = () => {
   );
 
   const uploadFile = useCallback(
-    async (localFilePath: string, mimeType: string, fileName: string) => {
+    async ({localFilePath, mimeType, fileName}: UploadProps) => {
       const tokens = await GoogleSignin.getTokens();
       const accessToken = tokens.accessToken;
       const url =
@@ -101,28 +111,40 @@ export const useGoogleDrive = () => {
         ]);
 
         if (response.respInfo.status === 200) {
-          // File uploaded successfully
-          console.log('File uploaded to Google Drive.', response.data);
+          onDriveAPISuccess({
+            type: FileOperationType.create,
+            fileSize: '',
+            fileType: fileName,
+          });
           const fileData = JSON.parse(response.data);
-          const fileId = fileData.id;
-          return fileId;
+          return fileData;
         } else {
-          // Handle error
+          onDriveAPIFailure({
+            type: FileOperationType.create,
+            fileSize: '',
+            fileType: fileName,
+          });
           console.error('File upload failed.');
+          throw 'File upload failed.';
         }
       } catch (error) {
+        onDriveAPIFailure({
+          type: FileOperationType.create,
+          fileSize: '',
+          fileType: fileName,
+        });
         console.error('Error uploading file:', error);
+        throw error;
       }
     },
-    [],
+    [onDriveAPIFailure, onDriveAPISuccess],
   );
 
-  const changeAccessToPublic = useCallback(async (fileId: string) => {
-    try {
-      const tokens = await GoogleSignin.getTokens();
-      const shareResponse = await fetch(
-        `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
-        {
+  const changeAccessToPublic = useCallback(
+    async (fileId: string) => {
+      try {
+        const tokens = await GoogleSignin.getTokens();
+        const headers = {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${tokens.accessToken}`,
@@ -132,37 +154,51 @@ export const useGoogleDrive = () => {
             role: 'reader',
             type: 'anyone',
           }),
-        },
-      );
-    } catch (e) {
-      throw e;
-    }
-  }, []);
+        };
 
-  const getDownloadableLink = useCallback(async (fileId: string) => {
-    try {
-      const tokens = await GoogleSignin.getTokens();
-      const linkResponse = await fetch(
-        `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webViewLink`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${tokens.accessToken}`,
-          },
-        },
-      );
-
-      if (linkResponse.status === 200) {
-        const linkData = await linkResponse.json();
-        const webViewLink = linkData.webViewLink;
-        console.log('Publicly downloadable link:', webViewLink);
-      } else {
-        console.error('Error getting publicly downloadable link.');
+        const shareResponse = await fetch(
+          `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
+          headers,
+        );
+        onDriveAPISuccess({type: FileOperationType.accessChange});
+      } catch (e) {
+        onDriveAPIFailure({type: FileOperationType.accessChange});
+        throw e;
       }
-    } catch (e) {
-      throw e;
-    }
-  }, []);
+    },
+    [onDriveAPIFailure, onDriveAPISuccess],
+  );
+
+  const getDownloadableLink = useCallback(
+    async (fileId: string) => {
+      try {
+        const tokens = await GoogleSignin.getTokens();
+        const linkResponse = await fetch(
+          `https://www.googleapis.com/drive/v3/files/${fileId}?fields=webViewLink`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${tokens.accessToken}`,
+            },
+          },
+        );
+
+        if (linkResponse.status === 200) {
+          const linkData = await linkResponse.json();
+          const webViewLink = linkData.webViewLink;
+          onDriveAPISuccess({type: FileOperationType.downloadLink});
+          return webViewLink;
+        } else {
+          onDriveAPIFailure({type: FileOperationType.downloadLink});
+          throw 'Error getting publicly downloadable link.';
+        }
+      } catch (e) {
+        onDriveAPIFailure({type: FileOperationType.downloadLink});
+        throw e;
+      }
+    },
+    [onDriveAPISuccess, onDriveAPIFailure],
+  );
 
   return {
     createFolder,

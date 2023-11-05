@@ -14,10 +14,14 @@ const initalProject = createNewProject('Category', 0);
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
     return {
+      isLoading: false,
       data: [initalProject],
       tabs: [initalProject.title],
       collapseDetails: false,
       details: {title: '', descrption: '', keywords: ''},
+      setIsLoading: show => {
+        set({isLoading: show});
+      },
       updateCollapse: collapse => {
         set({
           collapseDetails: collapse,
