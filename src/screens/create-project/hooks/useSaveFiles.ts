@@ -5,9 +5,11 @@ import {useCreateProjectStore} from '../create-project.store';
 import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
-import axios from 'axios';
+import {useNavigation} from '@src/root/navigation/useNavigation';
 
 export const useFiles = () => {
+  const nav = useNavigation();
+
   const getSize: (
     sourceImage: string,
   ) => Promise<{width: number; height: number}> = useCallback(

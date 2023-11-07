@@ -11,6 +11,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {SuspendedProjectDetailComponent} from '@src/screens/project-detail/project-detail.lazy';
 import {SuspendedProjectDetailFullScreenComponent} from '@src/screens/project-detail-fullscreen/project-detail-fullscreen.lazy';
 import {SuspendedCreateProjectComponent} from '@src/screens/create-project/create-project.lazy';
+import {SuspendedShareProjectFullScreenComponent} from '@src/screens/share-project/share-project.lazy';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,11 @@ export function MatchRoute<K extends Routes>(props: {
           name={Routes.CreateProject}
           initialParams={props.params}
           component={SuspendedCreateProjectComponent}
+        />
+        <Stack.Screen
+          name={Routes.SHARE_SCREEN}
+          initialParams={props.params}
+          component={SuspendedShareProjectFullScreenComponent}
         />
       </Stack.Navigator>
     </NavigationContainer>

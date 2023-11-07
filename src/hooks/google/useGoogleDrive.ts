@@ -4,14 +4,6 @@ import {useCallback} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
 import {useGoogleDriveEvents} from './useGoogleDriveEvents';
 import {FileOperationType} from '@src/root/analytics/analytics.Interfaces';
-import {err} from 'react-native-svg/lib/typescript/xml';
-
-type GoogleFolder = {
-  id: string;
-  kind: string;
-  mimeType: string;
-  name: string;
-};
 
 export type UploadProps = {
   localFilePath: string;
@@ -20,69 +12,6 @@ export type UploadProps = {
 
 export const useGoogleDrive = () => {
   const {onDriveAPIFailure, onDriveAPISuccess} = useGoogleDriveEvents();
-
-  const getFolder = useCallback(async (folderName: string) => {
-    try {
-      const tokens = await GoogleSignin.getTokens();
-      const response = await axios.get(
-        'https://www.googleapis.com/drive/v3/files',
-        {
-          params: {
-            q: "mimeType='application/vnd.google-apps.folder'",
-          },
-          headers: {
-            Authorization: `Bearer ${tokens.accessToken}`,
-          },
-        },
-      );
-
-      const folders = response.data.files;
-      console.log('List of folders:', folders);
-    } catch (error) {
-      console.error('Error listing folders:', error);
-      if (error.response) {
-        console.error(
-          'Error response:',
-          error.response.status,
-          error.response.data,
-        );
-      } else {
-        console.error('Error:', error.message);
-      }
-    }
-  }, []);
-
-  const createRootFolder = useCallback(async () => {
-    try {
-      getFolder('rshare');
-
-      const tokens = await GoogleSignin.getTokens();
-      const response = await axios.post(
-        'https://www.googleapis.com/drive/v3/files',
-        {
-          name: 'rshare',
-          mimeType: 'application/vnd.google-apps.folder',
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${tokens.accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-
-      console.log('Folder created:', response.data);
-    } catch (error) {
-      console.error('Error creating folder:', error);
-    }
-  }, [getFolder]);
-
-  const createFolder = useCallback(
-    async (folderName: string) => {
-      await createRootFolder();
-    },
-    [createRootFolder],
-  );
 
   const uploadFile = useCallback(
     async ({localFilePath, fileName}: UploadProps) => {
@@ -93,17 +22,14 @@ export const useGoogleDrive = () => {
 
       const mimeType = getMimeTypeFromFilePath(localFilePath);
 
-      // Prepare the request headers
       const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': mimeType,
-        'Content-Disposition': `inline; filename="${fileName}"`, // Include the desired name
+        'Content-Disposition': `inline; filename="${fileName}"`,
       };
 
-      // Prepare the request data
       const data = RNFetchBlob.wrap(localFilePath);
 
-      // Perform the file upload
       try {
         const response = await RNFetchBlob.fetch('POST', url, headers, data);
 
@@ -114,7 +40,6 @@ export const useGoogleDrive = () => {
             fileType: fileName,
           });
           const fileData = JSON.parse(response.data);
-          console.log(fileData, '--->>> file data', response.respInfo);
           return fileData;
         } else {
           onDriveAPIFailure({
@@ -122,7 +47,6 @@ export const useGoogleDrive = () => {
             fileSize: '',
             fileType: fileName,
           });
-          console.error('File upload failed.');
           throw 'File upload failed.';
         }
       } catch (error) {
@@ -131,10 +55,8 @@ export const useGoogleDrive = () => {
           fileSize: '',
           fileType: fileName,
         });
-        console.error('Error uploading file:', error);
         throw error;
       }
-      return;
     },
     [onDriveAPIFailure, onDriveAPISuccess],
   );
@@ -155,7 +77,6 @@ export const useGoogleDrive = () => {
     };
 
     try {
-      console.log(fileId, '--->>> file Id');
       await axios.post(
         `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
         permission,
@@ -191,8 +112,6 @@ export const useGoogleDrive = () => {
   }, []);
 
   return {
-    createFolder,
-    createRootFolder,
     uploadFile,
     changeAccessToPublic,
     getDownloadableLink,
@@ -201,9 +120,8 @@ export const useGoogleDrive = () => {
 
 function getMimeTypeFromFilePath(filePath: string) {
   const extension = filePath.split('.').pop() ?? '';
-  let mimeType = 'application/json'; // Default MIME type
+  let mimeType = 'application/json';
 
-  // Define some common MIME types based on extensions
   const mimeTypesByExtension: Record<string, string> = {
     jpg: 'image/jpeg',
     jpeg: 'image/jpeg',
@@ -220,7 +138,6 @@ function getMimeTypeFromFilePath(filePath: string) {
     pdf: 'application/pdf',
   };
 
-  // Check if a specific MIME type is defined for the extension
   if (mimeTypesByExtension[extension]) {
     mimeType = mimeTypesByExtension[extension];
   }
