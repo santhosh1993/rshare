@@ -4,6 +4,7 @@ import {useAnalytics} from './analytics/useAnalytics';
 import {EventKey} from './analytics/analytics.Keys';
 import {MatchRoute} from './match-route';
 import {Routes} from './router/routes';
+import Toast from 'react-native-toast-message';
 
 interface InitParams {
   route?: string;
@@ -20,6 +21,7 @@ export function BootstrapInner(_: InitParams) {
   return (
     <Providers>
       <MatchRoute route={Routes.HOME} params={{}} />
+      <Toast />
     </Providers>
   );
 }

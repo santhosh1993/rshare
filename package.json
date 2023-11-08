@@ -38,6 +38,7 @@
     "react-native-screens": "^3.25.0",
     "react-native-svg": "^13.13.0",
     "react-native-tab-view": "^3.5.2",
+    "react-native-toast-message": "^2.1.7",
     "rn-fetch-blob": "^0.12.0",
     "zustand": "^4.4.1"
   },
