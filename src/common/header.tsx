@@ -8,6 +8,7 @@ import {useNavigation} from '@src/root/navigation/useNavigation';
 import {shadow} from './shadow.styles';
 import {Button, ButtonType} from './button';
 import SvgBackButton from '@src/generated/assets/svgs/BackButton';
+import {isAndroid} from './utility';
 
 interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -22,7 +23,7 @@ export const Header: FC<HeaderProps> = props => {
   const onBackPress = useCallback(() => {
     nav.global.goBack();
   }, [nav]);
-  console.log(props.rightBarItem);
+
   return (
     <View
       style={[

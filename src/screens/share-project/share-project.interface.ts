@@ -1,1 +1,3 @@
-export interface ShareProjectInterface {}
+export interface ShareProjectInterface {
+  rconId: string;
+}

@@ -9,9 +9,14 @@ import {withScreenLoadedEvent} from '@src/core/withScreenLoadedEvent';
 import {ProjectContent} from './components/project-content/project-content';
 import {Button, ButtonType, RightBarItemProps} from '@common/button';
 import SvgShare from '@src/generated/assets/svgs/Share';
+import {useNavigation} from '@src/root/navigation/useNavigation';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
-  const onShareTap = useCallback(() => {}, []);
+  const nav = useNavigation();
+  const onShareTap = useCallback(() => {
+    nav.global.navigate({route: Routes.SHARE_SCREEN, params: {}});
+  }, [nav]);
+
   const rightBarItem = useMemo(() => {
     const shareIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: shareIcon};

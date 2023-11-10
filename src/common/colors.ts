@@ -28,7 +28,7 @@ const darkMode: Colors = {
 };
 
 const lightMode: Colors = {
-  color1: 'rgb(37, 38, 41)',
+  color1: '#252629',
   color2: '#000000',
   color3: '#F5F5F5',
   color4: '#ffffff',

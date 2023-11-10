@@ -14,7 +14,7 @@ export function SuspendedShareProjectFullScreenComponent(
 ) {
   return (
     <Suspense fallback={<LazyComponentDefaultLoader />}>
-      <LazyShareProjectFullScreen {...props} />
+      <LazyShareProjectFullScreen {...props.route.params} />
     </Suspense>
   );
 }

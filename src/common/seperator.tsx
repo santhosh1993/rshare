@@ -8,7 +8,7 @@ export const Seperator: FC<SeperatorProps> = props => {
   return (
     <View
       {...props}
-      style={[{backgroundColor: colors.app.background, height: 1}, props.style]}
+      style={[{backgroundColor: colors.app.background, height: 2}, props.style]}
     />
   );
 };

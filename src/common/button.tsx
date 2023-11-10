@@ -1,10 +1,12 @@
 import React, {FC, memo, useMemo} from 'react';
 import {
-  Pressable,
+  StyleProp,
   StyleSheet,
+  TouchableOpacity,
   TouchableWithoutFeedbackProps,
   View,
   ViewProps,
+  ViewStyle,
 } from 'react-native';
 import {FontWeight, Text} from './text';
 import SvgChevronRight from '@src/generated/assets/svgs/ChevronRight';
@@ -13,6 +15,7 @@ import {colors} from './colors';
 
 export enum ButtonType {
   PrimaryButton,
+  SecondaryButton,
   ButtonWithArrow,
   RightBarItem,
   Button,
@@ -20,6 +23,7 @@ export enum ButtonType {
 
 export interface PrimaryButtonProps extends ViewProps {
   label?: string;
+  textStyle?: StyleProp<ViewStyle>;
 }
 
 export interface ButtonWithArrowProps extends ViewProps {
@@ -35,6 +39,7 @@ type ButtonParams = {
   [ButtonType.ButtonWithArrow]: ButtonWithArrowProps;
   [ButtonType.Button]: {};
   [ButtonType.RightBarItem]: RightBarItemProps;
+  [ButtonType.SecondaryButton]: PrimaryButtonProps;
 };
 
 export interface ButtonProps<K extends ButtonType>
@@ -52,12 +57,31 @@ export const Button = memo(<K extends ButtonType>(props: ButtonProps<K>) => {
         return <ButtonWithArrow {...props.props} />;
       case ButtonType.RightBarItem:
         return <RightBarItem {...props.props} />;
+      case ButtonType.SecondaryButton:
+        return <SecondaryButton {...props.props} />;
       default:
         return <>{props.children}</>;
     }
   }, [props]);
-  return <Pressable {...props}>{btnView}</Pressable>;
+  return <TouchableOpacity {...props}>{btnView}</TouchableOpacity>;
 });
+
+const SecondaryButton: FC<PrimaryButtonProps> = props => {
+  return (
+    <View
+      {...props}
+      style={[
+        primaryButtonStyles.container,
+        shadow.container,
+        secondaryButtonStyle.container,
+        props.style,
+      ]}>
+      <Text fontWeight={FontWeight.BOLD} style={{color: colors.text.light}}>
+        {props.label}
+      </Text>
+    </View>
+  );
+};
 
 const RightBarItem: FC<RightBarItemProps> = props => {
   return (
@@ -94,6 +118,12 @@ const rightBarItemStyles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+});
+
+const secondaryButtonStyle = StyleSheet.create({
+  container: {
+    backgroundColor: colors.text.medium,
   },
 });
 
