@@ -8,7 +8,6 @@ import {useNavigation} from '@src/root/navigation/useNavigation';
 import {shadow} from './shadow.styles';
 import {Button, ButtonType} from './button';
 import SvgBackButton from '@src/generated/assets/svgs/BackButton';
-import {isAndroid} from './utility';
 
 interface HeaderProps {
   style?: StyleProp<ViewStyle>;

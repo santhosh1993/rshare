@@ -14,11 +14,13 @@ export const ProjectContent = memo(() => {
   const tabViews = useMemo(() => {
     return (
       <>
-        {sections.map(section => {
+        {sections.map((section, index) => {
           return (
             <Tab.Screen
               name={section.title}
-              children={() => <ProjectSectionContent {...section} />}
+              children={() => (
+                <ProjectSectionContent data={section} sectionIndex={index} />
+              )}
             />
           );
         })}

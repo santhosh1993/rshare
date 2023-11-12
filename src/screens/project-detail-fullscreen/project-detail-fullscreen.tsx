@@ -20,6 +20,7 @@ const ProjectDetailFullScreen = ({
   const [sectionData, setSectionData] = useState(
     useProjectDetailStore.getState().data[sectionIndex],
   );
+  const [selectedIndex, setSelectedIndex] = useState(sectionIndex);
   const [showFilterBottomSheet, setShowFilterBottomSheet] = useState(false);
   const renderItem = useCallback(({item}: {item: ContentData}) => {
     return (
@@ -71,6 +72,7 @@ const ProjectDetailFullScreen = ({
     if (index !== undefined) {
       flatListRef.current?.scrollToIndex({index: 0, animated: false});
       setSectionData(useProjectDetailStore.getState().data[index]);
+      setSelectedIndex(index);
     }
   }, []);
 
@@ -95,7 +97,7 @@ const ProjectDetailFullScreen = ({
       {showFilterBottomSheet && (
         <SectionSelectionBottomSheet
           onClose={onClose}
-          selectedIndex={sectionData.index}
+          selectedIndex={selectedIndex}
         />
       )}
     </View>

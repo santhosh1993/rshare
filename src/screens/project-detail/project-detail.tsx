@@ -14,9 +14,13 @@ import {useNavigation} from '@src/root/navigation/useNavigation';
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
   const nav = useNavigation();
   const onShareTap = useCallback(() => {
-    nav.global.navigate({route: Routes.SHARE_SCREEN, params: {}});
+    nav.global.navigate({
+      route: Routes.SHARE_SCREEN,
+      params: {
+        rconId: '',
+      },
+    });
   }, [nav]);
-
   const rightBarItem = useMemo(() => {
     const shareIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: shareIcon};

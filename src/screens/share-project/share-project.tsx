@@ -5,11 +5,11 @@ import {Header} from '@common/header';
 import {ShareInfo} from './components/share-info';
 import {ShareCta} from './components/share-cta';
 import {Button, ButtonType, RightBarItemProps} from '@common/button';
-import SvgShare from '@src/generated/assets/svgs/Share';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Routes} from '@src/root/router/routes';
 import {colors} from '@common/colors';
 import {shadow} from '@common/shadow.styles';
+import SvgEdit from '@src/generated/assets/svgs/Edit';
 
 export const ShareProject: FC<ShareProjectInterface> = props => {
   const nav = useNavigation();
@@ -22,7 +22,7 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
     });
   }, [nav]);
   const rightBarItem = useMemo(() => {
-    const editIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
+    const editIcon = <SvgEdit style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: editIcon};
     return (
       <Button

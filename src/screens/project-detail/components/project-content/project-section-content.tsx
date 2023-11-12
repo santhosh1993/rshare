@@ -12,10 +12,13 @@ import {Button, ButtonType} from '@common/button';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Routes} from '@src/root/router/routes';
 
-export const ProjectSectionContent = (
-  {content, description}: SectionData,
-  sectionIndex: number,
-) => {
+export const ProjectSectionContent = ({
+  data,
+  sectionIndex,
+}: {
+  data: SectionData;
+  sectionIndex: number;
+}) => {
   const nav = useNavigation();
 
   const onItemTap = useCallback(
@@ -64,12 +67,12 @@ export const ProjectSectionContent = (
 
   return (
     <>
-      {description !== undefined && (
-        <Text style={styles.textDescription}>{description}</Text>
+      {data.description !== undefined && (
+        <Text style={styles.textDescription}>{data.description}</Text>
       )}
       <FlatList
         style={styles.contentList}
-        data={content}
+        data={data.content}
         numColumns={3}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
