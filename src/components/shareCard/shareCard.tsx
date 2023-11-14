@@ -12,6 +12,7 @@ import SvgShare from '@src/generated/assets/svgs/Share';
 import {shadow} from '@common/shadow.styles';
 import SvgPhone from '@src/generated/assets/svgs/Phone';
 import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
+
 export interface ShareCardInterface {}
 
 export const ShareCard = () => {
@@ -26,13 +27,25 @@ export const ShareCard = () => {
     });
   }, [nav]);
 
+  const onSharePress = useCallback(() => {
+    nav.global.navigate({
+      route: Routes.SHARE_SCREEN,
+      params: {
+        rconId: '',
+      },
+    });
+  }, [nav]);
+
   return (
     <Button onPress={onPress} type={ButtonType.Button}>
       <View style={[styles.container, border.card, shadow.container]}>
         <View style={styles.contentContainer}>
           <View style={styles.header}>
             <Text fontWeight={FontWeight.BOLD}>Project Title </Text>
-            <Button type={ButtonType.Button} style={styles.shareButton}>
+            <Button
+              type={ButtonType.Button}
+              style={styles.shareButton}
+              onPress={onSharePress}>
               <SvgShare style={styles.shareImage} fill={'#555'} />
             </Button>
           </View>

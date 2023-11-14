@@ -9,9 +9,9 @@ import {Routes} from '@src/root/router/routes';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import Toast from 'react-native-toast-message';
 
-export interface HomeProps {}
+export interface ShareCenterProps {}
 
-export const Home: FC<HomeProps> = () => {
+export const ShareCenter: FC<ShareCenterProps> = () => {
   const {authenticate} = useGoogle();
   const nav = useNavigation();
 
@@ -29,9 +29,6 @@ export const Home: FC<HomeProps> = () => {
       Toast.show({
         text1: 'Unable to authenticate. Please try again later.',
         type: 'error',
-        props: {
-          text1NumberOfLines: 2,
-        },
       });
     }
   }, [authenticate, nav.global]);

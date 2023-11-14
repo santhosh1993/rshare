@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {Home} from '@src/screens/home/home';
+import {ShareCenter} from '@src/screens/share-center/ShareCenter';
 import React from 'react';
 import {BaseRouteParams, Routes} from './router/routes';
 import {More, MoreInterface} from '@src/screens/more/more';
@@ -25,8 +25,8 @@ export function MatchRoute<K extends Routes>(props: {
         initialRouteName={props.route}
         screenOptions={STACK_NAVIGATION_OPTIONS}>
         <Stack.Screen
-          name={Routes.HOME}
-          component={Home}
+          name={Routes.SHARE_CENTER}
+          component={ShareCenter}
           initialParams={props.params}
         />
         <Stack.Screen

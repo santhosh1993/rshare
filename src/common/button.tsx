@@ -63,7 +63,11 @@ export const Button = memo(<K extends ButtonType>(props: ButtonProps<K>) => {
         return <>{props.children}</>;
     }
   }, [props]);
-  return <TouchableOpacity {...props}>{btnView}</TouchableOpacity>;
+  return (
+    <TouchableOpacity activeOpacity={1} {...props}>
+      {btnView}
+    </TouchableOpacity>
+  );
 });
 
 const SecondaryButton: FC<PrimaryButtonProps> = props => {
