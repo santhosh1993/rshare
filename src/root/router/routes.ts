@@ -12,6 +12,7 @@ export enum Routes {
   PROJECTDETAILFULLSCREEN = 'PROJECTDETAILFULLSCREEN',
   CreateProject = 'CreateProject',
   SHARE_SCREEN = 'ShareScreen',
+  HOME = 'HOME',
 }
 
 export type BaseRouteParams = {
@@ -21,4 +22,5 @@ export type BaseRouteParams = {
   [Routes.PROJECTDETAILFULLSCREEN]: ProjectDetailFullScreenInterface;
   [Routes.CreateProject]: CreateProjectInterface;
   [Routes.SHARE_SCREEN]: ShareProjectInterface;
+  [Routes.HOME]: {};
 };

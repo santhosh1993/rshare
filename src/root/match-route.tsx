@@ -12,6 +12,7 @@ import {SuspendedProjectDetailComponent} from '@src/screens/project-detail/proje
 import {SuspendedProjectDetailFullScreenComponent} from '@src/screens/project-detail-fullscreen/project-detail-fullscreen.lazy';
 import {SuspendedCreateProjectComponent} from '@src/screens/create-project/create-project.lazy';
 import {SuspendedShareProjectFullScreenComponent} from '@src/screens/share-project/share-project.lazy';
+import {Home} from '@src/screens/home/home';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,11 @@ export function MatchRoute<K extends Routes>(props: {
       <Stack.Navigator
         initialRouteName={props.route}
         screenOptions={STACK_NAVIGATION_OPTIONS}>
+        <Stack.Screen
+          name={Routes.HOME}
+          component={Home}
+          initialParams={props.params}
+        />
         <Stack.Screen
           name={Routes.SHARE_CENTER}
           component={ShareCenter}

@@ -21,7 +21,7 @@ export function BootstrapInner(_: InitParams) {
 
   return (
     <Providers>
-      <MatchRoute route={Routes.SHARE_CENTER} params={{}} />
+      <MatchRoute route={Routes.HOME} params={{}} />
       <Toast config={toastConfig} />
     </Providers>
   );
