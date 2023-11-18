@@ -58,6 +58,10 @@ export const colors = {
   border: {
     light: themeColors.primary3 + '20',
   },
+  bottomBar: {
+    active: themeColors.color1,
+    inactive: themeColors.color6 + 'ee',
+  },
   shadow: {
     dark: themeColors.color2,
   },
