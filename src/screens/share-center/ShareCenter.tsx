@@ -1,51 +1,29 @@
-import React, {FC, useCallback, useMemo} from 'react';
+import React, {FC, useMemo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Header} from '@common/header';
 import {ProjectListContainer} from './components/project-list-container';
 import {Button, ButtonType} from '@common/button';
 import SvgNewDoc from '@src/generated/assets/svgs/NewDoc';
-import {useGoogle} from '@src/hooks/google/useGoogle';
-import {Routes} from '@src/root/router/routes';
-import {useNavigation} from '@src/root/navigation/useNavigation';
-import Toast from 'react-native-toast-message';
+import {useCreateRcon} from './hooks/useCreateRcon';
 
 export interface ShareCenterProps {}
 
 export const ShareCenter: FC<ShareCenterProps> = () => {
-  const {authenticate} = useGoogle();
-  const nav = useNavigation();
-
-  const onCreateDoc = useCallback(async () => {
-    try {
-      await authenticate();
-      nav.global.navigate({
-        route: Routes.CreateProject,
-        params: {
-          name: 'Project 1',
-          id: 'asdfsadf',
-        },
-      });
-    } catch (e) {
-      Toast.show({
-        text1: 'Unable to authenticate. Please try again later.',
-        type: 'error',
-      });
-    }
-  }, [authenticate, nav.global]);
+  const {create} = useCreateRcon();
 
   const rightBarItem = useMemo(() => {
     return (
       <Button
         type={ButtonType.Button}
         style={styles.creareItem}
-        onPress={onCreateDoc}>
+        onPress={create}>
         <SvgNewDoc style={styles.createItemImage} fill={'#fff'} />
       </Button>
     );
-  }, [onCreateDoc]);
+  }, [create]);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <Header title="Home" hideBackButton={true} rightBarItem={rightBarItem} />
       <ProjectListContainer />
     </View>
@@ -59,5 +37,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  container: {flex: 1},
   createItemImage: {width: 24, height: 24},
 });
