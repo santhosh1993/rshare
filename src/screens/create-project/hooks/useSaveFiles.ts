@@ -6,9 +6,16 @@ import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 import {useNavigation} from '@src/root/navigation/useNavigation';
+import {useCreateProjectEvents} from './useCreateProjectEvents';
 
 export const useFiles = () => {
   const nav = useNavigation();
+  const {
+    emitLocalFileOperationFailedEvent,
+    emitLocalFileOperationSuccessEvent,
+    emitServerFileOperationFailedEvent,
+    emitServerFileOperationSuccessEvent,
+  } = useCreateProjectEvents();
 
   const getSize: (
     sourceImage: string,
@@ -63,7 +70,9 @@ export const useFiles = () => {
     async (props: UploadProps) => {
       try {
         const data = await uploadFile(props);
-        console.log(data, '----->>>>>', props);
+        emitServerFileOperationSuccessEvent({
+          source,
+        });
         await changeAccessToPublic(data.id);
         return await getDownloadableLink(data.id);
       } catch (e) {
