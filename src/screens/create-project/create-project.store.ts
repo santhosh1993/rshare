@@ -11,14 +11,18 @@ import {
 
 const initalProject = createNewProject('Category', 0);
 
+const INITIAL_STATE = {
+  isLoading: false,
+  data: [initalProject],
+  tabs: [initalProject.title],
+  collapseDetails: false,
+  details: {title: '', descrption: '', keywords: ''},
+}
+
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
     return {
-      isLoading: false,
-      data: [initalProject],
-      tabs: [initalProject.title],
-      collapseDetails: false,
-      details: {title: '', descrption: '', keywords: ''},
+      ...INITIAL_STATE,
       setIsLoading: show => {
         set({isLoading: show});
       },
@@ -76,6 +80,9 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
 
         set({data: data});
       },
+      reset: () => {
+        set(INITIAL_STATE)
+      }
     };
   },
 );

@@ -1,7 +1,7 @@
 import {withScreenLoadedEvent} from '@src/core/withScreenLoadedEvent';
 import {Routes} from '@src/root/router/routes';
 import {StyleSheet, View} from 'react-native';
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {CreateProjectInterface} from './create-project.interface';
 import {Header} from '@common/header';
 import {ProjectDetailsInput} from './components/project-details-input';
@@ -12,12 +12,31 @@ import {colors} from '@common/colors';
 import {useFiles} from './hooks/useSaveFiles';
 import {useCreateProjectStore} from './create-project.store';
 import {Loader} from '@common/Loader';
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@src/root/navigation/useNavigation';
 
 const CreateProject = () => {
   const {save} = useFiles();
+  const nav = useNavigation();
 
-  const onSaveTap = useCallback(() => {
-    save();
+  const onSaveTap = useCallback(async () => {
+    try {
+      await save("create-project");
+      Toast.show({
+        text1: "RCON is successfully created",
+        type: 'success',
+      });
+      nav.global.goBack()
+      nav.global.navigate({route: Routes.SHARE_SCREEN, params: {
+        rconId: ''
+      }})
+    }
+    catch (e) {
+      Toast.show({
+        text1: "Could not able to create RCON. Please try again after sometime.",
+        type: 'error',
+      });
+    }
   }, [save]);
 
   const rightBarItem = useMemo(() => {
@@ -31,6 +50,13 @@ const CreateProject = () => {
   }, [onSaveTap]);
 
   const isLoading = useCreateProjectStore(s => s.isLoading);
+  const reset = useCreateProjectStore(s => s.reset);
+
+  useEffect(() => {
+    return () => {
+      reset()
+    }
+  }, []);
 
   return (
     <View style={styles.container}>

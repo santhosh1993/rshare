@@ -6,16 +6,10 @@ import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 import {useNavigation} from '@src/root/navigation/useNavigation';
-import {useCreateProjectEvents} from './useCreateProjectEvents';
+import Toast from 'react-native-toast-message';
 
 export const useFiles = () => {
   const nav = useNavigation();
-  const {
-    emitLocalFileOperationFailedEvent,
-    emitLocalFileOperationSuccessEvent,
-    emitServerFileOperationFailedEvent,
-    emitServerFileOperationSuccessEvent,
-  } = useCreateProjectEvents();
 
   const getSize: (
     sourceImage: string,
@@ -58,9 +52,7 @@ export const useFiles = () => {
     [getSize],
   );
 
-  const data = useCreateProjectStore(s => {
-    return {data: s.data, details: s.details, setIsLoading: s.setIsLoading};
-  });
+  const setIsLoading = useCreateProjectStore(s => s.setIsLoading);
 
   const {createDirectory, saveFile} = useLocalFileStore();
   const {authenticate, uploadFile, changeAccessToPublic, getDownloadableLink} =
@@ -70,9 +62,6 @@ export const useFiles = () => {
     async (props: UploadProps) => {
       try {
         const data = await uploadFile(props);
-        emitServerFileOperationSuccessEvent({
-          source,
-        });
         await changeAccessToPublic(data.id);
         return await getDownloadableLink(data.id);
       } catch (e) {
@@ -82,11 +71,11 @@ export const useFiles = () => {
     [changeAccessToPublic, getDownloadableLink, uploadFile],
   );
 
-  const save = useCallback(async () => {
+  const save = useCallback(async (source: string) => {
     try {
-      data.setIsLoading(true);
+      setIsLoading(true);
       await authenticate();
-
+      const data = useCreateProjectStore.getState()
       for (let section = 0; section < data.data.length; section++) {
         for (
           let fileIndex = 0;
@@ -98,6 +87,7 @@ export const useFiles = () => {
           data.data[section].content[fileIndex].url = await uploadFileToDrive({
             localFilePath: file.url,
             fileName: values[values.length - 1],
+            source: source
           });
           console.log(data.data[section].content[fileIndex].url, '--->>>');
         }
@@ -112,13 +102,14 @@ export const useFiles = () => {
       const fileData = await uploadFileToDrive({
         localFilePath: filepath,
         fileName: data.details.title + '.json',
+        source: source
       });
       console.log('-->> File got created', fileData);
     } catch (e) {
-      console.log('-->> Something went wrong', e);
+      throw e
     }
-    data.setIsLoading(false);
-  }, [authenticate, createDirectory, data, saveFile, uploadFileToDrive]);
+    setIsLoading(false);
+  }, [authenticate, createDirectory, setIsLoading, saveFile, uploadFileToDrive]);
 
   const dlt = useCallback(() => {}, []);
 

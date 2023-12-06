@@ -1,6 +1,7 @@
 import {FireStoreCollection} from './firestore.collections';
-import {FireStoreCollectionUsersInterFace} from './firestore.collections.Interface';
+import {FireStoreCollectionShareDocInterface, FireStoreCollectionUsersInterFace} from './firestore.collections.Interface';
 
 export type FirestoreParamsBase = {
   [FireStoreCollection.USERS]: FireStoreCollectionUsersInterFace;
+  [FireStoreCollection.RCONDOCS]: FireStoreCollectionShareDocInterface;
 };
