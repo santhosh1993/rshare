@@ -21,19 +21,20 @@ export const useFireStore = () => {
   const {firestoreError, firestoreSuccess} = useFirestoreEvents();
   const document = useRef<FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData> | undefined>(undefined)
   const documentType = useRef<FireStoreCollection | undefined>(undefined)
-  const doc = useCallback((docId: string | undefined, docType: FireStoreCollection) => {
-    document.current = (document.current ?? firestore()).collection(docType).doc(docId)
-    documentType.current = docType
-    return {doc, create, read, update};
-  }, []);
+
+  const getDoc = useCallback(() => {
+    const doc = document.current
+    document.current = undefined
+    if (doc === undefined) {
+      throw ("Please create doc object")
+    }
+    return doc
+  }, [document])
 
   const read = useCallback(
     async () => {
       try {
-        if (document.current === undefined) {
-          throw ("Please create doc object")
-        }
-        const documentSnapshot = await document.current?.get();
+        const documentSnapshot = await getDoc().get();
         firestoreSuccess({doc: documentType.current, type: FirestoreOperationType.read});
         return documentSnapshot.data();
       } catch (e) {
@@ -46,7 +47,7 @@ export const useFireStore = () => {
         throw Error('Something went wrong');
       }
     },
-    [doc, firestoreError, firestoreSuccess],
+    [firestoreError, firestoreSuccess],
   );
 
   const update = useCallback(
@@ -54,11 +55,7 @@ export const useFireStore = () => {
       docData,
     }: FireStoreUpdateDocInfo<K>) => {
       try {
-        if (document.current === undefined) {
-          throw ("Please create doc object")
-        }
-
-        await document.current.update({...docData});
+        await getDoc().update({...docData});
         firestoreSuccess({
           doc: documentType.current,
           type: FirestoreOperationType.update,
@@ -72,7 +69,7 @@ export const useFireStore = () => {
         });
       }
     },
-    [doc, firestoreError, firestoreSuccess],
+    [firestoreError, firestoreSuccess],
   );
 
   const create = useCallback(
@@ -80,11 +77,7 @@ export const useFireStore = () => {
       docData,
     }: FireStoreCreateDocInfo<K>) => {
       try {
-        if (document.current === undefined) {
-          throw ("Please create doc object")
-        }
-
-        await document.current.set({...docData});
+        await getDoc().set({...docData});
         firestoreSuccess({
           doc: documentType.current,
           type: FirestoreOperationType.create,
@@ -98,8 +91,14 @@ export const useFireStore = () => {
         });
       }
     },
-    [doc, firestoreError, firestoreSuccess],
+    [firestoreError, firestoreSuccess],
   );
+
+  const doc = useCallback((docId: string | undefined, docType: FireStoreCollection) => {
+    document.current = (document.current ?? firestore()).collection(docType).doc(docId)
+    documentType.current = docType
+    return {doc, create, read, update};
+  }, [create, read, update]);
 
   return {doc};
 };
