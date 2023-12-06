@@ -5,14 +5,11 @@ import {useCreateProjectStore} from '../create-project.store';
 import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
-import {useNavigation} from '@src/root/navigation/useNavigation';
 import { useLogin } from '@src/hooks/common/useLogin';
 import { useFireStore } from '@src/hooks/firestore/usefirestore';
 import { FireStoreCollection } from '@src/hooks/firestore/firestore.collections';
 
 export const useFiles = () => {
-  const nav = useNavigation();
-
   const getSize: (
     sourceImage: string,
   ) => Promise<{width: number; height: number}> = useCallback(
@@ -77,6 +74,18 @@ export const useFiles = () => {
     [changeAccessToPublic, getDownloadableLink, uploadFile],
   );
 
+  const createFireStoreData = useCallback(async ({userId, configUrl}:{userId: string, configUrl: string}) => {
+    const userDocument = await doc(userId, FireStoreCollection.USERS).doc(undefined, FireStoreCollection.USER_CREATED_DOCS)
+    await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({docData: {configUrl: configUrl}})
+    const sharedDoc = await doc(undefined, FireStoreCollection.SHARED_DOCS)
+    await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({docData: {
+      userId: userId,
+      docId: userDocument.data.id
+    }})
+
+    return sharedDoc.data.id
+  }, [])
+
   const save = useCallback(async (source: string) => {
     try {
       setIsLoading(true);
@@ -110,21 +119,14 @@ export const useFiles = () => {
         fileName: data.details.title + '.json',
         source: source
       });
-      const userDocument = await doc(userId, FireStoreCollection.USERS).doc(undefined, FireStoreCollection.USER_CREATED_DOCS)
-      await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({docData: {configUrl: fileData}})
-      const sharedDoc = await doc(undefined, FireStoreCollection.SHARED_DOCS)
-      await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({docData: {
-        userId: userId,
-        docId: userDocument.data.id
-      }})
-      
+      const sharedId = createFireStoreData({userId: userId, configUrl: fileData})
       console.log('-->> File got created', fileData);
-      return sharedDoc.data.id
+      return sharedId
     } catch (e) {
       throw e
     }
     setIsLoading(false);
-  }, [authenticate, createDirectory, setIsLoading, saveFile, uploadFileToDrive]);
+  }, [authenticate, createDirectory, setIsLoading, saveFile, uploadFileToDrive, createFireStoreData]);
 
   const dlt = useCallback(() => {}, []);
 
