@@ -7,6 +7,7 @@ import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import Toast from 'react-native-toast-message';
+import { useLogin } from '@src/hooks/common/useLogin';
 
 export const useFiles = () => {
   const nav = useNavigation();
@@ -55,8 +56,10 @@ export const useFiles = () => {
   const setIsLoading = useCreateProjectStore(s => s.setIsLoading);
 
   const {createDirectory, saveFile} = useLocalFileStore();
-  const {authenticate, uploadFile, changeAccessToPublic, getDownloadableLink} =
+  const {uploadFile, changeAccessToPublic, getDownloadableLink} =
     useGoogle();
+
+  const {authenticate} = useLogin()
 
   const uploadFileToDrive = useCallback(
     async (props: UploadProps) => {

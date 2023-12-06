@@ -1,7 +1,6 @@
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useCallback} from 'react';
-import {updateDefaultProps} from '@src/root/analytics/useAnalytics';
 
 export const useGoogleAuth = () => {
   const authenticate = useCallback(async () => {
@@ -24,8 +23,7 @@ export const useGoogleAuth = () => {
       );
 
       await auth().signInWithCredential(googleCredential);
-      updateDefaultProps({userId: signInData.user.id});
-
+      
       return signInData.user;
     } catch (e) {
       throw e;
