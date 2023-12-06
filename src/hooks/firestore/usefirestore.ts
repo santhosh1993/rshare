@@ -6,14 +6,10 @@ import {FireStoreCollection} from './firestore.collections';
 import {FirestoreOperationType} from '@src/root/analytics/analytics.Interfaces';
 
 type FireStoreUpdateDocInfo<K extends FireStoreCollection> = {
-  docId: string;
-  docType: K;
   docData: Partial<FirestoreParamsBase[K]>;
 };
 
 type FireStoreCreateDocInfo<K extends FireStoreCollection> = {
-  docId: string | undefined;
-  docType: K;
   docData: FirestoreParamsBase[K];
 };
 
@@ -97,7 +93,7 @@ export const useFireStore = () => {
   const doc = useCallback((docId: string | undefined, docType: FireStoreCollection) => {
     document.current = (document.current ?? firestore()).collection(docType).doc(docId)
     documentType.current = docType
-    return {doc, create, read, update};
+    return {data: document.current, doc, create, read, update};
   }, [create, read, update]);
 
   return {doc};

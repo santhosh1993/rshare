@@ -6,8 +6,9 @@ import {useLocalFileStore} from '@src/hooks/localFileStore/useLocalFileStore';
 import {UploadProps} from '@src/hooks/google/useGoogleDrive';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 import {useNavigation} from '@src/root/navigation/useNavigation';
-import Toast from 'react-native-toast-message';
 import { useLogin } from '@src/hooks/common/useLogin';
+import { useFireStore } from '@src/hooks/firestore/usefirestore';
+import { FireStoreCollection } from '@src/hooks/firestore/firestore.collections';
 
 export const useFiles = () => {
   const nav = useNavigation();
@@ -59,6 +60,8 @@ export const useFiles = () => {
   const {uploadFile, changeAccessToPublic, getDownloadableLink} =
     useGoogle();
 
+  const {doc} = useFireStore()
+
   const {authenticate} = useLogin()
 
   const uploadFileToDrive = useCallback(
@@ -77,7 +80,7 @@ export const useFiles = () => {
   const save = useCallback(async (source: string) => {
     try {
       setIsLoading(true);
-      await authenticate();
+      const {id: userId} = await authenticate();
       const data = useCreateProjectStore.getState()
       for (let section = 0; section < data.data.length; section++) {
         for (
@@ -107,7 +110,16 @@ export const useFiles = () => {
         fileName: data.details.title + '.json',
         source: source
       });
+      const userDocument = await doc(userId, FireStoreCollection.USERS).doc(undefined, FireStoreCollection.USER_CREATED_DOCS)
+      await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({docData: {configUrl: fileData}})
+      const sharedDoc = await doc(undefined, FireStoreCollection.SHARED_DOCS)
+      await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({docData: {
+        userId: userId,
+        docId: userDocument.data.id
+      }})
+      
       console.log('-->> File got created', fileData);
+      return sharedDoc.data.id
     } catch (e) {
       throw e
     }

@@ -1,4 +1,5 @@
 export enum FireStoreCollection {
   USERS = 'users',
-  RCONDOCS = 'rconDocs'
+  SHARED_DOCS = 'sharedDocs',
+  USER_CREATED_DOCS = 'docs'
 }

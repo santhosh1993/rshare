@@ -1,6 +1,7 @@
 import {Button, ButtonType} from '@common/button';
 import {colors} from '@common/colors';
 import SvgNewDoc from '@src/generated/assets/svgs/NewDoc';
+import { useLogin } from '@src/hooks/common/useLogin';
 import {useGoogle} from '@src/hooks/google/useGoogle';
 import {EventKey} from '@src/root/analytics/analytics.Keys';
 import {useAnalytics} from '@src/root/analytics/useAnalytics';
@@ -14,7 +15,7 @@ export interface NewProjectFabProps {
 }
 
 export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
-  const {authenticate} = useGoogle();
+  const {authenticate} = useLogin();
   const nav = useNavigation();
   const createRconFabClicked = useAnalytics({
     name: EventKey.CreateRconFabClicked,

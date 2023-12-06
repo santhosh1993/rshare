@@ -32,6 +32,7 @@ export const useLogin = () => {
           })
       }
       updateDefaultProps({userId: signInData.id});
+      return signInData;
     } catch (e) {
       throw e;
     }

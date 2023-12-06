@@ -5,6 +5,10 @@ export interface FireStoreCollectionUsersInterFace {
 
 export interface FireStoreCollectionShareDocInterface {
   userId: string;
-  configUrl: string;
+  docId: string;
   sourceUserId?: string;
+}
+
+export interface FireStoreCollectionUserCreatedDocInterface {
+  configUrl: string;
 }
