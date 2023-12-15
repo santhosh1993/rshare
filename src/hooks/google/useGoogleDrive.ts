@@ -108,7 +108,6 @@ export const useGoogleDrive = () => {
         config,
       );
       const webContentLink = response.data.webContentLink;
-      console.log('Public download link:', webContentLink);
       return webContentLink;
     } catch (error) {
       console.error('Error getting download link:', error);

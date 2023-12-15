@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, memo, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {styles} from './more.styles';
 import {View} from 'react-native';
 import {FeedBackButton} from './components/Feedback';
@@ -31,7 +31,6 @@ const MoreComponent: FC<MoreInterface> = props => {
   useEffect(() => {
     onMount()
     return () => {
-      console.log(props, "--->>>")
       props.onUnMount?.()
     }
   }, [props])
@@ -52,7 +51,6 @@ const MoreComponent: FC<MoreInterface> = props => {
   }, [])
 
   const onUpdatePress = useCallback(async () => {
-    console.log("--->>>")
     if (validateUserData({name: userName, phoneNo: userPhoneNo})) {
       setIsLoading(true)
       await updateUserData({name: userName!, phoneNo: userPhoneNo!})
