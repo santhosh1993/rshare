@@ -21,14 +21,14 @@ const CreateProject = () => {
 
   const onSaveTap = useCallback(async () => {
     try {
-      await save("create-project");
+      const rconId = await save("create-project");
       Toast.show({
         text1: "RCON is successfully created",
         type: 'success',
       });
       nav.global.goBack()
       nav.global.navigate({route: Routes.SHARE_SCREEN, params: {
-        rconId: ''
+        rconId: rconId
       }})
     }
     catch (e) {

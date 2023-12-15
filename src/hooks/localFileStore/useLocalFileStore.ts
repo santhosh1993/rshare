@@ -11,10 +11,8 @@ export const useLocalFileStore = () => {
   const readFile = useCallback(async (filePath: string) => {
     try {
       const dataStr = await RNFS.readFile(filePath);
-      console.log(dataStr);
       return dataStr;
     } catch (e) {
-      console.log('Something went wrong reading --->>>', filePath);
       throw e;
     }
   }, []);
@@ -28,10 +26,8 @@ export const useLocalFileStore = () => {
       }
 
       await RNFS.writeFile(filePath, data.contents, data.encodingOrOptions);
-      console.log('-->> File got created', filePath);
       return filePath;
     } catch (e) {
-      console.log('-->> Something went wrong', e);
       throw e;
     }
   }, []);

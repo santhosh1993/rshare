@@ -8,7 +8,7 @@ export const FeedBackButton = memo(() => {
     return {
       label: 'Feedback',
       style: {
-        marginBottom: 48,
+        marginBottom: 24,
         backgroundColor: colors.app.cardBackground,
         ...shadow.container,
         marginHorizontal: 8,

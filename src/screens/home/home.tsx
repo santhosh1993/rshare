@@ -85,7 +85,8 @@ export const Home = () => {
       screenOptions={{
         headerShown: false,
       }}
-      tabBar={tabBar}>
+      tabBar={tabBar}
+      initialRouteName='Home'>
       <Tab.Screen name="Scan" component={more} />
       <Tab.Screen name="Home" component={shareCenter} />
       <Tab.Screen name="More" component={more} />

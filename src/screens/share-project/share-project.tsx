@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ShareProjectInterface} from './share-project.interface';
 import {Header} from '@common/header';
@@ -10,14 +10,21 @@ import {Routes} from '@src/root/router/routes';
 import {colors} from '@common/colors';
 import {shadow} from '@common/shadow.styles';
 import SvgEdit from '@src/generated/assets/svgs/Edit';
+import { useShareProject } from './hooks/useShareProject';
+import { Loader } from '@common/Loader';
+import { FireStoreCollectionUsersInterFace } from '@src/hooks/firestore/firestore.collections.Interface';
 
 export const ShareProject: FC<ShareProjectInterface> = props => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [userData, setUserData] = useState<FireStoreCollectionUsersInterFace | undefined>(undefined)
+  const {getUserData} = useShareProject()
   const nav = useNavigation();
   const onEditTap = useCallback(() => {
     nav.global.navigate({
       route: Routes.MORE,
       params: {
         source: 'shareScreen',
+        onUnMount: onFocus
       },
     });
   }, [nav]);
@@ -33,13 +40,25 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
     );
   }, [onEditTap]);
 
+  const onFocus = useCallback(async () => {
+    console.log("--->> fetching the data")
+    setIsLoading(true)
+    setUserData(await getUserData())
+    setIsLoading(false)
+  } , [setIsLoading])
+
+  useEffect(() => {
+    onFocus()
+  } , [onFocus])
+
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <Header title={'Share RCON'} rightBarItem={rightBarItem} />
-        <ShareInfo />
+        <ShareInfo name={userData?.name} phoneNo={userData?.phoneNo}/>
         <ShareCta {...props} />
       </View>
+      {isLoading && <Loader title="Preparing ..." />}
     </View>
   );
 };

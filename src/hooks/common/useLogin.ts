@@ -13,9 +13,15 @@ export type SingInData = {
   givenName: string | null;
 }
 
+let loginData: SingInData | null = null
+
 export const useLogin = () => {
   const {authenticate: googleAuth} = useGoogle();
   const {doc} = useFireStore()
+
+  const getLoginData = useCallback(() => {
+    return loginData
+  }, [])
 
   const authenticate = useCallback(async () => {
     try {
@@ -32,10 +38,11 @@ export const useLogin = () => {
           })
       }
       updateDefaultProps({userId: signInData.id});
+      loginData = signInData
       return signInData;
     } catch (e) {
       throw e;
     }
   }, []);
-  return {authenticate};
+  return {authenticate, getLoginData};
 };

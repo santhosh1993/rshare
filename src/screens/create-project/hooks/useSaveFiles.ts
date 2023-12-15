@@ -83,6 +83,8 @@ export const useFiles = () => {
       docId: userDocument.data.id
     }})
 
+    console.log(sharedDoc.data , " shared data ====>>>>>")
+
     return sharedDoc.data.id
   }, [])
 
