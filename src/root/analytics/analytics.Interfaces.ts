@@ -109,3 +109,14 @@ export interface ViewProjectInteractedInterface extends BaseParamsInterface {
 
 export interface CreateProjectFadInteractedInterface
   extends BaseParamsInterface {}
+
+export interface LocalStorageInValidRCONInterface extends BaseParamsInterface {
+  rconId: string
+  type?: string
+}
+
+export interface LocalStorageErrorInterface extends BaseParamsInterface {
+  errorMessage: unknown
+  data?: Record<string, any>
+  type?: string
+}

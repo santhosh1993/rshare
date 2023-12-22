@@ -7,6 +7,8 @@ import {
   FireStoreErrorInterface,
   FireStoreSuccessInterface,
   LocalFileOperationSuccessInterface,
+  LocalStorageErrorInterface,
+  LocalStorageInValidRCONInterface,
   ScreenLoadedInterface,
   ServerFileOperationFailedInterface,
   ServerFileOperationSuccessInterface,
@@ -29,6 +31,8 @@ export type EventsParamsBase = {
   [EventKey.CreateProjectInteracted]: CreateProjectInteractedInterface;
   [EventKey.ViewProjectInteracted]: ViewProjectInteractedInterface;
   [EventKey.CreateProjectFadInteracted]: CreateProjectFadInteractedInterface;
+  [EventKey.LocalStorageInValidRCON]: LocalStorageInValidRCONInterface;
+  [EventKey.LocalStorageError]: LocalStorageErrorInterface;
 };
 
 export type EventParams<K extends EventKey> = {

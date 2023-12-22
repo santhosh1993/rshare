@@ -12,4 +12,6 @@ export enum EventKey {
   CreateProjectInteracted = 'CreateProjectInteracted',
   ViewProjectInteracted = 'ViewProjectInteracted',
   CreateProjectFadInteracted = 'CreateProjectFadInteracted',
+  LocalStorageInValidRCON = 'LocalStorageInValidRCON',
+  LocalStorageError = 'LocalStorageError'
 }

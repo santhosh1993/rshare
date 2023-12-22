@@ -43,7 +43,6 @@ export const useMore = () => {
     } , [])
 
     const validateUserData = useCallback(({name, phoneNo}: {name: string | undefined, phoneNo: string | undefined}) => {
-        console.log(name, phoneNo, "--->>")
         return name !== undefined && phoneNo !== undefined
     }, [])
 

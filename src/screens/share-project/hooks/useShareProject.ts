@@ -18,5 +18,9 @@ export const useShareProject = () => {
             }
     }, [])
 
+    const getProjectDetails = useCallback(() => {
+        
+    }, [])
+
     return {getUserData}
 }

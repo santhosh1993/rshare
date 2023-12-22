@@ -6,7 +6,7 @@ export interface FireStoreCollectionUsersInterFace {
 export interface FireStoreCollectionShareDocInterface {
   userId: string;
   docId: string;
-  sourceUserId?: string;
+  sourceUserId: string;
 }
 
 export interface FireStoreCollectionUserCreatedDocInterface {

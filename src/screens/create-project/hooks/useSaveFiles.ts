@@ -29,7 +29,6 @@ export const useFiles = () => {
     async (sourceImage: string) => {
       try {
         const size = await getSize(sourceImage);
-        console.log(size, '--->>>');
         const resizedImage = await ImageResizer.createResizedImage(
           sourceImage,
           size.width,
@@ -41,10 +40,8 @@ export const useFiles = () => {
           false,
           {onlyScaleDown: true},
         );
-        console.log(resizedImage, '---->>>>');
         return resizedImage;
       } catch (e) {
-        console.log(e, '----->>>>');
         throw e;
       }
     },
@@ -75,15 +72,14 @@ export const useFiles = () => {
   );
 
   const createFireStoreData = useCallback(async ({userId, configUrl}:{userId: string, configUrl: string}) => {
-    const userDocument = await doc(userId, FireStoreCollection.USERS).doc(undefined, FireStoreCollection.USER_CREATED_DOCS)
+    const userDocument = doc(userId, FireStoreCollection.USERS).doc(undefined, FireStoreCollection.USER_CREATED_DOCS)
     await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({docData: {configUrl: configUrl}})
-    const sharedDoc = await doc(undefined, FireStoreCollection.SHARED_DOCS)
+    const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS)
     await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({docData: {
+      sourceUserId: userId,
       userId: userId,
       docId: userDocument.data.id
     }})
-
-    console.log(sharedDoc.data , " shared data ====>>>>>")
 
     return sharedDoc.data.id
   }, [])
@@ -106,7 +102,6 @@ export const useFiles = () => {
             fileName: values[values.length - 1],
             source: source
           });
-          console.log(data.data[section].content[fileIndex].url, '--->>>');
         }
       }
 
@@ -122,7 +117,6 @@ export const useFiles = () => {
         source: source
       });
       const sharedId = createFireStoreData({userId: userId, configUrl: fileData})
-      console.log('-->> File got created', fileData);
       return sharedId
     } catch (e) {
       throw e

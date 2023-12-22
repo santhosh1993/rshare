@@ -41,7 +41,6 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
   }, [onEditTap]);
 
   const onFocus = useCallback(async () => {
-    console.log("--->> fetching the data")
     setIsLoading(true)
     setUserData(await getUserData())
     setIsLoading(false)

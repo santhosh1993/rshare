@@ -16,7 +16,6 @@ export const AddFiles = ({index}: {index: number}) => {
         allowMultiSelection: true,
       });
 
-      console.log(result, ' ----->>>>', index);
       addNewContent(result, index);
       //resize(result[0].uri);
     } catch (err) {
