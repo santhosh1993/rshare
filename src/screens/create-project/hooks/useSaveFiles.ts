@@ -8,8 +8,10 @@ import {useGoogle} from '@src/hooks/google/useGoogle';
 import { useLogin } from '@src/hooks/common/useLogin';
 import { useFireStore } from '@src/hooks/firestore/usefirestore';
 import { FireStoreCollection } from '@src/hooks/firestore/firestore.collections';
+import { useLocalStorage } from '@src/hooks/common/useLocalStorage';
 
 export const useFiles = () => {
+  const {storeRcon} = useLocalStorage({source: 'useFiles'})
   const getSize: (
     sourceImage: string,
   ) => Promise<{width: number; height: number}> = useCallback(
@@ -116,12 +118,14 @@ export const useFiles = () => {
         fileName: data.details.title + '.json',
         source: source
       });
-      const sharedId = createFireStoreData({userId: userId, configUrl: fileData})
+      const sharedId = await createFireStoreData({userId: userId, configUrl: fileData})
+      await storeRcon({rconId: sharedId})
+      setIsLoading(false);
       return sharedId
     } catch (e) {
+      setIsLoading(false);
       throw e
     }
-    setIsLoading(false);
   }, [authenticate, createDirectory, setIsLoading, saveFile, uploadFileToDrive, createFireStoreData]);
 
   const dlt = useCallback(() => {}, []);

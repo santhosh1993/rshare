@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {ShareProjectInterface} from './share-project.interface';
+import {ShareProjectCardInterFace, ShareProjectInterface} from './share-project.interface';
 import {Header} from '@common/header';
 import {ShareInfo} from './components/share-info';
 import {ShareCta} from './components/share-cta';
@@ -12,11 +12,11 @@ import {shadow} from '@common/shadow.styles';
 import SvgEdit from '@src/generated/assets/svgs/Edit';
 import { useShareProject } from './hooks/useShareProject';
 import { Loader } from '@common/Loader';
-import { FireStoreCollectionUsersInterFace } from '@src/hooks/firestore/firestore.collections.Interface';
+import Toast from 'react-native-toast-message';
 
 export const ShareProject: FC<ShareProjectInterface> = props => {
   const [isLoading, setIsLoading] = useState(false)
-  const [userData, setUserData] = useState<FireStoreCollectionUsersInterFace | undefined>(undefined)
+  const [userData, setUserData] = useState<ShareProjectCardInterFace | undefined>(undefined)
   const {getUserData} = useShareProject()
   const nav = useNavigation();
   const onEditTap = useCallback(() => {
@@ -41,9 +41,22 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
   }, [onEditTap]);
 
   const onFocus = useCallback(async () => {
-    setIsLoading(true)
-    setUserData(await getUserData())
-    setIsLoading(false)
+    try {
+      setIsLoading(true)
+      const userData = (await getUserData({rconId: props.rconId}))
+      if (userData == undefined) {
+        throw Error("user data undefined")
+      }
+      setUserData(userData)
+      setIsLoading(false)
+    }
+    catch (e) {
+      Toast.show({
+        text1: "Something went wrong. Please try again after sometime.",
+        type: 'error',
+      });
+      nav.global.goBack()
+    }    
   } , [setIsLoading])
 
   useEffect(() => {
@@ -54,8 +67,7 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <Header title={'Share RCON'} rightBarItem={rightBarItem} />
-        <ShareInfo name={userData?.name} phoneNo={userData?.phoneNo}/>
-        <ShareCta {...props} />
+        {userData && (<><ShareInfo {...userData}/><ShareCta {...props} /></>)}
       </View>
       {isLoading && <Loader title="Preparing ..." />}
     </View>

@@ -48,11 +48,15 @@ export const useLocalStorage = ({source} : {source: string}) => {
             
             const rconConfig: RconConfigInterface = (await axios.get(configData.configUrl)).data
             const storedRconConfig = getString(rconId)
+            if (sharedRconData.sourceId == sharedRconData.userId) {
+                rconConfig.sharedRconId = rconId
+            }
+
             if (storedRconConfig) {
                 const storedRconConfigJson: RconConfigInterface = JSON.parse(storedRconConfig)
                 rconConfig.sharedRconId = storedRconConfigJson?.sharedRconId
             }
-            set(rconId, JSON.stringify(rconConfig.data))
+            set(rconId, JSON.stringify({configData: rconConfig.data, rconData: sharedRconData}))
             const storedData: RconListObjectInterface = {rconId: rconId, rconData: sharedRconData as FireStoreCollectionShareDocInterface, timeStamp: Date.now()}
 
             let rconList : Array<any> = getRconList()
@@ -89,6 +93,18 @@ export const useLocalStorage = ({source} : {source: string}) => {
         }
     }, [])
 
+    const updateRcon = useCallback(({rconId, sharedRconId}: {rconId: string, sharedRconId: string}) => {
+        try {
+            const rconData = getRcon({rconId: rconId})
+            rconData.sharedRconId = sharedRconId
+            set(rconId, JSON.stringify(rconData))
+        }
+        catch (e) {
+            emitOnError({errorMessage: e, data: {rconId: rconId}, source: source, type: "getRcon"})
+            throw e
+        }
+    }, [])
+
     const getRconList = useCallback(() => {
         try {
             return JSON.parse(getString("rconList") ?? "") ?? []
@@ -102,7 +118,7 @@ export const useLocalStorage = ({source} : {source: string}) => {
         set("rconList", JSON.stringify(list))
     }, [set])
 
-    return {storeRcon, getRcon, getRconList}
+    return {storeRcon, getRcon, getRconList, updateRcon}
 }
 
 const useLocalStorageEvents = () => {
