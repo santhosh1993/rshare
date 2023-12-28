@@ -14,12 +14,17 @@ interface RconListObjectInterface {
     timeStamp: number
 }
 
-export interface RconConfigInterface  {
+export interface RconConfigDateInterface  {
     data: Array<SectionData>,
     tabs: Array<string>,
     details: RconDetails,
     sharedRconId?: string,
     sharedUserDetails?: FireStoreCollectionUsersInterFace
+}
+
+export interface RconConfigInterface {
+    configData: RconConfigDateInterface,
+    rconData: FireStoreCollectionShareDocInterface
 }
 
 interface RconDetails {
@@ -40,14 +45,14 @@ export const useLocalStorage = ({source} : {source: string}) => {
                 notValidRconId({rconId: rconId, source: source, type: "storeRcon"})
                 throw Error("Not a valid rcon Id")
             }
-            const configData = await doc(sharedRconData.sourceUserId, FireStoreCollection.USERS).doc(sharedRconData.sourceId, FireStoreCollection.USER_CREATED_DOCS).read()
+            const configData = await doc(sharedRconData.sourceUserId, FireStoreCollection.USERS).doc(sharedRconData.docId, FireStoreCollection.USER_CREATED_DOCS).read()
             const sharedUserData = await doc(sharedRconData.userId, FireStoreCollection.USERS).read()
             if (configData === undefined || sharedUserData === undefined) {
                 notValidRconId({rconId: rconId, source: source, type: "storeRcon_configData"})
                 throw Error("Not a valid rcon Id")
             }
             
-            const rconConfig: RconConfigInterface = (await axios.get(configData.configUrl)).data
+            const rconConfig: RconConfigDateInterface = (await axios.get(configData.configUrl)).data
             const storedRconConfig = getString(rconId)
             if (sharedRconData.sourceId == sharedRconData.userId) {
                 rconConfig.sharedRconId = rconId
@@ -55,7 +60,7 @@ export const useLocalStorage = ({source} : {source: string}) => {
             rconConfig.sharedUserDetails = sharedUserData as FireStoreCollectionUsersInterFace
 
             if (storedRconConfig) {
-                const storedRconConfigJson: RconConfigInterface = JSON.parse(storedRconConfig)
+                const storedRconConfigJson: RconConfigDateInterface = JSON.parse(storedRconConfig)
                 rconConfig.sharedRconId = storedRconConfigJson?.sharedRconId
             }
             set(rconId, JSON.stringify({configData: rconConfig, rconData: sharedRconData}))
@@ -71,7 +76,6 @@ export const useLocalStorage = ({source} : {source: string}) => {
             }
 
             rconList.unshift(storedData)
-
             setRconList(rconList)
         }
         catch (e) {
@@ -98,7 +102,7 @@ export const useLocalStorage = ({source} : {source: string}) => {
     const updateRcon = useCallback(({rconId, sharedRconId}: {rconId: string, sharedRconId: string}) => {
         try {
             const rconData = getRcon({rconId: rconId})
-            rconData.sharedRconId = sharedRconId
+            rconData.configData.sharedRconId = sharedRconId
             set(rconId, JSON.stringify(rconData))
         }
         catch (e) {

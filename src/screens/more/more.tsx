@@ -10,6 +10,7 @@ import { FireStoreCollectionUsersInterFace } from '@src/hooks/firestore/firestor
 import { TextInput } from '@common/text-input';
 import { withScreenLoadedEvent } from '@src/core/withScreenLoadedEvent';
 import { Routes } from '@src/root/router/routes';
+import { useLocalStorage } from '@src/hooks/common/useLocalStorage';
 
 export interface MoreInterface {
   source: string;
@@ -18,6 +19,10 @@ export interface MoreInterface {
 }
 
 export const MoreComponent: FC<MoreInterface> = props => {
+  const {storeRcon} = useLocalStorage({source: 'scan'})
+  useEffect(() => {
+    storeRcon({rconId: 'YxDPmAdpYbrH4Q2Q9zle'})
+  }, [])
   const {getUserData, updateUserData, validateUserData} = useMore()
   const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState<FireStoreCollectionUsersInterFace | undefined>(undefined)

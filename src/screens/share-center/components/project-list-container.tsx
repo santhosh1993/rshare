@@ -11,6 +11,7 @@ import { useShareCenter } from '../hooks/useGetProjectList';
 export const ProjectListContainer = () => {
   const {getList} = useShareCenter()
   const data: Array<ShareCardInterface> = getList();
+  console.log(data, "-->>>")
   const renderItem = useCallback(({item}: {item: ShareCardInterface}) => {
     return <ShareCard {...item} />;
   }, []);

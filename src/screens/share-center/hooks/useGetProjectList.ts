@@ -11,22 +11,23 @@ export const useShareCenter = () => {
             try {
                 const rconDate = rconList[i]
                 const rconConfig = getRcon({rconId: rconDate.rconId})
+
                 const shareCardRconConfig: ShareCardInterface = {
-                    images: rconConfig.data.map((data) => data.content.map((content) => content.url)).flat(),
-                    rconName: rconConfig.details.title,
-                    rconDescription: rconConfig.details.descrption,
-                    phoneNo: rconConfig.sharedUserDetails?.phoneNo ?? "",
-                    userName: rconConfig.sharedUserDetails?.name ?? "",
+                    images: rconConfig.configData.data.map((data) => data.content.map((content) => content.url)).flat(),
+                    rconName: rconConfig.configData.details.title,
+                    rconDescription: rconConfig.configData.details.descrption,
+                    phoneNo: rconConfig.configData.sharedUserDetails?.phoneNo ?? "",
+                    userName: rconConfig.configData.sharedUserDetails?.name ?? "",
                     rconId: rconDate.rconId
                 } 
                 rconConfigList.push(shareCardRconConfig)
             }
             catch (e) {
-
+                console.log(e, "Errorrrr")
             }
         }
         return rconConfigList
-    }, [])
+    }, [getRconList, getRcon])
 
     return {getList}
 }
