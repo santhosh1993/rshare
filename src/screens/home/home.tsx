@@ -2,7 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {ShareCenter} from '../share-center/ShareCenter';
-import {More} from '../more/more';
+import {MoreComponent} from '../more/more';
 import SvgShareCenter from '@src/generated/assets/svgs/ShareCenter';
 import SvgMoreTab from '@src/generated/assets/svgs/MoreTab';
 import SvgQrScanner from '@src/generated/assets/svgs/QrScanner';
@@ -24,7 +24,7 @@ export const Home = () => {
   }, []);
 
   const more = useCallback(() => {
-    return <More source={''} hideBackButton={true} />;
+    return <MoreComponent source={'tabs'} hideBackButton={true} />;
   }, []);
 
   const getTabBarIcon = useCallback(({route, focused}: TabIconProps) => {

@@ -5,7 +5,7 @@ import { EventKey } from "@src/root/analytics/analytics.Keys"
 import { useAnalytics } from "@src/root/analytics/useAnalytics"
 import { useMMKV } from "../mmkv/useMMKV"
 import axios from "axios"
-import { FireStoreCollectionShareDocInterface } from "../firestore/firestore.collections.Interface"
+import { FireStoreCollectionShareDocInterface, FireStoreCollectionUsersInterFace } from "../firestore/firestore.collections.Interface"
 import { SectionData } from "@src/screens/project-detail/project-detail.interface"
 
 interface RconListObjectInterface {
@@ -14,11 +14,12 @@ interface RconListObjectInterface {
     timeStamp: number
 }
 
-interface RconConfigInterface  {
+export interface RconConfigInterface  {
     data: Array<SectionData>,
     tabs: Array<string>,
     details: RconDetails,
-    sharedRconId?: string
+    sharedRconId?: string,
+    sharedUserDetails?: FireStoreCollectionUsersInterFace
 }
 
 interface RconDetails {
@@ -39,9 +40,9 @@ export const useLocalStorage = ({source} : {source: string}) => {
                 notValidRconId({rconId: rconId, source: source, type: "storeRcon"})
                 throw Error("Not a valid rcon Id")
             }
-            const configData = await doc(sharedRconData.sourceId, FireStoreCollection.USERS).doc(sharedRconData.sourceId, FireStoreCollection.USER_CREATED_DOCS).read()
-
-            if (configData === undefined) {
+            const configData = await doc(sharedRconData.sourceUserId, FireStoreCollection.USERS).doc(sharedRconData.sourceId, FireStoreCollection.USER_CREATED_DOCS).read()
+            const sharedUserData = await doc(sharedRconData.userId, FireStoreCollection.USERS).read()
+            if (configData === undefined || sharedUserData === undefined) {
                 notValidRconId({rconId: rconId, source: source, type: "storeRcon_configData"})
                 throw Error("Not a valid rcon Id")
             }
@@ -51,15 +52,16 @@ export const useLocalStorage = ({source} : {source: string}) => {
             if (sharedRconData.sourceId == sharedRconData.userId) {
                 rconConfig.sharedRconId = rconId
             }
+            rconConfig.sharedUserDetails = sharedUserData as FireStoreCollectionUsersInterFace
 
             if (storedRconConfig) {
                 const storedRconConfigJson: RconConfigInterface = JSON.parse(storedRconConfig)
                 rconConfig.sharedRconId = storedRconConfigJson?.sharedRconId
             }
-            set(rconId, JSON.stringify({configData: rconConfig.data, rconData: sharedRconData}))
+            set(rconId, JSON.stringify({configData: rconConfig, rconData: sharedRconData}))
             const storedData: RconListObjectInterface = {rconId: rconId, rconData: sharedRconData as FireStoreCollectionShareDocInterface, timeStamp: Date.now()}
 
-            let rconList : Array<any> = getRconList()
+            let rconList : Array<RconListObjectInterface> = getRconList()
             
             for (let i = 0; i < rconList.length; i++) {
                 if (rconList[i].rconId == rconId) {
@@ -78,11 +80,11 @@ export const useLocalStorage = ({source} : {source: string}) => {
         }
     }, [])
 
-    const getRcon = useCallback(({rconId}: {rconId: string}) => {
+    const getRcon = useCallback(({rconId}: {rconId: string}): RconConfigInterface => {
         try {
             const rconData = getString(rconId)
             if (rconData) {
-                return JSON.parse(rconData)
+                return JSON.parse(rconData) as RconConfigInterface
             }
             notValidRconId({rconId: rconId, source: source, type: "getRcon"})
             throw Error("Not a valid rcon Id")
@@ -105,16 +107,16 @@ export const useLocalStorage = ({source} : {source: string}) => {
         }
     }, [])
 
-    const getRconList = useCallback(() => {
+    const getRconList: () => Array<RconListObjectInterface> = useCallback(() => {
         try {
-            return JSON.parse(getString("rconList") ?? "") ?? []
+            return JSON.parse(getString("rconList") ?? "") ?? [] as Array<RconListObjectInterface>
         }
         catch (e) {
             return []
         } 
     }, [getString])
 
-    const setRconList = useCallback((list: Array<any>) => {
+    const setRconList = useCallback((list: Array<RconListObjectInterface>) => {
         set("rconList", JSON.stringify(list))
     }, [set])
 

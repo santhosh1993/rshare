@@ -17,7 +17,7 @@ export interface MoreInterface {
   onUnMount?: () => void;
 }
 
-const MoreComponent: FC<MoreInterface> = props => {
+export const MoreComponent: FC<MoreInterface> = props => {
   const {getUserData, updateUserData, validateUserData} = useMore()
   const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState<FireStoreCollectionUsersInterFace | undefined>(undefined)

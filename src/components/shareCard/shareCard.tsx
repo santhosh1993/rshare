@@ -5,7 +5,7 @@ import {Routes} from '@src/root/router/routes';
 import {useCallback} from 'react';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Seperator} from '@common/seperator';
-import React from 'react';
+import React, {FC} from 'react';
 import {border} from '@common/border.styles';
 import {Button, ButtonType} from '@common/button';
 import SvgShare from '@src/generated/assets/svgs/Share';
@@ -13,16 +13,23 @@ import {shadow} from '@common/shadow.styles';
 import SvgPhone from '@src/generated/assets/svgs/Phone';
 import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
 
-export interface ShareCardInterface {}
+export interface ShareCardInterface {
+  images: Array<string>
+  rconName: string
+  rconDescription: string
+  phoneNo: string
+  userName: string
+  rconId: string
+}
 
-export const ShareCard = () => {
+export const ShareCard: FC<ShareCardInterface> = (props) => {
   const nav = useNavigation();
   const onPress = useCallback(() => {
     nav.global.navigate({
       route: Routes.PROJECTDETAIL,
       params: {
-        name: 'Project 1',
-        id: 'asdfsadf',
+        name: props.rconName,
+        id: props.rconId,
       },
     });
   }, [nav]);
@@ -31,7 +38,7 @@ export const ShareCard = () => {
     nav.global.navigate({
       route: Routes.SHARE_SCREEN,
       params: {
-        rconId: '',
+        rconId: props.rconId,
       },
     });
   }, [nav]);
