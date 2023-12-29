@@ -29,7 +29,7 @@ export const useShareProject = () => {
         try {
             const rconData = getRcon({rconId: rconId})
             const currentUserId = await userId()
-            if (rconData.sharedRconId == undefined) {
+            if (rconData.configData.sharedRconId == undefined) {
                 const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS)
                 await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({docData: {
                   sourceUserId: rconData.rconData.sourceUserId,
@@ -40,7 +40,7 @@ export const useShareProject = () => {
                 return endpoint() + sharedDoc.data.id
             }
             else {
-                return endpoint() + rconData.sharedRconId
+                return endpoint() + rconData.configData.sharedRconId
             }
         }
         catch (e) {

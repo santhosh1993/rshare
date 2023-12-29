@@ -4,6 +4,7 @@ export interface ProjectDetailInterface extends ProjectSharedInfo {
   id: string;
   enableShare?: boolean;
   sharedUserId?: string;
+  rconName: string;
 }
 
 export interface ContentData {

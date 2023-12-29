@@ -12,6 +12,7 @@ import SvgShare from '@src/generated/assets/svgs/Share';
 import {shadow} from '@common/shadow.styles';
 import SvgPhone from '@src/generated/assets/svgs/Phone';
 import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
+import { Image, ImageLoadType } from '@common/image';
 
 export interface ShareCardInterface {
   images: Array<string>
@@ -28,8 +29,10 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
     nav.global.navigate({
       route: Routes.PROJECTDETAIL,
       params: {
-        name: props.rconName,
         id: props.rconId,
+        userName: props.userName,
+        phoneNo: props.phoneNo,
+        rconName: props.rconName
       },
     });
   }, [nav]);
@@ -48,7 +51,7 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
       <View style={[styles.container, border.card, shadow.container]}>
         <View style={styles.contentContainer}>
           <View style={styles.header}>
-            <Text fontWeight={FontWeight.BOLD}>Project Title </Text>
+            <Text fontWeight={FontWeight.BOLD}>{props.rconName} </Text>
             <Button
               type={ButtonType.Button}
               style={styles.shareButton}
@@ -57,10 +60,18 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
             </Button>
           </View>
           <View style={styles.descriptionContent}>
-            <View style={styles.image}></View>
+            <Image
+              type={ImageLoadType.fastImage}
+              props={{
+                style: styles.image,
+                source: {
+                  uri: props.images.length > 0 ? props.images[0] : "",
+                },
+              }}
+            />
             <View style={styles.description}>
-              <Text>Project Description</Text>
-              <Text>Name</Text>
+              <Text>{props.rconDescription}</Text>
+              <Text>{props.userName}</Text>
             </View>
           </View>
           <View style={styles.actionBar}>
