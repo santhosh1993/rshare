@@ -47,7 +47,7 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
       if (userData == undefined) {
         throw Error("user data undefined")
       }
-      setUserData(userData)
+      setUserData({...props, userName: userData.name, redirectionUrl: userData.redirectionUrl, phoneNo: userData.phoneNo})
       setIsLoading(false)
     }
     catch (e) {

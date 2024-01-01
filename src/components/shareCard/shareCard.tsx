@@ -35,16 +35,14 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
         rconName: props.rconName
       },
     });
-  }, [nav]);
+  }, [nav, props]);
 
   const onSharePress = useCallback(() => {
     nav.global.navigate({
       route: Routes.SHARE_SCREEN,
-      params: {
-        rconId: props.rconId,
-      },
+      params: props,
     });
-  }, [nav]);
+  }, [nav, props]);
 
   return (
     <Button onPress={onPress} type={ButtonType.Button}>

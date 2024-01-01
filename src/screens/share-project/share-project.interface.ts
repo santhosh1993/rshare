@@ -1,9 +1,8 @@
-export interface ShareProjectInterface {
-  rconId: string;
+import { ShareCardInterface } from "@src/components/shareCard/shareCard";
+
+export interface ShareProjectInterface extends ShareCardInterface {
 }
 
-export interface ShareProjectCardInterFace {
-  name: string;
-  phoneNo: string;
+export interface ShareProjectCardInterFace extends ShareCardInterface {
   redirectionUrl: string;
 }
