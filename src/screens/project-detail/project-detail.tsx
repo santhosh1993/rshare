@@ -15,6 +15,7 @@ import { useLocalStorage } from '@src/hooks/common/useLocalStorage';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
   const updateData = useProjectDetailStore(s => s.updateData);
+  const data = useProjectDetailStore(s => s.data)
   const {getRcon} = useLocalStorage({source: 'projectDetail'})
   useEffect(() => {
     updateData(getRcon({rconId: props.id}).configData.data)
@@ -25,9 +26,12 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
       route: Routes.SHARE_SCREEN,
       params: {
         rconId: props.id,
+        rconName: props.rconName,
+        phoneNo: props.phoneNo,
+        userName: props.userName
       },
     });
-  }, [nav]);
+  }, [nav, data]);
   const rightBarItem = useMemo(() => {
     const shareIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: shareIcon};

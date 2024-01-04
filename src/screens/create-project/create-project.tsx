@@ -14,21 +14,28 @@ import {useCreateProjectStore} from './create-project.store';
 import {Loader} from '@common/Loader';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@src/root/navigation/useNavigation';
+import { useUser } from '@src/hooks/common/useUser';
 
 const CreateProject = () => {
   const {save} = useFiles();
   const nav = useNavigation();
-
+  const {userData} = useUser()
   const onSaveTap = useCallback(async () => {
     try {
       const rconId = await save("create-project");
+
       Toast.show({
         text1: "RCON is successfully created",
         type: 'success',
       });
+      const data = await userData()
+      const rconData = useCreateProjectStore.getState()
       nav.global.goBack()
       nav.global.navigate({route: Routes.SHARE_SCREEN, params: {
-        rconId: rconId
+        rconId: rconId,
+        rconName: rconData.details.title,
+        userName: data.name,
+        phoneNo: data.phoneNo
       }})
     }
     catch (e) {
