@@ -4,6 +4,7 @@ import { ShareProjectCardInterFace } from '../share-project.interface';
 import QRCode from 'react-native-qrcode-svg';
 import { Text } from '@common/text';
 import { FontSize } from '@common/font';
+import { colors } from '@common/colors';
 
 export const ShareInfo = ({redirectionUrl, ...shareCard}: ShareProjectCardInterFace) => {
   return (
@@ -22,7 +23,7 @@ export const ShareInfo = ({redirectionUrl, ...shareCard}: ShareProjectCardInterF
 };
 
 const styles = StyleSheet.create({
-  container: {paddingHorizontal: 16, paddingTop: 8,paddingBottom: 0, alignItems: 'center'},
+  container: {paddingHorizontal: 16, paddingTop: 8,paddingBottom: 0, alignItems: 'center', backgroundColor: colors.app.conentBackground},
   rconName: {fontSize: FontSize.xxlarge, paddingBottom: 12},
   userContainer: {flexDirection:'row', paddingTop: 4, justifyContent: 'space-between', width: '100%'},
   userText: {fontSize: FontSize.xlarge}

@@ -3,6 +3,7 @@ export interface ShareProjectInterface {
   phoneNo?: string
   userName: string
   rconId: string
+  rconDescription? : string
 }
 
 export interface ShareProjectCardInterFace extends ShareProjectInterface {

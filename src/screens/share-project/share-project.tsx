@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {FC, RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ShareProjectCardInterFace, ShareProjectInterface} from './share-project.interface';
 import {Header} from '@common/header';
@@ -13,11 +13,14 @@ import SvgEdit from '@src/generated/assets/svgs/Edit';
 import { useShareProject } from './hooks/useShareProject';
 import { Loader } from '@common/Loader';
 import Toast from 'react-native-toast-message';
+import ViewShot from 'react-native-view-shot';
 
 export const ShareProject: FC<ShareProjectInterface> = props => {
+  const ref: RefObject<ViewShot> = useRef(null);
+
   const [isLoading, setIsLoading] = useState(false)
   const [userData, setUserData] = useState<ShareProjectCardInterFace | undefined>(undefined)
-  const {getUserData} = useShareProject()
+  const {getUserData, shareRcon} = useShareProject()
   const nav = useNavigation();
   const onEditTap = useCallback(() => {
     nav.global.navigate({
@@ -63,11 +66,40 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
     onFocus()
   } , [onFocus])
 
+  const onPreviewTap = useCallback(() => {
+    nav.global.navigate({
+      route: Routes.PROJECTDETAIL,
+      params: {
+        ...props,
+        id: props.rconId
+      },
+    });
+  }, [nav.global, props]);
+
+  const onShareTap = useCallback(async () => {
+    let uri = ""
+    if (ref.current !== null) {
+      uri = await ref.current.capture()
+      console.log("--->>> ref", uri)
+    }
+
+    if (userData) {
+      await shareRcon({props: userData, image: uri})
+    }
+  }, [props, userData]);
+
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <Header title={'Share RCON'} rightBarItem={rightBarItem} />
-        {userData && (<><ShareInfo {...userData}/><ShareCta {...props} /></>)}
+        {userData && (
+        <>
+          <ViewShot ref={ref} options={{ fileName: "share-image", format: "jpg", quality: 0.9 }}>
+            <ShareInfo {...userData}/>
+          </ViewShot>
+          <ShareCta onPreviewTap={onPreviewTap} onShareTap={onShareTap} />
+        </>
+        )}
       </View>
       {isLoading && <Loader title="Preparing ..." />}
     </View>

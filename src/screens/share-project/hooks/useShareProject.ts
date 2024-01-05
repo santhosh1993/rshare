@@ -4,7 +4,10 @@ import { useUser } from "@src/hooks/common/useUser"
 import { FireStoreCollection } from "@src/hooks/firestore/firestore.collections"
 import { useFireStore } from "@src/hooks/firestore/usefirestore"
 import { useCallback } from "react"
+import { Platform } from "react-native"
 import Toast from "react-native-toast-message"
+import { ShareProjectCardInterFace } from "../share-project.interface"
+import Share, { ShareOptions } from 'react-native-share';
 
 export const useShareProject = () => {
     const {userId, userData} = useUser()
@@ -48,5 +51,51 @@ export const useShareProject = () => {
         }
     }, [])
 
-    return {getUserData}
+
+    const shareRcon = useCallback(async ({props, image}:{props: ShareProjectCardInterFace, image: string}) => {
+        const url = props.redirectionUrl;
+        const title = props.rconName;
+        const message = props.rconName;
+        const options: ShareOptions = Platform.select({
+            ios: {
+                activityItemSources: [
+                  {
+                    // For sharing url with custom title.
+                    placeholderItem: { type: 'url', content: url },
+                    item: {
+                      default: { type: 'url', content: url },
+                    },
+                    subject: {
+                      default: title,
+                    },
+                  },
+                  {
+                    // For sharing url with custom title.
+                    placeholderItem: { type: 'url', content: image },
+                    item: {
+                      default: { type: 'url', content: image },
+                    },
+                    subject: {
+                      default: title,
+                    },
+                  }
+                ],
+              },
+            default: {
+                title,
+                subject: title,
+                message: `${message} \n\n${url}`,
+                url: image
+            },
+        });
+
+        try {
+            const ShareResponse = await Share.open(options);
+            console.log('Result =>', ShareResponse);
+          } catch (error) {
+            console.log('Error =>', error);
+          }
+    }, [])
+
+    return {getUserData, shareRcon}
 }

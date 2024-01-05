@@ -1,25 +1,8 @@
 import {Button, ButtonType} from '@common/button';
 import {View} from 'react-native';
-import React, {useCallback} from 'react';
-import {useNavigation} from '@src/root/navigation/useNavigation';
-import {Routes} from '@src/root/router/routes';
-import {ShareProjectInterface} from '../share-project.interface';
+import React from 'react';
 
-export const ShareCta = ({rconId}: ShareProjectInterface) => {
-  const nav = useNavigation();
-  const onPreviewTap = useCallback(() => {
-    nav.global.navigate({
-      route: Routes.PROJECTDETAIL,
-      params: {
-        id: rconId,
-        name: '',
-        phoneNo: '',
-      },
-    });
-  }, [nav.global, rconId]);
-
-  const onShareTap = useCallback(() => {}, []);
-
+export const ShareCta = ({onShareTap, onPreviewTap}: {onShareTap: () => void, onPreviewTap: () => void}) => {
   return (
     <View style={{flexDirection: 'row'}}>
       <Button
