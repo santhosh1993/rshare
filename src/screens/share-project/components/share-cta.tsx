@@ -2,7 +2,13 @@ import {Button, ButtonType} from '@common/button';
 import {View} from 'react-native';
 import React from 'react';
 
-export const ShareCta = ({onShareTap, onPreviewTap}: {onShareTap: () => void, onPreviewTap: () => void}) => {
+export const ShareCta = ({
+  onShareTap,
+  onPreviewTap,
+}: {
+  onShareTap: () => void;
+  onPreviewTap: () => void;
+}) => {
   return (
     <View style={{flexDirection: 'row'}}>
       <Button

@@ -10,16 +10,16 @@ import {ProjectContent} from './components/project-content/project-content';
 import {Button, ButtonType, RightBarItemProps} from '@common/button';
 import SvgShare from '@src/generated/assets/svgs/Share';
 import {useNavigation} from '@src/root/navigation/useNavigation';
-import { useProjectDetailStore } from './project-detail.store';
-import { useLocalStorage } from '@src/hooks/common/useLocalStorage';
+import {useProjectDetailStore} from './project-detail.store';
+import {useLocalStorage} from '@src/hooks/common/useLocalStorage';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
   const updateData = useProjectDetailStore(s => s.updateData);
-  const data = useProjectDetailStore(s => s.data)
-  const {getRcon} = useLocalStorage({source: 'projectDetail'})
+  const data = useProjectDetailStore(s => s.data);
+  const {getRcon} = useLocalStorage({source: 'projectDetail'});
   useEffect(() => {
-    updateData(getRcon({rconId: props.id}).configData.data)
-  }, [props.id, updateData])
+    updateData(getRcon({rconId: props.id}).configData.data);
+  }, [props.id, updateData]);
   const nav = useNavigation();
   const onShareTap = useCallback(() => {
     nav.global.navigate({
@@ -28,7 +28,7 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
         rconId: props.id,
         rconName: props.rconName,
         phoneNo: props.phoneNo,
-        userName: props.userName
+        userName: props.userName,
       },
     });
   }, [nav, data]);

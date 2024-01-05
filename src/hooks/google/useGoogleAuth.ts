@@ -23,7 +23,7 @@ export const useGoogleAuth = () => {
       );
 
       await auth().signInWithCredential(googleCredential);
-      
+
       return signInData.user;
     } catch (e) {
       throw e;

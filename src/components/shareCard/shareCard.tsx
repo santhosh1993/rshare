@@ -12,18 +12,18 @@ import SvgShare from '@src/generated/assets/svgs/Share';
 import {shadow} from '@common/shadow.styles';
 import SvgPhone from '@src/generated/assets/svgs/Phone';
 import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
-import { Image, ImageLoadType } from '@common/image';
+import {Image, ImageLoadType} from '@common/image';
 
 export interface ShareCardInterface {
-  images: Array<string>
-  rconName: string
-  rconDescription: string
-  phoneNo: string
-  userName: string
-  rconId: string
+  images: Array<string>;
+  rconName: string;
+  rconDescription: string;
+  phoneNo: string;
+  userName: string;
+  rconId: string;
 }
 
-export const ShareCard: FC<ShareCardInterface> = (props) => {
+export const ShareCard: FC<ShareCardInterface> = props => {
   const nav = useNavigation();
   const onPress = useCallback(() => {
     nav.global.navigate({
@@ -32,7 +32,7 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
         id: props.rconId,
         userName: props.userName,
         phoneNo: props.phoneNo,
-        rconName: props.rconName
+        rconName: props.rconName,
       },
     });
   }, [nav, props]);
@@ -63,7 +63,7 @@ export const ShareCard: FC<ShareCardInterface> = (props) => {
               props={{
                 style: styles.image,
                 source: {
-                  uri: props.images.length > 0 ? props.images[0] : "",
+                  uri: props.images.length > 0 ? props.images[0] : '',
                 },
               }}
             />

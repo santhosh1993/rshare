@@ -1,12 +1,12 @@
 const template = ({imports, interfaces, componentName, props, jsx}, {tpl}) => {
-  props.pop()
-  const comment = '// @ts-nocheck '
+  props.pop();
+  const comment = '// @ts-nocheck ';
   return tpl`
   ${comment}
 
   import React, {forwardRef, memo} from 'react'
   import type {Component, ForwardedRef} from 'react'
-  ${imports.filter((o) => o.source.value !== 'react')}
+  ${imports.filter(o => o.source.value !== 'react')}
 
   ${interfaces}
   
@@ -15,7 +15,7 @@ const template = ({imports, interfaces, componentName, props, jsx}, {tpl}) => {
   }))
   
   export default ${componentName}
-    `
-}
+    `;
+};
 
-module.exports = template
+module.exports = template;

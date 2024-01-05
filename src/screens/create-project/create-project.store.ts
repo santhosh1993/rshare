@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   tabs: [initalProject.title],
   collapseDetails: false,
   details: {title: '', descrption: '', keywords: ''},
-}
+};
 
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
@@ -81,8 +81,8 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         set({data: data});
       },
       reset: () => {
-        set(INITIAL_STATE)
-      }
+        set(INITIAL_STATE);
+      },
     };
   },
 );

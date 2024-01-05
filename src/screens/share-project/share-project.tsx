@@ -1,6 +1,17 @@
-import React, {FC, RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {
+  FC,
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {ShareProjectCardInterFace, ShareProjectInterface} from './share-project.interface';
+import {
+  ShareProjectCardInterFace,
+  ShareProjectInterface,
+} from './share-project.interface';
 import {Header} from '@common/header';
 import {ShareInfo} from './components/share-info';
 import {ShareCta} from './components/share-cta';
@@ -10,24 +21,26 @@ import {Routes} from '@src/root/router/routes';
 import {colors} from '@common/colors';
 import {shadow} from '@common/shadow.styles';
 import SvgEdit from '@src/generated/assets/svgs/Edit';
-import { useShareProject } from './hooks/useShareProject';
-import { Loader } from '@common/Loader';
+import {useShareProject} from './hooks/useShareProject';
+import {Loader} from '@common/Loader';
 import Toast from 'react-native-toast-message';
 import ViewShot from 'react-native-view-shot';
 
 export const ShareProject: FC<ShareProjectInterface> = props => {
   const ref: RefObject<ViewShot> = useRef(null);
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [userData, setUserData] = useState<ShareProjectCardInterFace | undefined>(undefined)
-  const {getUserData, shareRcon} = useShareProject()
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState<
+    ShareProjectCardInterFace | undefined
+  >(undefined);
+  const {getUserData, shareRcon} = useShareProject();
   const nav = useNavigation();
   const onEditTap = useCallback(() => {
     nav.global.navigate({
       route: Routes.MORE,
       params: {
         source: 'shareScreen',
-        onUnMount: onFocus
+        onUnMount: onFocus,
       },
     });
   }, [nav]);
@@ -45,46 +58,50 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
 
   const onFocus = useCallback(async () => {
     try {
-      setIsLoading(true)
-      const userData = (await getUserData({rconId: props.rconId}))
+      setIsLoading(true);
+      const userData = await getUserData({rconId: props.rconId});
       if (userData == undefined) {
-        throw Error("user data undefined")
+        throw Error('user data undefined');
       }
-      setUserData({...props, userName: userData.name, redirectionUrl: userData.redirectionUrl, phoneNo: userData.phoneNo})
-      setIsLoading(false)
-    }
-    catch (e) {
+      setUserData({
+        ...props,
+        userName: userData.name,
+        redirectionUrl: userData.redirectionUrl,
+        phoneNo: userData.phoneNo,
+      });
+      setIsLoading(false);
+    } catch (e) {
       Toast.show({
-        text1: "Something went wrong. Please try again after sometime.",
+        text1: 'Something went wrong. Please try again after sometime.',
         type: 'error',
       });
-      nav.global.goBack()
-    }    
-  } , [setIsLoading])
+      nav.global.goBack();
+    }
+  }, [setIsLoading]);
 
   useEffect(() => {
-    onFocus()
-  } , [onFocus])
+    onFocus();
+  }, [onFocus]);
 
   const onPreviewTap = useCallback(() => {
     nav.global.navigate({
       route: Routes.PROJECTDETAIL,
       params: {
         ...props,
-        id: props.rconId
+        id: props.rconId,
       },
     });
   }, [nav.global, props]);
 
   const onShareTap = useCallback(async () => {
-    let uri = ""
+    let uri = '';
     if (ref.current !== null) {
-      uri = await ref.current.capture()
-      console.log("--->>> ref", uri)
+      uri = await ref.current.capture();
+      console.log('--->>> ref', uri);
     }
 
     if (userData) {
-      await shareRcon({props: userData, image: uri})
+      await shareRcon({props: userData, image: uri});
     }
   }, [props, userData]);
 
@@ -93,12 +110,14 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
       <View style={styles.container}>
         <Header title={'Share RCON'} rightBarItem={rightBarItem} />
         {userData && (
-        <>
-          <ViewShot ref={ref} options={{ fileName: "share-image", format: "jpg", quality: 0.9 }}>
-            <ShareInfo {...userData}/>
-          </ViewShot>
-          <ShareCta onPreviewTap={onPreviewTap} onShareTap={onShareTap} />
-        </>
+          <>
+            <ViewShot
+              ref={ref}
+              options={{fileName: 'share-image', format: 'jpg', quality: 0.9}}>
+              <ShareInfo {...userData} />
+            </ViewShot>
+            <ShareCta onPreviewTap={onPreviewTap} onShareTap={onShareTap} />
+          </>
         )}
       </View>
       {isLoading && <Loader title="Preparing ..." />}

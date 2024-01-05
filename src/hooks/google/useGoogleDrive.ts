@@ -8,7 +8,7 @@ import {FileOperationType} from '@src/root/analytics/analytics.Interfaces';
 export type UploadProps = {
   localFilePath: string;
   fileName: string;
-  source: string
+  source: string;
 };
 
 export const useGoogleDrive = () => {
@@ -39,7 +39,7 @@ export const useGoogleDrive = () => {
             type: FileOperationType.create,
             fileSize: '',
             fileType: fileName,
-            source: source
+            source: source,
           });
           const fileData = JSON.parse(response.data);
           return fileData;
@@ -48,7 +48,7 @@ export const useGoogleDrive = () => {
             type: FileOperationType.create,
             fileSize: '',
             fileType: fileName,
-            source: source
+            source: source,
           });
           throw 'File upload failed.';
         }
@@ -57,7 +57,7 @@ export const useGoogleDrive = () => {
           type: FileOperationType.create,
           fileSize: '',
           fileType: fileName,
-          source: source
+          source: source,
         });
         throw error;
       }

@@ -86,7 +86,7 @@ export const Home = () => {
         headerShown: false,
       }}
       tabBar={tabBar}
-      initialRouteName='Home'>
+      initialRouteName="Home">
       <Tab.Screen name="Scan" component={more} />
       <Tab.Screen name="Home" component={shareCenter} />
       <Tab.Screen name="More" component={more} />

@@ -1,4 +1,4 @@
-import { useLogin } from '@src/hooks/common/useLogin';
+import {useLogin} from '@src/hooks/common/useLogin';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Routes} from '@src/root/router/routes';
 import {useCallback} from 'react';
