@@ -33,6 +33,7 @@ export const ShareCard: FC<ShareCardInterface> = props => {
         userName: props.userName,
         phoneNo: props.phoneNo,
         rconName: props.rconName,
+        rconDescription: props.rconDescription
       },
     });
   }, [nav, props]);
