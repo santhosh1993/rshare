@@ -13,6 +13,7 @@ import {shadow} from '@common/shadow.styles';
 import SvgPhone from '@src/generated/assets/svgs/Phone';
 import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
 import {Image, ImageLoadType} from '@common/image';
+import {BlurView} from '@react-native-community/blur';
 
 export interface ShareCardInterface {
   images: Array<string>;
@@ -33,7 +34,7 @@ export const ShareCard: FC<ShareCardInterface> = props => {
         userName: props.userName,
         phoneNo: props.phoneNo,
         rconName: props.rconName,
-        rconDescription: props.rconDescription
+        rconDescription: props.rconDescription,
       },
     });
   }, [nav, props]);
@@ -48,36 +49,116 @@ export const ShareCard: FC<ShareCardInterface> = props => {
   return (
     <Button onPress={onPress} type={ButtonType.Button}>
       <View style={[styles.container, border.card, shadow.container]}>
-        <View style={styles.contentContainer}>
-          <View style={styles.header}>
-            <Text fontWeight={FontWeight.BOLD}>{props.rconName} </Text>
+        <View style={[{height: 200}, border.card]}>
+          <Image
+            type={ImageLoadType.fastImage}
+            props={{
+              style: {flex: 1},
+              source: {
+                uri: props.images.length > 0 ? props.images[0] : '',
+              },
+            }}
+          />
+          <BlurView
+            style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+          <Image
+            type={ImageLoadType.fastImage}
+            props={{
+              style: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+              },
+              source: {
+                uri: props.images.length > 0 ? props.images[0] : '',
+              },
+              resizeMode: 'contain',
+            }}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              left: 0,
+              height: 35,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}>
             <Button
               type={ButtonType.Button}
-              style={styles.shareButton}
+              style={{
+                width: 40,
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
               onPress={onSharePress}>
-              <SvgShare style={styles.shareImage} fill={'#555'} />
+              <SvgShare style={styles.shareImage} fill={'#fff'} />
             </Button>
           </View>
-          <View style={styles.descriptionContent}>
-            <Image
-              type={ImageLoadType.fastImage}
-              props={{
-                style: styles.image,
-                source: {
-                  uri: props.images.length > 0 ? props.images[0] : '',
-                },
-              }}
-            />
-            <View style={styles.description}>
-              <Text>{props.rconDescription}</Text>
-              <Text>{props.userName}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              alignItems: 'center',
+              backgroundColor: '#00000040',
+              paddingHorizontal: 8,
+            }}>
+            <View style={{flexShrink: 1}}>
+              <Text style={{color: 'white'}}>
+                For more details call {props.userName}
+              </Text>
+            </View>
+            <View
+              style={{
+                width: 60,
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <Button
+                type={ButtonType.Button}
+                style={{
+                  width: 30,
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <SvgWhatsapp style={styles.action} />
+              </Button>
+              <Seperator style={styles.actionSeperator} />
+              <Button
+                type={ButtonType.Button}
+                style={{
+                  width: 30,
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <SvgPhone style={styles.action} />
+              </Button>
             </View>
           </View>
-          <View style={styles.actionBar}>
-            <Seperator style={styles.actionSeperator} />
-            <SvgWhatsapp style={styles.action} />
-            <Seperator style={styles.actionSeperator} />
-            <SvgPhone style={styles.action} />
+        </View>
+        <View
+          style={{
+            padding: 8,
+          }}>
+          <Text fontWeight={FontWeight.BOLD}>{props.rconName}</Text>
+          <View style={{flexShrink: 1}}>
+            <Text>{props.rconDescription}</Text>
           </View>
         </View>
       </View>

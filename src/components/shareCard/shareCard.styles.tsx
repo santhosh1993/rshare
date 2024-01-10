@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    height: 140,
     backgroundColor: colors.app.cardBackground,
     marginHorizontal: 8,
   },
@@ -49,5 +48,5 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.app.header + '40',
   },
   action: {width: 24, height: 24},
-  actionSeperator: {width: 8, backgroundColor: 'transparent'},
+  actionSeperator: {width: 2, height: 10, backgroundColor: '#00000020'},
 });
