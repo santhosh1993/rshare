@@ -15,12 +15,15 @@ export const ProjectListContainer = () => {
   const renderItem = useCallback(({item}: {item: ShareCardInterface}) => {
     return <ShareCard {...item} />;
   }, []);
+
+  const seperator = useCallback(() => <View style={{height: 8}} />, [])
   return (
     <FlatList
-      style={{paddingVertical: 8}}
-      data={data}
+      data={(data.concat(data)).concat(data)}
       renderItem={renderItem}
-      ItemSeparatorComponent={() => <View style={{height: 8}} />}
+      ItemSeparatorComponent={seperator}
+      ListHeaderComponent={seperator}
+      ListFooterComponent={seperator}
     />
   );
 };
