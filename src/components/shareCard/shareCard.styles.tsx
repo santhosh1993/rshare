@@ -77,4 +77,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   userInfo: {flexShrink: 1},
+  rconDescription: {
+    padding: 8,
+  },
+  rconUserText: {color: 'white'}
 });

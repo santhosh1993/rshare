@@ -103,7 +103,7 @@ export const ShareCard: FC<ShareCardInterface> = props => {
           </View>
           <View style={styles.userInfoContainer}>
             <View style={styles.userInfo}>
-              <Text style={{color: 'white'}}>
+              <Text style={styles.rconUserText}>
                 For more details call {props.userName}
               </Text>
             </View>
@@ -119,9 +119,7 @@ export const ShareCard: FC<ShareCardInterface> = props => {
           </View>
         </View>
         <View
-          style={{
-            padding: 8,
-          }}>
+          style={styles.rconDescription}>
           <Text fontWeight={FontWeight.BOLD}>{props.rconName}</Text>
           <View style={styles.userInfo}>
             <Text>{props.rconDescription}</Text>
