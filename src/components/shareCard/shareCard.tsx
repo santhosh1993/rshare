@@ -2,7 +2,7 @@ import {FontWeight, Text} from '@common/text';
 import {View} from 'react-native';
 import {styles} from './shareCard.styles';
 import {Routes} from '@src/root/router/routes';
-import {useCallback, useMemo} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Seperator} from '@common/seperator';
 import React, {FC} from 'react';
@@ -18,9 +18,11 @@ import {
   useImage,
   Blur,
   ImageProps as SkiaImageProps,
+  Skia,
+  SkImage,
 } from '@shopify/react-native-skia';
 import {window} from '@common/constants';
-import {FastImageProps} from 'react-native-fast-image';
+import FastImage, {FastImageProps} from 'react-native-trustee-fast-image';
 
 export interface ShareCardInterface {
   images: Array<string>;
@@ -53,12 +55,12 @@ export const ShareCard: FC<ShareCardInterface> = props => {
     });
   }, [nav, props]);
 
-  const image = useImage(props.images.length > 0 ? props.images[0] : '');
+  const [skimage, setSKImage] = useState<SkImage | null>(null);
 
   const canvasImageProps: SkiaImageProps | null = useMemo(() => {
-    if (image) {
+    if (skimage) {
       return {
-        image: image,
+        image: skimage,
         x: 0,
         y: 0,
         width: window.width,
@@ -67,17 +69,27 @@ export const ShareCard: FC<ShareCardInterface> = props => {
       };
     }
     return null;
-  }, [image]);
+  }, [skimage]);
+
+  const imageSource = {
+    uri: props.images.length > 0 ? props.images[0] : '',
+  }
+
+  const onFastImageLoad = useCallback(async () => {
+    const source = await FastImage.getCachePath(imageSource)
+    const data = await Skia.Data.fromURI(`file://${source}`);
+    const image = Skia.Image.MakeImageFromEncoded(data);
+    setSKImage(image)
+  }, [setSKImage])
 
   const fastImageProps: FastImageProps = useMemo(() => {
     return {
       style: styles.image,
-      source: {
-        uri: props.images.length > 0 ? props.images[0] : '',
-      },
+      source: imageSource,
       resizeMode: 'contain',
+      onLoad:() => {onFastImageLoad()}
     };
-  }, [props]);
+  }, [props, onFastImageLoad]);
 
   return (
     <Button onPress={onPress} type={ButtonType.Button}>

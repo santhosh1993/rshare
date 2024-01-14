@@ -6357,11 +6357,6 @@ react-native-document-picker@^9.0.1:
   dependencies:
     invariant "^2.2.4"
 
-react-native-fast-image@^8.6.3:
-  version "8.6.3"
-  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
-  integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
-
 react-native-fs@^2.20.0:
   version "2.20.0"
   resolved "https://registry.npmjs.org/react-native-fs/-/react-native-fs-2.20.0.tgz"
@@ -6465,6 +6460,11 @@ react-native-toast-message@^2.1.7:
   version "2.1.7"
   resolved "https://registry.npmjs.org/react-native-toast-message/-/react-native-toast-message-2.1.7.tgz"
   integrity sha512-5zX3T5buVpg4bn9KZYVZ2VUQiLQZ1FHSM2AFQHVpgeKMYb+Gq+jt7wjhfPqhuMkJElQr7XNrnRw/rBCdD+7Q9w==
+
+react-native-trustee-fast-image@^8.8.8:
+  version "8.8.8"
+  resolved "https://registry.yarnpkg.com/react-native-trustee-fast-image/-/react-native-trustee-fast-image-8.8.8.tgz#726420c4ff369bf18ee02d3e23574603e1e0dbac"
+  integrity sha512-3e2N7C4QSre+ZXAcWZBdh+Z7z9Do39XLjfDSohrHXo4QYZEutY/czznbX69mqPx0QXaHKZRCOV0PC/OYd049DA==
 
 react-native-vector-icons@^10.0.2:
   version "10.0.2"

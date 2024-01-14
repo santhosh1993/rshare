@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
-import FastImage, {FastImageProps} from 'react-native-fast-image';
+import FastImage, {FastImageProps} from 'react-native-trustee-fast-image';
+
 import {Image as Img, ImageProps as ImgProps, ViewProps} from 'react-native';
 import { Image as SkiaImage, ImageProps as SkiaImageProps } from "@shopify/react-native-skia";
 
