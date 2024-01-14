@@ -15,7 +15,6 @@ import SvgWhatsapp from '@src/generated/assets/svgs/Whatsapp';
 import {Image, ImageLoadType} from '@common/image';
 import {
   Canvas,
-  useImage,
   Blur,
   ImageProps as SkiaImageProps,
   Skia,
