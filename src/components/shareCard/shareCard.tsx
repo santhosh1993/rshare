@@ -22,6 +22,8 @@ import {
 } from '@shopify/react-native-skia';
 import {window} from '@common/constants';
 import FastImage, {FastImageProps} from 'react-native-trustee-fast-image';
+import SvgEdit from '@src/generated/assets/svgs/Edit';
+import {colors} from '@common/colors';
 
 export interface ShareCardInterface {
   images: Array<string>;
@@ -30,6 +32,7 @@ export interface ShareCardInterface {
   phoneNo: string;
   userName: string;
   rconId: string;
+  showEdit?: boolean;
 }
 
 export const ShareCard: FC<ShareCardInterface> = props => {
@@ -57,8 +60,8 @@ export const ShareCard: FC<ShareCardInterface> = props => {
   const [skimage, setSKImage] = useState<SkImage | null>(null);
 
   useEffect(() => {
-    onFastImageLoad()
-  }, [props])
+    onFastImageLoad();
+  }, [props]);
 
   const canvasImageProps: SkiaImageProps | null = useMemo(() => {
     if (skimage) {
@@ -76,23 +79,27 @@ export const ShareCard: FC<ShareCardInterface> = props => {
 
   const imageSource = {
     uri: props.images.length > 0 ? props.images[0] : '',
-  }
+  };
 
   const onFastImageLoad = useCallback(async () => {
-      const source = await FastImage.getCachePath(imageSource)
-      const data = await Skia.Data.fromURI(`file://${source}`);
-      const image = Skia.Image.MakeImageFromEncoded(data);
-      setSKImage(image)
-  }, [setSKImage])
+    const source = await FastImage.getCachePath(imageSource);
+    const data = await Skia.Data.fromURI(`file://${source}`);
+    const image = Skia.Image.MakeImageFromEncoded(data);
+    setSKImage(image);
+  }, [setSKImage]);
 
   const fastImageProps: FastImageProps = useMemo(() => {
     return {
       style: styles.image,
       source: imageSource,
       resizeMode: 'contain',
-      onLoad:() => {onFastImageLoad()}
+      onLoad: () => {
+        onFastImageLoad();
+      },
     };
   }, [props, onFastImageLoad]);
+
+  const onEditPress = useCallback(() => {}, []);
 
   return (
     <Button onPress={onPress} type={ButtonType.Button}>
@@ -134,11 +141,23 @@ export const ShareCard: FC<ShareCardInterface> = props => {
           </View>
         </View>
         <View
-          style={styles.rconDescription}>
-          <Text fontWeight={FontWeight.BOLD}>{props.rconName}</Text>
-          <View style={styles.userInfo}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <View style={styles.rconDescription}>
+            <Text fontWeight={FontWeight.BOLD}>{props.rconName}</Text>
             <Text>{props.rconDescription}</Text>
           </View>
+          {props.showEdit && (
+            <Button
+              type={ButtonType.Button}
+              style={styles.shareButton}
+              onPress={onEditPress}>
+              <SvgEdit style={styles.shareImage} fill={colors.text.medium} />
+            </Button>
+          )}
         </View>
       </View>
     </Button>

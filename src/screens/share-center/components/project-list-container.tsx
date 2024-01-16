@@ -19,7 +19,7 @@ export const ProjectListContainer = () => {
   const seperator = useCallback(() => <View style={{height: 8}} />, [])
   return (
     <FlatList
-      data={(data.concat(data)).concat(data)}
+      data={data}
       renderItem={renderItem}
       ItemSeparatorComponent={seperator}
       ListHeaderComponent={seperator}

@@ -1,8 +1,10 @@
 import {ShareCardInterface} from '@src/components/shareCard/shareCard';
 import {useLocalStorage} from '@src/hooks/common/useLocalStorage';
+import { useLogin } from '@src/hooks/common/useLogin';
 import {useCallback} from 'react';
 
 export const useShareCenter = () => {
+  const {getLoginData} = useLogin()
   const {getRconList, getRcon} = useLocalStorage({source: 'ShareCenter'});
   const getList = useCallback(() => {
     const rconList = getRconList();
@@ -21,6 +23,7 @@ export const useShareCenter = () => {
           phoneNo: rconConfig.configData.sharedUserDetails?.phoneNo ?? '',
           userName: rconConfig.configData.sharedUserDetails?.name ?? '',
           rconId: rconDate.rconId,
+          showEdit: rconConfig.rconData.sourceUserId === getLoginData()?.id ?? ""
         };
         rconConfigList.push(shareCardRconConfig);
       } catch (e) {

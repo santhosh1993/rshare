@@ -79,6 +79,7 @@ export const styles = StyleSheet.create({
   userInfo: {flexShrink: 1},
   rconDescription: {
     padding: 8,
+    flexShrink: 1
   },
   rconUserText: {color: 'white'}
 });

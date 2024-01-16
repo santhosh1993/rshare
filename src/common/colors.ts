@@ -70,4 +70,5 @@ export const colors = {
     bold: themeColors.color5,
     medium: themeColors.color6,
   },
+  
 };
