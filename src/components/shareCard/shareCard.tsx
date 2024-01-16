@@ -2,7 +2,7 @@ import {FontWeight, Text} from '@common/text';
 import {View} from 'react-native';
 import {styles} from './shareCard.styles';
 import {Routes} from '@src/root/router/routes';
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Seperator} from '@common/seperator';
 import React, {FC} from 'react';
@@ -56,6 +56,10 @@ export const ShareCard: FC<ShareCardInterface> = props => {
 
   const [skimage, setSKImage] = useState<SkImage | null>(null);
 
+  useEffect(() => {
+    onFastImageLoad()
+  }, [props])
+
   const canvasImageProps: SkiaImageProps | null = useMemo(() => {
     if (skimage) {
       return {
@@ -75,10 +79,12 @@ export const ShareCard: FC<ShareCardInterface> = props => {
   }
 
   const onFastImageLoad = useCallback(async () => {
-    const source = await FastImage.getCachePath(imageSource)
-    const data = await Skia.Data.fromURI(`file://${source}`);
-    const image = Skia.Image.MakeImageFromEncoded(data);
-    setSKImage(image)
+    if (skimage === null) {
+      const source = await FastImage.getCachePath(imageSource)
+      const data = await Skia.Data.fromURI(`file://${source}`);
+      const image = Skia.Image.MakeImageFromEncoded(data);
+      setSKImage(image)
+    }
   }, [setSKImage])
 
   const fastImageProps: FastImageProps = useMemo(() => {
