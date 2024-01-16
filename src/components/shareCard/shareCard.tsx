@@ -79,12 +79,10 @@ export const ShareCard: FC<ShareCardInterface> = props => {
   }
 
   const onFastImageLoad = useCallback(async () => {
-    if (skimage === null) {
       const source = await FastImage.getCachePath(imageSource)
       const data = await Skia.Data.fromURI(`file://${source}`);
       const image = Skia.Image.MakeImageFromEncoded(data);
       setSKImage(image)
-    }
   }, [setSKImage])
 
   const fastImageProps: FastImageProps = useMemo(() => {
