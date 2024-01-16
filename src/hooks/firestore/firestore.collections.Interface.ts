@@ -11,4 +11,5 @@ export interface FireStoreCollectionShareDocInterface {
 
 export interface FireStoreCollectionUserCreatedDocInterface {
   configUrl: string;
+  rconId: string;
 }

@@ -74,14 +74,14 @@ export const useFiles = () => {
 
   const createFireStoreData = useCallback(
     async ({userId, configUrl}: {userId: string; configUrl: string}) => {
+      const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS);
       const userDocument = doc(userId, FireStoreCollection.USERS).doc(
         undefined,
         FireStoreCollection.USER_CREATED_DOCS,
       );
       await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({
-        docData: {configUrl: configUrl},
+        docData: {configUrl: configUrl, rconId: sharedDoc.data.id},
       });
-      const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS);
       await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({
         docData: {
           sourceUserId: userId,

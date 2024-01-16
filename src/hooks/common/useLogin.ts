@@ -3,6 +3,8 @@ import {useGoogle} from '../google/useGoogle';
 import {updateDefaultProps} from '@src/root/analytics/useAnalytics';
 import {FireStoreCollection} from '../firestore/firestore.collections';
 import {useFireStore} from '../firestore/usefirestore';
+import { useLocalStorage } from './useLocalStorage';
+import { FireStoreCollectionUserCreatedDocInterface } from '../firestore/firestore.collections.Interface';
 
 export type SingInData = {
   id: string;
@@ -18,6 +20,7 @@ let loginData: SingInData | null = null;
 export const useLogin = () => {
   const {authenticate: googleAuth} = useGoogle();
   const {doc} = useFireStore();
+  const {storeRcon} = useLocalStorage({source: "login"})
 
   const getLoginData = useCallback(() => {
     return loginData;
@@ -41,6 +44,7 @@ export const useLogin = () => {
           },
         });
       }
+      await getUserRcons(signInData.id);
       updateDefaultProps({userId: signInData.id});
       loginData = signInData;
       return signInData;
@@ -48,5 +52,18 @@ export const useLogin = () => {
       throw e;
     }
   }, []);
+
+  const getUserRcons = useCallback(async (userId: string) => {
+    const sharedDocs = await doc(
+      userId,
+      FireStoreCollection.USERS,
+    ).data.collection(FireStoreCollection.USER_CREATED_DOCS).get()
+
+    sharedDocs.forEach((doc) => {
+       const data = doc.data() as FireStoreCollectionUserCreatedDocInterface
+       storeRcon({rconId: data.rconId})
+    })
+  }, [])
+
   return {authenticate, getLoginData};
 };

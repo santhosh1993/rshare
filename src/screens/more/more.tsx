@@ -19,10 +19,6 @@ export interface MoreInterface {
 }
 
 export const MoreComponent: FC<MoreInterface> = props => {
-  const {storeRcon} = useLocalStorage({source: 'scan'});
-  useEffect(() => {
-    storeRcon({rconId: 'q1OG3YABTrUDscQa4gzr'});
-  }, []);
   const {getUserData, updateUserData, validateUserData} = useMore();
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState<
