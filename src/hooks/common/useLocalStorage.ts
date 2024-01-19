@@ -10,6 +10,7 @@ import {
   FireStoreCollectionUsersInterFace,
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
+import { SingInData } from './useLogin';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -22,6 +23,7 @@ export interface RconConfigDateInterface {
   tabs: Array<string>;
   details: RconDetails;
   sharedRconId?: string;
+  isEditEnabled?: boolean;
   sharedUserDetails?: FireStoreCollectionUsersInterFace;
 }
 
@@ -40,6 +42,32 @@ export const useLocalStorage = ({source}: {source: string}) => {
   const {doc} = useFireStore();
   const {notValidRconId, emitOnError} = useLocalStorageEvents();
   const {set, getString} = useMMKV();
+
+  const setRconList = useCallback(
+    (list: Array<RconListObjectInterface>) => {
+      set('rconList', JSON.stringify(list));
+    },
+    [set],
+  );
+
+  const getRconList: () => Array<RconListObjectInterface> = useCallback(() => {
+    try {
+      return (
+        JSON.parse(getString('rconList') ?? '') ??
+        ([] as Array<RconListObjectInterface>)
+      );
+    } catch (e) {
+      return [];
+    }
+  }, [getString]);
+
+  const getLoginData = useCallback(() => {
+    try {
+      return JSON.parse(getString('singInData') ?? '') as SingInData
+    } catch (e) {
+      return null;
+    }
+  }, [getString])
 
   const storeRcon = useCallback(async ({rconId}: {rconId: string}) => {
     try {
@@ -74,9 +102,15 @@ export const useLocalStorage = ({source}: {source: string}) => {
         await axios.get(configData.configUrl)
       ).data;
       const storedRconConfig = getString(rconId);
-      if (sharedRconData.sourceId == sharedRconData.userId) {
-        rconConfig.sharedRconId = rconId;
+      const signInData = getLoginData()
+      rconConfig.isEditEnabled = false
+      if (signInData) {
+        if (sharedRconData.sourceId == sharedRconData.userId && sharedRconData.sourceId == signInData.id) {
+          rconConfig.sharedRconId = rconId;
+          rconConfig.isEditEnabled = true;
+        }
       }
+      
       rconConfig.sharedUserDetails =
         sharedUserData as FireStoreCollectionUsersInterFace;
 
@@ -115,7 +149,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
       });
       throw e;
     }
-  }, []);
+  }, [setRconList, emitOnError, notValidRconId, doc, getRconList, getLoginData, set]);
 
   const getRcon = useCallback(
     ({rconId}: {rconId: string}): RconConfigInterface => {
@@ -136,7 +170,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         throw e;
       }
     },
-    [],
+    [getString, notValidRconId, emitOnError],
   );
 
   const updateRcon = useCallback(
@@ -155,28 +189,28 @@ export const useLocalStorage = ({source}: {source: string}) => {
         throw e;
       }
     },
-    [],
+    [getRcon, emitOnError],
   );
 
-  const getRconList: () => Array<RconListObjectInterface> = useCallback(() => {
-    try {
-      return (
-        JSON.parse(getString('rconList') ?? '') ??
-        ([] as Array<RconListObjectInterface>)
-      );
-    } catch (e) {
-      return [];
+  const updateEditMode = useCallback(() => {
+    const signInData = getLoginData()
+    if (signInData) {
+      getRconList().forEach((rconItem) => {
+        const rconData = getRcon({rconId: rconItem.rconId});
+        rconData.configData.isEditEnabled = (rconItem.rconData.sourceUserId === rconItem.rconData.userId 
+              && rconItem.rconData.userId === signInData.id);
+        set(rconItem.rconId, JSON.stringify(rconData));
+      })
     }
-  }, [getString]);
 
-  const setRconList = useCallback(
-    (list: Array<RconListObjectInterface>) => {
-      set('rconList', JSON.stringify(list));
-    },
-    [set],
-  );
+  }, [getRconList, getRcon, updateRcon])
 
-  return {storeRcon, getRcon, getRconList, updateRcon};
+  const storeLoginData = useCallback((singInData: SingInData) => {
+    set('singInData', JSON.stringify(singInData))
+    updateEditMode()
+  }, [updateEditMode])
+
+  return {storeRcon, getRcon, getRconList, updateRcon, storeLoginData, getLoginData, updateEditMode};
 };
 
 const useLocalStorageEvents = () => {

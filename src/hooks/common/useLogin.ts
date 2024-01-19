@@ -20,7 +20,7 @@ let loginData: SingInData | null = null;
 export const useLogin = () => {
   const {authenticate: googleAuth} = useGoogle();
   const {doc} = useFireStore();
-  const {storeRcon} = useLocalStorage({source: "login"})
+  const {storeRcon, storeLoginData} = useLocalStorage({source: "login"})
 
   const getLoginData = useCallback(() => {
     return loginData;
@@ -44,6 +44,7 @@ export const useLogin = () => {
           },
         });
       }
+      storeLoginData(signInData)
       await getUserRcons(signInData.id);
       updateDefaultProps({userId: signInData.id});
       loginData = signInData;
