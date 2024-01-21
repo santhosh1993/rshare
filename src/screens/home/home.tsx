@@ -9,6 +9,7 @@ import SvgQrScanner from '@src/generated/assets/svgs/QrScanner';
 import {BottomNavigation} from 'react-native-paper';
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '@common/colors';
+import { QRScanner } from '../qr-scanner/qr-scanner';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,10 @@ export const Home = () => {
   const more = useCallback(() => {
     return <MoreComponent source={'tabs'} hideBackButton={true} />;
   }, []);
+
+  const qrScanner = useCallback(() => {
+    return <QRScanner />
+  } , [])
 
   const getTabBarIcon = useCallback(({route, focused}: TabIconProps) => {
     const svgColor = focused
@@ -87,7 +92,7 @@ export const Home = () => {
       }}
       tabBar={tabBar}
       initialRouteName="Home">
-      <Tab.Screen name="Scan" component={more} />
+      <Tab.Screen name="Scan" component={qrScanner} />
       <Tab.Screen name="Home" component={shareCenter} />
       <Tab.Screen name="More" component={more} />
     </Tab.Navigator>

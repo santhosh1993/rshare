@@ -69,7 +69,7 @@ export const SectionSelectionBottomSheet = ({
             <SvgCross style={styles.crossImage} />
           </Button>
           <Text style={styles.headerTitle} fontWeight={FontWeight.BOLD}>
-            Categories
+            Filter
           </Text>
         </View>
         <Seperator />

@@ -10,7 +10,6 @@ import {FireStoreCollectionUsersInterFace} from '@src/hooks/firestore/firestore.
 import {TextInput} from '@common/text-input';
 import {withScreenLoadedEvent} from '@src/core/withScreenLoadedEvent';
 import {Routes} from '@src/root/router/routes';
-import {useLocalStorage} from '@src/hooks/common/useLocalStorage';
 
 export interface MoreInterface {
   source: string;

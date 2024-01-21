@@ -22,7 +22,9 @@ export interface SectionData {
 export interface ProjectDetailStoreInterface {
   props?: ProjectDetailInterface;
   data: Array<SectionData>;
+  isLoading: boolean;
   updateData: (data: Array<SectionData>) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 export const MockData = [

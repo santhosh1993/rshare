@@ -6,11 +6,10 @@ import {useCallback} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import React from 'react';
 import {View} from 'react-native';
-import {useShareCenter} from '../hooks/useGetProjectList';
+import { shareCenterStore } from '../share-center.store';
 
 export const ProjectListContainer = () => {
-  const {getList} = useShareCenter();
-  const data: Array<ShareCardInterface> = getList();
+  const data = shareCenterStore(s => s.data)
   console.log(data, '-->>>');
   const renderItem = useCallback(({item}: {item: ShareCardInterface}) => {
     return <ShareCard {...item} />;

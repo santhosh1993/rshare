@@ -11,14 +11,28 @@ import {Button, ButtonType, RightBarItemProps} from '@common/button';
 import SvgShare from '@src/generated/assets/svgs/Share';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {useProjectDetailStore} from './project-detail.store';
-import {useLocalStorage} from '@src/hooks/common/useLocalStorage';
+import { usePorjectDetail } from './hooks/useProjectDetail';
+import { Loader } from '@common/Loader';
+import { ErrorView } from '@common/error';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
+  const {getProject} = usePorjectDetail()
   const updateData = useProjectDetailStore(s => s.updateData);
   const data = useProjectDetailStore(s => s.data);
-  const {getRcon} = useLocalStorage({source: 'projectDetail'});
+  const isLoading = useProjectDetailStore(s => s.isLoading);
+  const setIsLoading = useProjectDetailStore(s => s.setIsLoading);
+  const updateRcon = useCallback(async (rconId: string) => {
+    try {
+      setIsLoading(true);
+      updateData((await getProject(rconId)).configData.data);
+      setIsLoading(false);
+    }
+    catch (e) {
+      setIsLoading(false);
+    }
+  }, [getProject, updateData])
   useEffect(() => {
-    updateData(getRcon({rconId: props.id}).configData.data);
+    updateRcon(props.id)
   }, [props.id, updateData]);
   const nav = useNavigation();
   const onShareTap = useCallback(() => {
@@ -46,9 +60,13 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
 
   return (
     <View style={styles.background}>
-      <Header title={props.rconName} rightBarItem={rightBarItem} />
-      <ProjectSharedInfo {...props} />
-      <ProjectContent />
+      <Header title={(isLoading) ? "" : props.rconName} rightBarItem={(isLoading) ? null : rightBarItem} />
+      {isLoading ? <Loader title="Loading ..." /> : (data.length === 0) ? (
+        <>
+          <ProjectSharedInfo {...props} />
+          <ProjectContent />
+        </>
+      ) : (<ErrorView />)}
     </View>
   );
 });

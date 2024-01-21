@@ -10,6 +10,12 @@ export const useProjectDetailStore = create<ProjectDetailStoreInterface>(
     return {
       props: undefined,
       data: MockData,
+      isLoading: false,
+      setIsLoading: (isLoading: boolean) => {
+        set({
+          isLoading: isLoading
+        })
+      },
       updateData: (data: Array<SectionData>) => {
         set({
           data: data,
