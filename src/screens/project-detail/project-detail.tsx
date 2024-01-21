@@ -61,7 +61,7 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
   return (
     <View style={styles.background}>
       <Header title={(isLoading) ? "" : props.rconName} rightBarItem={(isLoading) ? null : rightBarItem} />
-      {isLoading ? <Loader title="Loading ..." /> : (data.length === 0) ? (
+      {isLoading ? <Loader title="Loading ..." /> : (data.length !== 0) ? (
         <>
           <ProjectSharedInfo {...props} />
           <ProjectContent />
