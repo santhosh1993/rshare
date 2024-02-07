@@ -15,7 +15,7 @@ interface ShareCenterStoreInterface {
     updateData: (data: Array<ShareCardInterface>) => void
 }
 
-export const shareCenterStore = create<ShareCenterStoreInterface>((set) => {
+export const useShareCenterStore = create<ShareCenterStoreInterface>((set) => {
     const {getList} = useShareCenter()
     return {
         data: getList(),
@@ -25,4 +25,4 @@ export const shareCenterStore = create<ShareCenterStoreInterface>((set) => {
             })
         }
     }
-})
+});

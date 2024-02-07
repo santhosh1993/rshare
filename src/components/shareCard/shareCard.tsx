@@ -101,6 +101,8 @@ export const ShareCard: FC<ShareCardInterface> = props => {
 
   const onEditPress = useCallback(() => {}, []);
 
+  console.log('props.showEdit --- >>>>', props.showEdit)
+
   return (
     <Button onPress={onPress} type={ButtonType.Button}>
       <View style={[styles.container, border.card, shadow.container]}>

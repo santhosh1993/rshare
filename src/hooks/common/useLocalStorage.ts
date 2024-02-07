@@ -11,6 +11,7 @@ import {
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
 import { SingInData } from './useLogin';
+import { useShareCenterStore } from '@src/screens/share-center/share-center.store';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -42,6 +43,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
   const {doc} = useFireStore();
   const {notValidRconId, emitOnError} = useLocalStorageEvents();
   const {set, getString} = useMMKV();
+  //const updateData = useShareCenterStore(s => s.updateData)
 
   const setRconList = useCallback(
     (list: Array<RconListObjectInterface>) => {
@@ -201,6 +203,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
               && rconItem.rconData.userId === signInData.id);
         set(rconItem.rconId, JSON.stringify(rconData));
       })
+      //updateData()
     }
 
   }, [getRconList, getRcon, updateRcon])
