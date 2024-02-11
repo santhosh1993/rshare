@@ -35,6 +35,29 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
   >(undefined);
   const {getUserData, shareRcon} = useShareProject();
   const nav = useNavigation();
+  const onFocus = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const rconUserData = await getUserData({rconId: props.rconId});
+      if (rconUserData === undefined) {
+        throw Error('user data undefined');
+      }
+      setUserData({
+        ...props,
+        userName: rconUserData.name,
+        redirectionUrl: rconUserData.redirectionUrl,
+        phoneNo: rconUserData.phoneNo,
+      });
+      setIsLoading(false);
+    } catch (e) {
+      Toast.show({
+        text1: 'Something went wrong. Please try again after sometime.',
+        type: 'error',
+      });
+      nav.global.goBack();
+    }
+  }, [setIsLoading, getUserData, nav.global, props]);
+  
   const onEditTap = useCallback(() => {
     nav.global.navigate({
       route: Routes.MORE,
@@ -43,7 +66,7 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
         onUnMount: onFocus,
       },
     });
-  }, [nav]);
+  }, [nav, onFocus]);
   const rightBarItem = useMemo(() => {
     const editIcon = <SvgEdit style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: editIcon};
@@ -55,29 +78,6 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
       />
     );
   }, [onEditTap]);
-
-  const onFocus = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const userData = await getUserData({rconId: props.rconId});
-      if (userData == undefined) {
-        throw Error('user data undefined');
-      }
-      setUserData({
-        ...props,
-        userName: userData.name,
-        redirectionUrl: userData.redirectionUrl,
-        phoneNo: userData.phoneNo,
-      });
-      setIsLoading(false);
-    } catch (e) {
-      Toast.show({
-        text1: 'Something went wrong. Please try again after sometime.',
-        type: 'error',
-      });
-      nav.global.goBack();
-    }
-  }, [setIsLoading]);
 
   useEffect(() => {
     onFocus();
@@ -96,17 +96,17 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
   const onShareTap = useCallback(async () => {
     let uri = '';
     if (ref.current !== null) {
-      uri = await ref.current.capture();
+      uri = (await ref.current.capture?.()) ?? '';
       console.log('--->>> ref', uri);
     }
 
     if (userData) {
       await shareRcon({props: userData, image: uri});
     }
-  }, [props, userData]);
+  }, [userData, shareRcon]);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.parent}>
       <View style={styles.container}>
         <Header title={'Share RCON'} rightBarItem={rightBarItem} />
         {userData && (
@@ -133,4 +133,5 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     ...shadow.container,
   },
+  parent: {flex: 1},
 });

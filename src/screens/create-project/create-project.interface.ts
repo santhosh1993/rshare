@@ -32,5 +32,6 @@ export interface CreateProjectStoreInterface {
   updateText: (type: InputType, value: string, index?: number) => void;
   addNewSection: () => void;
   addNewContent: (content: Array<AddNewContent>, index: number) => void;
+  deleteItem: (sectionIndex: number, index: number) => void
   reset: () => void;
 }

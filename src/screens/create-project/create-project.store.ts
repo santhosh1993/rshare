@@ -68,6 +68,13 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
           tabs: tabs,
         });
       },
+      deleteItem: (sectionIndex, index) => {
+        const sectionData = get().data
+        sectionData[sectionIndex].content.splice(index, 1)
+        set({
+          data: sectionData
+        })
+      },
       addNewContent: (content: Array<AddNewContent>, index: number) => {
         let data = get().data;
         let updatedContent = data[index].content;

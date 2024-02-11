@@ -1,6 +1,6 @@
 import {TextInput} from '@common/text-input';
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useCreateProjectStore} from '../create-project.store';
 import {ContentData} from '@src/screens/project-detail/project-detail.interface';
@@ -20,6 +20,7 @@ import {AccordionIconAnimationType} from '@src/components/Accordion/Accordion.in
 import {AccordionIcon} from '@src/components/Accordion/AccordionIcon';
 import SvgChevronDown from '@src/generated/assets/svgs/ChevronDown';
 import {InputType} from '../create-project.interface';
+import SvgCrossWhite from '@src/generated/assets/svgs/CrossWhite';
 
 export interface ProjectTabContentInterface {
   index: number;
@@ -27,6 +28,7 @@ export interface ProjectTabContentInterface {
 
 export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
   const data = useCreateProjectStore(s => s.data)[index];
+  const deleteItem = useCreateProjectStore(s => s.deleteItem)
 
   const seperaterItem = useCallback(() => {
     return <View style={styles.seperator} />;
@@ -36,6 +38,10 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     useCallback((item, index) => {
       return index + item.id;
     }, []);
+
+    const onItemDeleteTap = useCallback((selectedIndex: number) => {
+      deleteItem(index, selectedIndex)
+    }, [deleteItem])
 
   const renderItem = useCallback(
     ({item, index}: {item: ContentData; index: number}) => {
@@ -54,9 +60,12 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
               source: {
                 uri: item.url,
               },
-              resizeMode: 'contain',
+              resizeMode: 'cover',
             }}
           />
+          <Pressable onPress={() => {onItemDeleteTap(index)}} style={styles.crossBackGround}>
+            <SvgCrossWhite style={styles.crossIcon}/>
+          </Pressable>
         </View>
       );
     },
@@ -163,5 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 12,
   },
-  accordionIcon: {width: 16, height: 16},
+  accordionIcon: {width: 16 , height: 16} ,
+  crossBackGround: {position:'absolute', width: 30, height: 30, right: 0, top: 0, alignItems: 'center', borderBottomLeftRadius: 8,backgroundColor: '#0000008A', justifyContent: 'center'},
+  crossIcon: { width: 12, height: 12}
 });
