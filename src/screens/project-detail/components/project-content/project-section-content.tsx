@@ -39,8 +39,13 @@ export const ProjectSectionContent = ({
           onPress={() => {
             onItemTap(index);
           }}>
-          <View style={[styles.card, shadow.container, border.card,             
-          index % 3 !== 0 && styles.cardMargin]}>
+          <View
+            style={[
+              styles.card,
+              shadow.container,
+              border.card,
+              index % 3 !== 0 && styles.cardMargin,
+            ]}>
             <Image
               type={ImageLoadType.fastImage}
               props={{
@@ -70,7 +75,11 @@ export const ProjectSectionContent = ({
   return (
     <>
       {data.description !== undefined && (
-        <Text style={[shadow.container, styles.textDescription]} fontWeight={FontWeight.MEDIUM}>{data.description}</Text>
+        <Text
+          style={[shadow.container, styles.textDescription]}
+          fontWeight={FontWeight.MEDIUM}>
+          {data.description}
+        </Text>
       )}
       <FlatList
         style={styles.contentList}
@@ -96,6 +105,13 @@ const styles = StyleSheet.create({
   imageContainer: {},
   wrapperStyle: {justifyContent: 'flex-start'},
   contentList: {flex: 1, backgroundColor: colors.app.background, padding: 8},
-  textDescription: {marginTop: 4, padding: 8, paddingVertical: 12, paddingBottom: 4, backgroundColor:'white', fontSize: 16},
+  textDescription: {
+    marginTop: 4,
+    padding: 8,
+    paddingVertical: 12,
+    paddingBottom: 4,
+    backgroundColor: 'white',
+    fontSize: 16,
+  },
   seperator: {height: 8, backgroundColor: 'transparent'},
 });

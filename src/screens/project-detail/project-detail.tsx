@@ -11,28 +11,30 @@ import {Button, ButtonType, RightBarItemProps} from '@common/button';
 import SvgShare from '@src/generated/assets/svgs/Share';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {useProjectDetailStore} from './project-detail.store';
-import { usePorjectDetail } from './hooks/useProjectDetail';
-import { Loader } from '@common/Loader';
-import { ErrorView } from '@common/error';
+import {usePorjectDetail} from './hooks/useProjectDetail';
+import {Loader} from '@common/Loader';
+import {ErrorView} from '@common/error';
 
 const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
-  const {getProject} = usePorjectDetail()
+  const {getProject} = usePorjectDetail();
   const updateData = useProjectDetailStore(s => s.updateData);
   const data = useProjectDetailStore(s => s.data);
   const isLoading = useProjectDetailStore(s => s.isLoading);
   const setIsLoading = useProjectDetailStore(s => s.setIsLoading);
-  const updateRcon = useCallback(async (rconId: string) => {
-    try {
-      setIsLoading(true);
-      updateData((await getProject(rconId)).configData.data);
-      setIsLoading(false);
-    }
-    catch (e) {
-      setIsLoading(false);
-    }
-  }, [getProject, updateData])
+  const updateRcon = useCallback(
+    async (rconId: string) => {
+      try {
+        setIsLoading(true);
+        updateData((await getProject(rconId)).configData.data);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(false);
+      }
+    },
+    [getProject, updateData],
+  );
   useEffect(() => {
-    updateRcon(props.id)
+    updateRcon(props.id);
   }, [props.id, updateData]);
   const nav = useNavigation();
   const onShareTap = useCallback(() => {
@@ -60,13 +62,20 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
 
   return (
     <View style={styles.background}>
-      <Header title={(isLoading) ? "" : props.rconName} rightBarItem={(isLoading) ? null : rightBarItem} />
-      {isLoading ? <Loader title="Loading ..." /> : (data.length !== 0) ? (
+      <Header
+        title={isLoading ? '' : props.rconName}
+        rightBarItem={isLoading ? null : rightBarItem}
+      />
+      {isLoading ? (
+        <Loader title="Loading ..." />
+      ) : data.length !== 0 ? (
         <>
           <ProjectSharedInfo {...props} />
           <ProjectContent />
         </>
-      ) : (<ErrorView />)}
+      ) : (
+        <ErrorView />
+      )}
     </View>
   );
 });

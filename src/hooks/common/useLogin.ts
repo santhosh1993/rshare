@@ -3,8 +3,8 @@ import {useGoogle} from '../google/useGoogle';
 import {updateDefaultProps} from '@src/root/analytics/useAnalytics';
 import {FireStoreCollection} from '../firestore/firestore.collections';
 import {useFireStore} from '../firestore/usefirestore';
-import { useLocalStorage } from './useLocalStorage';
-import { FireStoreCollectionUserCreatedDocInterface } from '../firestore/firestore.collections.Interface';
+import {useLocalStorage} from './useLocalStorage';
+import {FireStoreCollectionUserCreatedDocInterface} from '../firestore/firestore.collections.Interface';
 
 export type SingInData = {
   id: string;
@@ -20,7 +20,7 @@ let loginData: SingInData | null = null;
 export const useLogin = () => {
   const {authenticate: googleAuth} = useGoogle();
   const {doc} = useFireStore();
-  const {storeRcon, storeLoginData} = useLocalStorage({source: "login"})
+  const {storeRcon, storeLoginData} = useLocalStorage({source: 'login'});
 
   const getLoginData = useCallback(() => {
     return loginData;
@@ -44,7 +44,7 @@ export const useLogin = () => {
           },
         });
       }
-      storeLoginData(signInData)
+      storeLoginData(signInData);
       await getUserRcons(signInData.id);
       updateDefaultProps({userId: signInData.id});
       loginData = signInData;
@@ -55,16 +55,15 @@ export const useLogin = () => {
   }, []);
 
   const getUserRcons = useCallback(async (userId: string) => {
-    const sharedDocs = await doc(
-      userId,
-      FireStoreCollection.USERS,
-    ).data.collection(FireStoreCollection.USER_CREATED_DOCS).get()
+    const sharedDocs = await doc(userId, FireStoreCollection.USERS)
+      .data.collection(FireStoreCollection.USER_CREATED_DOCS)
+      .get();
 
-    sharedDocs.forEach((doc) => {
-       const data = doc.data() as FireStoreCollectionUserCreatedDocInterface
-       storeRcon({rconId: data.rconId})
-    })
-  }, [])
+    sharedDocs.forEach(doc => {
+      const data = doc.data() as FireStoreCollectionUserCreatedDocInterface;
+      storeRcon({rconId: data.rconId});
+    });
+  }, []);
 
   return {authenticate, getLoginData};
 };

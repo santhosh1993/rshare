@@ -7,13 +7,16 @@ export const useShareCenter = () => {
   //const updateData = useShareCenterStore(s => s.updateData)
   const getList = useCallback(() => {
     const rconList = getRconList();
-    console.log("---->>>   rconConfig.configData.isEditEnabled", rconList)
+    console.log('---->>>   rconConfig.configData.isEditEnabled', rconList);
     let rconConfigList: Array<ShareCardInterface> = [];
     for (let i = 0; i < rconList.length; i++) {
       try {
         const rconDate = rconList[i];
         const rconConfig = getRcon({rconId: rconDate.rconId});
-        console.log("---->>>   rconConfig.configData.isEditEnabled", rconConfig)
+        console.log(
+          '---->>>   rconConfig.configData.isEditEnabled',
+          rconConfig,
+        );
         const shareCardRconConfig: ShareCardInterface = {
           images: rconConfig.configData.data
             .map(data => data.content.map(content => content.url))

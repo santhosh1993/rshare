@@ -10,8 +10,8 @@ import {
   FireStoreCollectionUsersInterFace,
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
-import { SingInData } from './useLogin';
-import { useShareCenterStore } from '@src/screens/share-center/share-center.store';
+import {SingInData} from './useLogin';
+import {useShareCenterStore} from '@src/screens/share-center/share-center.store';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -65,93 +65,107 @@ export const useLocalStorage = ({source}: {source: string}) => {
 
   const getLoginData = useCallback(() => {
     try {
-      return JSON.parse(getString('singInData') ?? '') as SingInData
+      return JSON.parse(getString('singInData') ?? '') as SingInData;
     } catch (e) {
       return null;
     }
-  }, [getString])
+  }, [getString]);
 
-  const storeRcon = useCallback(async ({rconId}: {rconId: string}) => {
-    try {
-      const sharedRconData = await doc(
-        rconId,
-        FireStoreCollection.SHARED_DOCS,
-      ).read();
-      if (sharedRconData === undefined) {
-        notValidRconId({rconId: rconId, source: source, type: 'storeRcon'});
-        throw Error('Not a valid rcon Id');
-      }
-      const configData = await doc(
-        sharedRconData.sourceUserId,
-        FireStoreCollection.USERS,
-      )
-        .doc(sharedRconData.docId, FireStoreCollection.USER_CREATED_DOCS)
-        .read();
-      const sharedUserData = await doc(
-        sharedRconData.userId,
-        FireStoreCollection.USERS,
-      ).read();
-      if (configData === undefined || sharedUserData === undefined) {
-        notValidRconId({
+  const storeRcon = useCallback(
+    async ({rconId}: {rconId: string}) => {
+      try {
+        const sharedRconData = await doc(
+          rconId,
+          FireStoreCollection.SHARED_DOCS,
+        ).read();
+        if (sharedRconData === undefined) {
+          notValidRconId({rconId: rconId, source: source, type: 'storeRcon'});
+          throw Error('Not a valid rcon Id');
+        }
+        const configData = await doc(
+          sharedRconData.sourceUserId,
+          FireStoreCollection.USERS,
+        )
+          .doc(sharedRconData.docId, FireStoreCollection.USER_CREATED_DOCS)
+          .read();
+        const sharedUserData = await doc(
+          sharedRconData.userId,
+          FireStoreCollection.USERS,
+        ).read();
+        if (configData === undefined || sharedUserData === undefined) {
+          notValidRconId({
+            rconId: rconId,
+            source: source,
+            type: 'storeRcon_configData',
+          });
+          throw Error('Not a valid rcon Id');
+        }
+
+        const rconConfig: RconConfigDateInterface = (
+          await axios.get(configData.configUrl)
+        ).data;
+        const storedRconConfig = getString(rconId);
+        const signInData = getLoginData();
+        rconConfig.isEditEnabled = false;
+        if (signInData) {
+          if (
+            sharedRconData.sourceId == sharedRconData.userId &&
+            sharedRconData.sourceId == signInData.id
+          ) {
+            rconConfig.sharedRconId = rconId;
+            rconConfig.isEditEnabled = true;
+          }
+        }
+
+        rconConfig.sharedUserDetails =
+          sharedUserData as FireStoreCollectionUsersInterFace;
+
+        if (storedRconConfig) {
+          const storedRconConfigJson: RconConfigDateInterface =
+            JSON.parse(storedRconConfig);
+          rconConfig.sharedRconId = storedRconConfigJson?.sharedRconId;
+        }
+        set(
+          rconId,
+          JSON.stringify({configData: rconConfig, rconData: sharedRconData}),
+        );
+        const storedData: RconListObjectInterface = {
           rconId: rconId,
+          rconData: sharedRconData as FireStoreCollectionShareDocInterface,
+          timeStamp: Date.now(),
+        };
+
+        let rconList: Array<RconListObjectInterface> = getRconList();
+
+        for (let i = 0; i < rconList.length; i++) {
+          if (rconList[i].rconId == rconId) {
+            rconList.splice(i, 1);
+            break;
+          }
+        }
+
+        rconList.unshift(storedData);
+        setRconList(rconList);
+      } catch (e) {
+        emitOnError({
+          errorMessage: e,
+          data: {rconId: rconId},
           source: source,
-          type: 'storeRcon_configData',
+          type: 'storeRcon',
         });
-        throw Error('Not a valid rcon Id');
+        throw e;
       }
-
-      const rconConfig: RconConfigDateInterface = (
-        await axios.get(configData.configUrl)
-      ).data;
-      const storedRconConfig = getString(rconId);
-      const signInData = getLoginData()
-      rconConfig.isEditEnabled = false
-      if (signInData) {
-        if (sharedRconData.sourceId == sharedRconData.userId && sharedRconData.sourceId == signInData.id) {
-          rconConfig.sharedRconId = rconId;
-          rconConfig.isEditEnabled = true;
-        }
-      }
-      
-      rconConfig.sharedUserDetails =
-        sharedUserData as FireStoreCollectionUsersInterFace;
-
-      if (storedRconConfig) {
-        const storedRconConfigJson: RconConfigDateInterface =
-          JSON.parse(storedRconConfig);
-        rconConfig.sharedRconId = storedRconConfigJson?.sharedRconId;
-      }
-      set(
-        rconId,
-        JSON.stringify({configData: rconConfig, rconData: sharedRconData}),
-      );
-      const storedData: RconListObjectInterface = {
-        rconId: rconId,
-        rconData: sharedRconData as FireStoreCollectionShareDocInterface,
-        timeStamp: Date.now(),
-      };
-
-      let rconList: Array<RconListObjectInterface> = getRconList();
-
-      for (let i = 0; i < rconList.length; i++) {
-        if (rconList[i].rconId == rconId) {
-          rconList.splice(i, 1);
-          break;
-        }
-      }
-
-      rconList.unshift(storedData);
-      setRconList(rconList);
-    } catch (e) {
-      emitOnError({
-        errorMessage: e,
-        data: {rconId: rconId},
-        source: source,
-        type: 'storeRcon',
-      });
-      throw e;
-    }
-  }, [setRconList, emitOnError, notValidRconId, doc, getRconList, getLoginData, set]);
+    },
+    [
+      setRconList,
+      emitOnError,
+      notValidRconId,
+      doc,
+      getRconList,
+      getLoginData,
+      set,
+    ],
+  );
 
   const getRcon = useCallback(
     ({rconId}: {rconId: string}): RconConfigInterface => {
@@ -195,25 +209,36 @@ export const useLocalStorage = ({source}: {source: string}) => {
   );
 
   const updateEditMode = useCallback(() => {
-    const signInData = getLoginData()
+    const signInData = getLoginData();
     if (signInData) {
-      getRconList().forEach((rconItem) => {
+      getRconList().forEach(rconItem => {
         const rconData = getRcon({rconId: rconItem.rconId});
-        rconData.configData.isEditEnabled = (rconItem.rconData.sourceUserId === rconItem.rconData.userId 
-              && rconItem.rconData.userId === signInData.id);
+        rconData.configData.isEditEnabled =
+          rconItem.rconData.sourceUserId === rconItem.rconData.userId &&
+          rconItem.rconData.userId === signInData.id;
         set(rconItem.rconId, JSON.stringify(rconData));
-      })
+      });
       //updateData()
     }
+  }, [getRconList, getRcon, updateRcon]);
 
-  }, [getRconList, getRcon, updateRcon])
+  const storeLoginData = useCallback(
+    (singInData: SingInData) => {
+      set('singInData', JSON.stringify(singInData));
+      updateEditMode();
+    },
+    [updateEditMode],
+  );
 
-  const storeLoginData = useCallback((singInData: SingInData) => {
-    set('singInData', JSON.stringify(singInData))
-    updateEditMode()
-  }, [updateEditMode])
-
-  return {storeRcon, getRcon, getRconList, updateRcon, storeLoginData, getLoginData, updateEditMode};
+  return {
+    storeRcon,
+    getRcon,
+    getRconList,
+    updateRcon,
+    storeLoginData,
+    getLoginData,
+    updateEditMode,
+  };
 };
 
 const useLocalStorageEvents = () => {

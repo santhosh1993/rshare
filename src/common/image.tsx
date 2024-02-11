@@ -2,12 +2,15 @@ import React, {memo} from 'react';
 import FastImage, {FastImageProps} from 'react-native-trustee-fast-image';
 
 import {Image as Img, ImageProps as ImgProps, ViewProps} from 'react-native';
-import { Image as SkiaImage, ImageProps as SkiaImageProps } from "@shopify/react-native-skia";
+import {
+  Image as SkiaImage,
+  ImageProps as SkiaImageProps,
+} from '@shopify/react-native-skia';
 
 export enum ImageLoadType {
   rnImage,
   fastImage,
-  canvasImage
+  canvasImage,
 }
 
 export interface ImageProps<K extends ImageLoadType> extends ViewProps {
@@ -18,7 +21,7 @@ export interface ImageProps<K extends ImageLoadType> extends ViewProps {
 type BaseImageParams = {
   [ImageLoadType.rnImage]: ImgProps;
   [ImageLoadType.fastImage]: FastImageProps;
-  [ImageLoadType.canvasImage]: SkiaImageProps
+  [ImageLoadType.canvasImage]: SkiaImageProps;
 };
 
 export const Image = memo(
@@ -31,7 +34,11 @@ export const Image = memo(
       case ImageLoadType.rnImage:
         return <Img {...(props as BaseImageParams[ImageLoadType.rnImage])} />;
       case ImageLoadType.canvasImage:
-        return <SkiaImage {...(props as BaseImageParams[ImageLoadType.canvasImage])}>{children}</SkiaImage>;
+        return (
+          <SkiaImage {...(props as BaseImageParams[ImageLoadType.canvasImage])}>
+            {children}
+          </SkiaImage>
+        );
     }
     return <></>;
   },

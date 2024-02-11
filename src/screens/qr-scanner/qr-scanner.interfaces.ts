@@ -1,3 +1,1 @@
-export interface QRScannerInterface {
-
-}
+export interface QRScannerInterface {}

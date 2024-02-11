@@ -28,7 +28,7 @@ export interface ProjectTabContentInterface {
 
 export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
   const data = useCreateProjectStore(s => s.data)[index];
-  const deleteItem = useCreateProjectStore(s => s.deleteItem)
+  const deleteItem = useCreateProjectStore(s => s.deleteItem);
 
   const seperaterItem = useCallback(() => {
     return <View style={styles.seperator} />;
@@ -39,9 +39,12 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
       return index + item.id;
     }, []);
 
-    const onItemDeleteTap = useCallback((selectedIndex: number) => {
-      deleteItem(index, selectedIndex)
-    }, [deleteItem])
+  const onItemDeleteTap = useCallback(
+    (selectedIndex: number) => {
+      deleteItem(index, selectedIndex);
+    },
+    [deleteItem],
+  );
 
   const renderItem = useCallback(
     ({item, index}: {item: ContentData; index: number}) => {
@@ -63,8 +66,12 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
               resizeMode: 'cover',
             }}
           />
-          <Pressable onPress={() => {onItemDeleteTap(index)}} style={styles.crossBackGround}>
-            <SvgCrossWhite style={styles.crossIcon}/>
+          <Pressable
+            onPress={() => {
+              onItemDeleteTap(index);
+            }}
+            style={styles.crossBackGround}>
+            <SvgCrossWhite style={styles.crossIcon} />
           </Pressable>
         </View>
       );
@@ -172,7 +179,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 12,
   },
-  accordionIcon: {width: 16 , height: 16} ,
-  crossBackGround: {position:'absolute', width: 30, height: 30, right: 0, top: 0, alignItems: 'center', borderBottomLeftRadius: 8,backgroundColor: '#0000008A', justifyContent: 'center'},
-  crossIcon: { width: 12, height: 12}
+  accordionIcon: {width: 16, height: 16},
+  crossBackGround: {
+    position: 'absolute',
+    width: 30,
+    height: 30,
+    right: 0,
+    top: 0,
+    alignItems: 'center',
+    borderBottomLeftRadius: 8,
+    backgroundColor: '#0000008A',
+    justifyContent: 'center',
+  },
+  crossIcon: {width: 12, height: 12},
 });

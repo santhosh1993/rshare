@@ -13,8 +13,8 @@ export const useProjectDetailStore = create<ProjectDetailStoreInterface>(
       isLoading: false,
       setIsLoading: (isLoading: boolean) => {
         set({
-          isLoading: isLoading
-        })
+          isLoading: isLoading,
+        });
       },
       updateData: (data: Array<SectionData>) => {
         set({

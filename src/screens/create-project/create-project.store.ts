@@ -69,11 +69,11 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         });
       },
       deleteItem: (sectionIndex, index) => {
-        const sectionData = get().data
-        sectionData[sectionIndex].content.splice(index, 1)
+        const sectionData = get().data;
+        sectionData[sectionIndex].content.splice(index, 1);
         set({
-          data: sectionData
-        })
+          data: sectionData,
+        });
       },
       addNewContent: (content: Array<AddNewContent>, index: number) => {
         let data = get().data;

@@ -57,7 +57,7 @@ export const ShareProject: FC<ShareProjectInterface> = props => {
       nav.global.goBack();
     }
   }, [setIsLoading, getUserData, nav.global, props]);
-  
+
   const onEditTap = useCallback(() => {
     nav.global.navigate({
       route: Routes.MORE,

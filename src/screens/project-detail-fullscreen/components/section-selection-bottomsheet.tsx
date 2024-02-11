@@ -36,7 +36,7 @@ export const SectionSelectionBottomSheet = ({
   );
 
   const renderItem = useCallback(
-    ({item, index}: {item: SectionData, index: number}) => {
+    ({item, index}: {item: SectionData; index: number}) => {
       return (
         <Button
           type={ButtonType.Button}

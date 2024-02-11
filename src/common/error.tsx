@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { View } from "react-native";
+import {FC} from 'react';
+import {View} from 'react-native';
 
 export interface ErrorInterface {
-    onRetry?: () => void
+  onRetry?: () => void;
 }
 
-export const ErrorView : FC<ErrorInterface> = (props) => {
-    return <View style={{flex: 1, backgroundColor: 'red'}}/>
-}
+export const ErrorView: FC<ErrorInterface> = props => {
+  return <View style={{flex: 1, backgroundColor: 'red'}} />;
+};
