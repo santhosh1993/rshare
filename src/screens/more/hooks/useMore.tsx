@@ -19,7 +19,7 @@ export const useMore = () => {
       });
       return undefined;
     }
-  }, []);
+  }, [userData]);
 
   const updateUserData = useCallback(
     async ({name, phoneNo}: {name: string; phoneNo: string}) => {
@@ -47,7 +47,7 @@ export const useMore = () => {
         });
       }
     },
-    [],
+    [doc, userId],
   );
 
   const validateUserData = useCallback(

@@ -2,7 +2,6 @@ import {Button, ButtonType} from '@common/button';
 import {colors} from '@common/colors';
 import SvgNewDoc from '@src/generated/assets/svgs/NewDoc';
 import {useLogin} from '@src/hooks/common/useLogin';
-import {useGoogle} from '@src/hooks/google/useGoogle';
 import {EventKey} from '@src/root/analytics/analytics.Keys';
 import {useAnalytics} from '@src/root/analytics/useAnalytics';
 import {useNavigation} from '@src/root/navigation/useNavigation';
@@ -43,7 +42,7 @@ export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
   return (
     <Button type={ButtonType.Button} onPress={onPress}>
       <View style={styles.parent}>
-        <SvgNewDoc style={{width: 28, height: 28}} />
+        <SvgNewDoc style={styles.newDoc} />
       </View>
     </Button>
   );
@@ -62,4 +61,5 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.app.header,
   },
+  newDoc: {width: 28, height: 28},
 });

@@ -11,7 +11,6 @@ import {
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
 import {SingInData} from './useLogin';
-import {useShareCenterStore} from '@src/screens/share-center/share-center.store';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -109,8 +108,8 @@ export const useLocalStorage = ({source}: {source: string}) => {
         rconConfig.isEditEnabled = false;
         if (signInData) {
           if (
-            sharedRconData.sourceId == sharedRconData.userId &&
-            sharedRconData.sourceId == signInData.id
+            sharedRconData.sourceId === sharedRconData.userId &&
+            sharedRconData.sourceId === signInData.id
           ) {
             rconConfig.sharedRconId = rconId;
             rconConfig.isEditEnabled = true;
@@ -138,7 +137,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         let rconList: Array<RconListObjectInterface> = getRconList();
 
         for (let i = 0; i < rconList.length; i++) {
-          if (rconList[i].rconId == rconId) {
+          if (rconList[i].rconId === rconId) {
             rconList.splice(i, 1);
             break;
           }
@@ -164,6 +163,8 @@ export const useLocalStorage = ({source}: {source: string}) => {
       getRconList,
       getLoginData,
       set,
+      getString,
+      source
     ],
   );
 
@@ -186,7 +187,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         throw e;
       }
     },
-    [getString, notValidRconId, emitOnError],
+    [getString, notValidRconId, emitOnError, source],
   );
 
   const updateRcon = useCallback(
@@ -205,7 +206,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         throw e;
       }
     },
-    [getRcon, emitOnError],
+    [getRcon, emitOnError, set, source],
   );
 
   const updateEditMode = useCallback(() => {
@@ -220,14 +221,14 @@ export const useLocalStorage = ({source}: {source: string}) => {
       });
       //updateData()
     }
-  }, [getRconList, getRcon, updateRcon]);
+  }, [getRconList, getRcon, updateRcon, getLoginData, set]);
 
   const storeLoginData = useCallback(
     (singInData: SingInData) => {
       set('singInData', JSON.stringify(singInData));
       updateEditMode();
     },
-    [updateEditMode],
+    [updateEditMode, set],
   );
 
   return {

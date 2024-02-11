@@ -31,11 +31,11 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
         setIsLoading(false);
       }
     },
-    [getProject, updateData],
+    [getProject, updateData, setIsLoading],
   );
   useEffect(() => {
     updateRcon(props.id);
-  }, [props.id, updateData]);
+  }, [props.id, updateRcon]);
   const nav = useNavigation();
   const onShareTap = useCallback(() => {
     nav.global.navigate({
@@ -47,7 +47,7 @@ const ProjectDetail: FC<ProjectDetailInterface> = memo(props => {
         userName: props.userName,
       },
     });
-  }, [nav, data]);
+  }, [nav, props]);
   const rightBarItem = useMemo(() => {
     const shareIcon = <SvgShare style={styles.shareImage} fill={'#fff'} />;
     const itemProps: RightBarItemProps = {child: shareIcon};

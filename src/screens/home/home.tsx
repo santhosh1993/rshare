@@ -47,7 +47,7 @@ export const Home = () => {
   }, []);
 
   const tabBar = useCallback(
-    ({navigation, state, descriptors, insets}) => (
+    ({navigation, state,_ , insets}) => (
       <BottomNavigation.Bar
         navigationState={state}
         safeAreaInsets={insets}

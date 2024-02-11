@@ -1,6 +1,6 @@
 import {Button, ButtonType} from '@common/button';
-import {View} from 'react-native';
-import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
 
 export const ShareCta = ({
   onShareTap,
@@ -9,26 +9,39 @@ export const ShareCta = ({
   onShareTap: () => void;
   onPreviewTap: () => void;
 }) => {
+  const previewProps = useMemo(() => {
+    return {
+      label: 'Preview',
+      style: {marginHorizontal: 6, marginLeft: 12},
+    };
+  }, []);
+
+  const shareProps = useMemo(() => {
+    return {
+      label: 'Share',
+      style: {marginHorizontal: 6, marginRight: 12},
+    };
+  }, []);
+
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.container}>
       <Button
         type={ButtonType.SecondaryButton}
-        props={{
-          label: 'Preview',
-          style: {marginHorizontal: 6, marginLeft: 12},
-        }}
-        style={{flex: 1}}
+        props={previewProps}
+        style={styles.button}
         onPress={onPreviewTap}
       />
       <Button
         type={ButtonType.PrimaryButton}
-        props={{
-          label: 'Share',
-          style: {marginHorizontal: 6, marginRight: 12},
-        }}
-        style={{flex: 1}}
+        props={shareProps}
+        style={styles.button}
         onPress={onShareTap}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {flex: 1},
+  container: {flexDirection: 'row'},
+});

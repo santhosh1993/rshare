@@ -13,42 +13,49 @@ export const useShareProject = () => {
   const {userId, userData} = useUser();
   const {getRcon, updateRcon} = useLocalStorage({source: 'shareProject'});
   const {doc} = useFireStore();
-  const getUserData = useCallback(async ({rconId}: {rconId: string}) => {
-    try {
-      const data = await userData();
-      const qrData = await getQRLink({rconId: rconId});
-      return {...data, redirectionUrl: qrData};
-    } catch (e) {
-      Toast.show({
-        text1: 'Something went wrong. Please try again after sometime.',
-        type: 'error',
-      });
-      return undefined;
-    }
-  }, []);
 
-  const getQRLink = useCallback(async ({rconId}: {rconId: string}) => {
-    try {
-      const rconData = getRcon({rconId: rconId});
-      const currentUserId = await userId();
-      if (rconData.configData.sharedRconId == undefined) {
-        const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS);
-        await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({
-          docData: {
-            sourceUserId: rconData.rconData.sourceUserId,
-            userId: currentUserId.id,
-            docId: rconData.rconData.docId,
-          },
-        });
-        updateRcon({rconId: rconId, sharedRconId: sharedDoc.data.id});
-        return endpoint() + sharedDoc.data.id;
-      } else {
-        return endpoint() + rconData.configData.sharedRconId;
+  const getQRLink = useCallback(
+    async ({rconId}: {rconId: string}) => {
+      try {
+        const rconData = getRcon({rconId: rconId});
+        const currentUserId = await userId();
+        if (rconData.configData.sharedRconId === undefined) {
+          const sharedDoc = doc(undefined, FireStoreCollection.SHARED_DOCS);
+          await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({
+            docData: {
+              sourceUserId: rconData.rconData.sourceUserId,
+              userId: currentUserId.id,
+              docId: rconData.rconData.docId,
+            },
+          });
+          updateRcon({rconId: rconId, sharedRconId: sharedDoc.data.id});
+          return endpoint() + sharedDoc.data.id;
+        } else {
+          return endpoint() + rconData.configData.sharedRconId;
+        }
+      } catch (e) {
+        throw e;
       }
-    } catch (e) {
-      throw e;
-    }
-  }, []);
+    },
+    [updateRcon, getRcon, doc, userId],
+  );
+
+  const getUserData = useCallback(
+    async ({rconId}: {rconId: string}) => {
+      try {
+        const data = await userData();
+        const qrData = await getQRLink({rconId: rconId});
+        return {...data, redirectionUrl: qrData};
+      } catch (e) {
+        Toast.show({
+          text1: 'Something went wrong. Please try again after sometime.',
+          type: 'error',
+        });
+        return undefined;
+      }
+    },
+    [userData, getQRLink],
+  );
 
   const shareRcon = useCallback(
     async ({

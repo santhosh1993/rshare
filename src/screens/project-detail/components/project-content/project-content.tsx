@@ -50,7 +50,7 @@ export const ProjectContent = memo(() => {
         })}
       </>
     );
-  }, [sections]);
+  }, [sections, tabBarLabel]);
 
   return (
     <View style={styles.container}>

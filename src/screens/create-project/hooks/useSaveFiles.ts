@@ -149,6 +149,7 @@ export const useFiles = () => {
       saveFile,
       uploadFileToDrive,
       createFireStoreData,
+      storeRcon
     ],
   );
 

@@ -1,10 +1,14 @@
 import {FC} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 export interface ErrorInterface {
   onRetry?: () => void;
 }
 
 export const ErrorView: FC<ErrorInterface> = props => {
-  return <View style={{flex: 1, backgroundColor: 'red'}} />;
+  return <View style={styles.container} />;
 };
+
+const styles = StyleSheet.create({
+  container: {flex: 1, backgroundColor: 'red'}
+})

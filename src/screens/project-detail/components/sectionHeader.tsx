@@ -1,7 +1,7 @@
 import {Button, ButtonType} from '@common/button';
 import {Text} from '@common/text';
 import React, {FC, useCallback} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 export enum SectionHeaderMode {
   viewMode,
@@ -27,9 +27,13 @@ export const SectionHeader: FC<SectionHeaderProps> = props => {
 
   return (
     <Button type={ButtonType.Button} onPress={onTap}>
-      <View style={{backgroundColor: 'red'}}>
+      <View style={styles.textContainer}>
         <Text>{props.title}</Text>
       </View>
     </Button>
   );
 };
+
+const styles = StyleSheet.create({
+  textContainer: {backgroundColor: 'red'},
+});

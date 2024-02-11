@@ -76,7 +76,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
         </View>
       );
     },
-    [],
+    [onItemDeleteTap],
   );
   const {bottom} = useSafeAreaInsets();
   const [show, setShow] = useState(true);

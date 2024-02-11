@@ -4,7 +4,6 @@ import React from 'react';
 import {BaseRouteParams, Routes} from './router/routes';
 import {More, MoreInterface} from '@src/screens/more/more';
 import {
-  BOTTOM_SHEET_NAVIGATION_OPTIONS,
   STACK_NAVIGATION_OPTIONS,
 } from './navigation/navigationOptions';
 import {createStackNavigator} from '@react-navigation/stack';

@@ -3,6 +3,7 @@ import {useLogin} from './useLogin';
 import {useFireStore} from '../firestore/usefirestore';
 import {FireStoreCollection} from '../firestore/firestore.collections';
 import {FireStoreCollectionUsersInterFace} from '../firestore/firestore.collections.Interface';
+import DialogContent from 'react-native-paper/lib/typescript/components/Dialog/DialogContent';
 
 export const useUser = () => {
   const {getLoginData, authenticate} = useLogin();
@@ -37,7 +38,7 @@ export const useUser = () => {
     } catch (e) {
       throw e;
     }
-  }, [userId]);
+  }, [userId, doc]);
 
   return {userId, userData};
 };

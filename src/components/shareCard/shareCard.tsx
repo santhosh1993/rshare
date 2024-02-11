@@ -59,10 +59,6 @@ export const ShareCard: FC<ShareCardInterface> = props => {
 
   const [skimage, setSKImage] = useState<SkImage | null>(null);
 
-  useEffect(() => {
-    onFastImageLoad();
-  }, [props]);
-
   const canvasImageProps: SkiaImageProps | null = useMemo(() => {
     if (skimage) {
       return {
@@ -86,7 +82,7 @@ export const ShareCard: FC<ShareCardInterface> = props => {
     const data = await Skia.Data.fromURI(`file://${source}`);
     const image = Skia.Image.MakeImageFromEncoded(data);
     setSKImage(image);
-  }, [setSKImage]);
+  }, [setSKImage, imageSource]);
 
   const fastImageProps: FastImageProps = useMemo(() => {
     return {
@@ -97,8 +93,12 @@ export const ShareCard: FC<ShareCardInterface> = props => {
         onFastImageLoad();
       },
     };
-  }, [props, onFastImageLoad]);
+  }, [props, onFastImageLoad, imageSource]);
 
+  useEffect(() => {
+    onFastImageLoad();
+  }, [props, onFastImageLoad]);
+  
   const onEditPress = useCallback(() => {}, []);
 
   console.log('props.showEdit --- >>>>', props.showEdit);

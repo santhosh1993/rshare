@@ -17,13 +17,13 @@ export const QRScanner: FC<QRScannerInterface> = () => {
     console.log('--->>> userPermission test');
     const userPermission = await requestPermission();
     console.log('--->>> userPermission ', userPermission);
-  }, []);
+  }, [requestPermission]);
 
   useEffect(() => {
     if (!hasPermission) {
       requestForPermission();
     }
-  }, []);
+  }, [hasPermission, requestForPermission]);
 
   if (hasPermission) {
     return <QRCamera />;

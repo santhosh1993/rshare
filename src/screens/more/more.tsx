@@ -28,14 +28,14 @@ export const MoreComponent: FC<MoreInterface> = props => {
     setIsLoading(true);
     setUserData(await getUserData());
     setIsLoading(false);
-  }, []);
+  }, [setIsLoading, setUserData, getUserData]);
 
   useEffect(() => {
     onMount();
     return () => {
       props.onUnMount?.();
     };
-  }, [props]);
+  }, [props, onMount]);
 
   const [userName, setUserName] = useState<string | undefined>(undefined);
   const [userPhoneNo, setUserPhoneNo] = useState<string | undefined>(undefined);
@@ -58,7 +58,7 @@ export const MoreComponent: FC<MoreInterface> = props => {
       await updateUserData({name: userName!, phoneNo: userPhoneNo!});
       setIsLoading(false);
     }
-  }, [userName, userPhoneNo]);
+  }, [userName, userPhoneNo, setIsLoading, updateUserData, validateUserData]);
 
   const dataInputView = useMemo(() => {
     return (
@@ -78,7 +78,7 @@ export const MoreComponent: FC<MoreInterface> = props => {
         />
       </View>
     );
-  }, [userName, userPhoneNo]);
+  }, [userName, userPhoneNo, onUserNameChange, onUserPhoneNoChange]);
 
   return (
     <View style={styles.moreContainer}>

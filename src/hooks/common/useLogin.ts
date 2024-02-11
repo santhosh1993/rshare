@@ -26,6 +26,17 @@ export const useLogin = () => {
     return loginData;
   }, []);
 
+  const getUserRcons = useCallback(async (userId: string) => {
+    const sharedDocs = await doc(userId, FireStoreCollection.USERS)
+      .data.collection(FireStoreCollection.USER_CREATED_DOCS)
+      .get();
+
+    sharedDocs.forEach(doc => {
+      const data = doc.data() as FireStoreCollectionUserCreatedDocInterface;
+      storeRcon({rconId: data.rconId});
+    });
+  }, [doc, storeLoginData]);
+
   const authenticate = useCallback(async () => {
     try {
       const signInData: SingInData = await googleAuth();
@@ -52,18 +63,7 @@ export const useLogin = () => {
     } catch (e) {
       throw e;
     }
-  }, []);
-
-  const getUserRcons = useCallback(async (userId: string) => {
-    const sharedDocs = await doc(userId, FireStoreCollection.USERS)
-      .data.collection(FireStoreCollection.USER_CREATED_DOCS)
-      .get();
-
-    sharedDocs.forEach(doc => {
-      const data = doc.data() as FireStoreCollectionUserCreatedDocInterface;
-      storeRcon({rconId: data.rconId});
-    });
-  }, []);
+  }, [doc, getUserRcons, googleAuth, storeLoginData]);
 
   return {authenticate, getLoginData};
 };

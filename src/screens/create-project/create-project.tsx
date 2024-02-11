@@ -47,7 +47,7 @@ const CreateProject = () => {
         type: 'error',
       });
     }
-  }, [save]);
+  }, [save, nav.global, userData]);
 
   const rightBarItem = useMemo(() => {
     return (
@@ -66,7 +66,7 @@ const CreateProject = () => {
     return () => {
       reset();
     };
-  }, []);
+  }, [reset]);
 
   return (
     <View style={styles.container}>

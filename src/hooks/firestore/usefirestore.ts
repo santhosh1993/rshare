@@ -49,7 +49,7 @@ export const useFireStore = () => {
       });
       throw Error('Something went wrong');
     }
-  }, [firestoreError, firestoreSuccess]);
+  }, [firestoreError, firestoreSuccess, getDoc]);
 
   const update = useCallback(
     async <K extends FireStoreCollection>({
@@ -70,7 +70,7 @@ export const useFireStore = () => {
         });
       }
     },
-    [firestoreError, firestoreSuccess],
+    [firestoreError, firestoreSuccess, getDoc],
   );
 
   const create = useCallback(
@@ -92,7 +92,7 @@ export const useFireStore = () => {
         });
       }
     },
-    [firestoreError, firestoreSuccess],
+    [firestoreError, firestoreSuccess, getDoc],
   );
 
   const doc = useCallback(
