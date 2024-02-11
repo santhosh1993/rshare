@@ -73,9 +73,11 @@ export const ShareCard: FC<ShareCardInterface> = props => {
     return null;
   }, [skimage]);
 
-  const imageSource = {
-    uri: props.images.length > 0 ? props.images[0] : '',
-  };
+  const imageSource = useMemo(() => {
+    return {
+      uri: props.images.length > 0 ? props.images[0] : '',
+    };
+  }, [props]);
 
   const onFastImageLoad = useCallback(async () => {
     const source = await FastImage.getCachePath(imageSource);
@@ -93,12 +95,12 @@ export const ShareCard: FC<ShareCardInterface> = props => {
         onFastImageLoad();
       },
     };
-  }, [props, onFastImageLoad, imageSource]);
+  }, [onFastImageLoad, imageSource]);
 
   useEffect(() => {
     onFastImageLoad();
   }, [props, onFastImageLoad]);
-  
+
   const onEditPress = useCallback(() => {}, []);
 
   console.log('props.showEdit --- >>>>', props.showEdit);

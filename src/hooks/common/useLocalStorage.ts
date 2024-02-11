@@ -164,7 +164,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
       getLoginData,
       set,
       getString,
-      source
+      source,
     ],
   );
 

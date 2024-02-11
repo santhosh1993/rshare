@@ -43,7 +43,7 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     (selectedIndex: number) => {
       deleteItem(index, selectedIndex);
     },
-    [deleteItem],
+    [deleteItem, index],
   );
 
   const renderItem = useCallback(

@@ -26,16 +26,19 @@ export const useLogin = () => {
     return loginData;
   }, []);
 
-  const getUserRcons = useCallback(async (userId: string) => {
-    const sharedDocs = await doc(userId, FireStoreCollection.USERS)
-      .data.collection(FireStoreCollection.USER_CREATED_DOCS)
-      .get();
+  const getUserRcons = useCallback(
+    async (userId: string) => {
+      const sharedDocs = await doc(userId, FireStoreCollection.USERS)
+        .data.collection(FireStoreCollection.USER_CREATED_DOCS)
+        .get();
 
-    sharedDocs.forEach(doc => {
-      const data = doc.data() as FireStoreCollectionUserCreatedDocInterface;
-      storeRcon({rconId: data.rconId});
-    });
-  }, [doc, storeLoginData]);
+      sharedDocs.forEach(doc => {
+        const data = doc.data() as FireStoreCollectionUserCreatedDocInterface;
+        storeRcon({rconId: data.rconId});
+      });
+    },
+    [doc, storeLoginData, storeLoginData, storeRcon],
+  );
 
   const authenticate = useCallback(async () => {
     try {
@@ -44,7 +47,7 @@ export const useLogin = () => {
         signInData.id,
         FireStoreCollection.USERS,
       ).read();
-      if (userData == undefined) {
+      if (userData === undefined) {
         await doc(
           signInData.id,
           FireStoreCollection.USERS,

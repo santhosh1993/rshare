@@ -5,10 +5,10 @@ export interface ErrorInterface {
   onRetry?: () => void;
 }
 
-export const ErrorView: FC<ErrorInterface> = props => {
+export const ErrorView: FC<ErrorInterface> = _ => {
   return <View style={styles.container} />;
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: 'red'}
-})
+  container: {flex: 1, backgroundColor: 'red'},
+});

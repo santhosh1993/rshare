@@ -92,7 +92,7 @@ export const useFiles = () => {
 
       return sharedDoc.data.id;
     },
-    [],
+    [doc],
   );
 
   const save = useCallback(
@@ -149,7 +149,7 @@ export const useFiles = () => {
       saveFile,
       uploadFileToDrive,
       createFireStoreData,
-      storeRcon
+      storeRcon,
     ],
   );
 

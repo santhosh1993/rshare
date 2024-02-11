@@ -3,9 +3,7 @@ import {ShareCenter} from '@src/screens/share-center/ShareCenter';
 import React from 'react';
 import {BaseRouteParams, Routes} from './router/routes';
 import {More, MoreInterface} from '@src/screens/more/more';
-import {
-  STACK_NAVIGATION_OPTIONS,
-} from './navigation/navigationOptions';
+import {STACK_NAVIGATION_OPTIONS} from './navigation/navigationOptions';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SuspendedProjectDetailComponent} from '@src/screens/project-detail/project-detail.lazy';
 import {SuspendedProjectDetailFullScreenComponent} from '@src/screens/project-detail-fullscreen/project-detail-fullscreen.lazy';
