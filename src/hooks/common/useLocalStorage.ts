@@ -79,7 +79,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         ).read();
         if (sharedRconData === undefined) {
           notValidRconId({rconId: rconId, source: source, type: 'storeRcon'});
-          throw Error('Not a valid rcon Id');
+          throw Error('Not a valid rcon Id sharedRconData is undefined');
         }
         const configData = await doc(
           sharedRconData.sourceUserId,
@@ -97,7 +97,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
             source: source,
             type: 'storeRcon_configData',
           });
-          throw Error('Not a valid rcon Id');
+          throw Error('Not a valid rcon Id sharedUserData or configData is undefined');
         }
 
         const rconConfig: RconConfigDateInterface = (
@@ -176,7 +176,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
           return JSON.parse(rconData) as RconConfigInterface;
         }
         notValidRconId({rconId: rconId, source: source, type: 'getRcon'});
-        throw Error('Not a valid rcon Id');
+        throw Error('Not a valid rcon Id rconData is null');
       } catch (e) {
         emitOnError({
           errorMessage: e,

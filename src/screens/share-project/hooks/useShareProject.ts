@@ -28,8 +28,8 @@ export const useShareProject = () => {
               docId: rconData.rconData.docId,
             },
           });
-          updateRcon({rconId: rconId, sharedRconId: sharedDoc.data.id});
-          return endpoint() + sharedDoc.data.id;
+          updateRcon({rconId: rconId, sharedRconId: sharedDoc.document.id});
+          return endpoint() + sharedDoc.document.id;
         } else {
           return endpoint() + rconData.configData.sharedRconId;
         }

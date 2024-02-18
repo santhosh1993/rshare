@@ -53,7 +53,7 @@ export const useFiles = () => {
   const setIsLoading = useCreateProjectStore(s => s.setIsLoading);
 
   const {createDirectory, saveFile} = useLocalFileStore();
-  const {uploadFile, changeAccessToPublic, getDownloadableLink} = useGoogle();
+  const {uploadFile, changeAccessToPublic, getDownloadableLink, createFolder} = useGoogle();
 
   const {doc} = useFireStore();
 
@@ -80,17 +80,19 @@ export const useFiles = () => {
         FireStoreCollection.USER_CREATED_DOCS,
       );
       await userDocument.create<FireStoreCollection.USER_CREATED_DOCS>({
-        docData: {configUrl: configUrl, rconId: sharedDoc.data.id},
+        docData: {configUrl: configUrl, rconId: sharedDoc.document.id},
       });
       await sharedDoc.create<FireStoreCollection.SHARED_DOCS>({
         docData: {
           sourceUserId: userId,
           userId: userId,
-          docId: userDocument.data.id,
+          docId: userDocument.document.id,
         },
       });
 
-      return sharedDoc.data.id;
+      console.log("---->>>> sharedDoc.data.id", sharedDoc.document.id)
+
+      return sharedDoc.document.id;
     },
     [doc],
   );
@@ -101,6 +103,8 @@ export const useFiles = () => {
         setIsLoading(true);
         const {id: userId} = await authenticate();
         const data = useCreateProjectStore.getState();
+        const folderId = await createFolder(data.details.title)
+
         for (let section = 0; section < data.data.length; section++) {
           for (
             let fileIndex = 0;
@@ -114,6 +118,7 @@ export const useFiles = () => {
                 localFilePath: file.url,
                 fileName: values[values.length - 1],
                 source: source,
+                parentId: folderId
               },
             );
           }
@@ -129,6 +134,7 @@ export const useFiles = () => {
           localFilePath: filepath,
           fileName: data.details.title + '.json',
           source: source,
+          parentId: folderId
         });
         const sharedId = await createFireStoreData({
           userId: userId,

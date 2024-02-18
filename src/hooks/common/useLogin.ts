@@ -29,7 +29,7 @@ export const useLogin = () => {
   const getUserRcons = useCallback(
     async (userId: string) => {
       const sharedDocs = await doc(userId, FireStoreCollection.USERS)
-        .data.collection(FireStoreCollection.USER_CREATED_DOCS)
+        .document.collection(FireStoreCollection.USER_CREATED_DOCS)
         .get();
 
       sharedDocs.forEach(doc => {

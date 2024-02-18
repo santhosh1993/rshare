@@ -48,7 +48,7 @@ const QRCamera = () => {
     <Camera
       style={StyleSheet.absoluteFill}
       device={device}
-      isActive={false}
+      isActive={true}
       codeScanner={codeScanner}
     />
   );

@@ -16,6 +16,7 @@ export const useCreateRcon = () => {
         params: {},
       });
     } catch (e) {
+      console.log("--->>> error", e)
       Toast.show({
         text1: 'Unable to authenticate. Please try again later.',
         type: 'error',
