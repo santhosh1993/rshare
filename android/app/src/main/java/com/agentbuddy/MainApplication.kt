@@ -1,7 +1,6 @@
-package com.rndiffapp
+package com.agentbuddy
 
 import android.app.Application
-import com.agentbuddy.BuildConfig
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
