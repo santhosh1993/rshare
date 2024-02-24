@@ -1,4 +1,5 @@
 {
     "editor.inlineSuggest.suppressSuggestions": true,
-    "emmet.useInlineCompletions": true
+    "emmet.useInlineCompletions": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
