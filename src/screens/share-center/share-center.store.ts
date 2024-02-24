@@ -12,7 +12,7 @@ enum Filter {
 
 interface ShareCenterStoreInterface {
   data: Array<ShareCardInterface>;
-  updateData: (data: Array<ShareCardInterface>) => void;
+  updateData: () => void;
 }
 
 export const useShareCenterStore = create<ShareCenterStoreInterface>(set => {

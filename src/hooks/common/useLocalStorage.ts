@@ -11,6 +11,7 @@ import {
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
 import {SingInData} from './useLogin';
+import { DeviceEventEmitter } from 'react-native';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -42,11 +43,11 @@ export const useLocalStorage = ({source}: {source: string}) => {
   const {doc} = useFireStore();
   const {notValidRconId, emitOnError} = useLocalStorageEvents();
   const {set, getString} = useMMKV();
-  //const updateData = useShareCenterStore(s => s.updateData)
 
   const setRconList = useCallback(
     (list: Array<RconListObjectInterface>) => {
       set('rconList', JSON.stringify(list));
+      DeviceEventEmitter.emit('rconListDataUpdated')
     },
     [set],
   );
@@ -107,6 +108,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         const signInData = getLoginData();
         rconConfig.isEditEnabled = false;
         if (signInData) {
+          console.log(signInData)
           if (
             sharedRconData.sourceId === sharedRconData.userId &&
             sharedRconData.sourceId === signInData.id

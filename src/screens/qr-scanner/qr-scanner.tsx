@@ -11,12 +11,9 @@ import {
 
 export const QRScanner: FC<QRScannerInterface> = () => {
   const {hasPermission, requestPermission} = useCameraPermission();
-  console.log('---->>>> ', hasPermission);
 
   const requestForPermission = useCallback(async () => {
-    console.log('--->>> userPermission test');
-    const userPermission = await requestPermission();
-    console.log('--->>> userPermission ', userPermission);
+    await requestPermission();
   }, [requestPermission]);
 
   useEffect(() => {
