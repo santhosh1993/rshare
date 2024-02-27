@@ -1796,8 +1796,6 @@ PODS:
   - React-Mapbuffer (0.73.4):
     - glog
     - React-debug
-  - react-native-blob-util (0.19.6):
-    - React-Core
   - react-native-contacts (7.0.6):
     - React-Core
   - react-native-document-picker (9.0.1):
@@ -2108,7 +2106,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
-  - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
@@ -2256,8 +2253,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
-  react-native-blob-util:
-    :path: "../node_modules/react-native-blob-util"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
   react-native-document-picker:
@@ -2414,7 +2409,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 9ac353eccf6ab54d1e0a33862ba91221d1e88460
   React-logger: 0a57b68dd2aec7ff738195f081f0520724b35dab
   React-Mapbuffer: 63913773ed7f96b814a2521e13e6d010282096ad
-  react-native-blob-util: d8fa1a7f726867907a8e43163fdd8b441d4489ea
   react-native-contacts: e31c3c29f317dd79d5f5b0b73658cb0577127ed4
   react-native-document-picker: 2b8f18667caee73a96708a82b284a4f40b30a156
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
