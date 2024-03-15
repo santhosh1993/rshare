@@ -10,7 +10,7 @@ export const useCreateRcon = () => {
 
   const create = useCallback(async () => {
     try {
-      await authenticate();
+      await authenticate({dontFetchRCON: true});
       nav.global.navigate({
         route: Routes.CreateProject,
         params: {},

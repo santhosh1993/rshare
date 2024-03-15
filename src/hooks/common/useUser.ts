@@ -15,7 +15,7 @@ export const useUser = () => {
         return singInData;
       }
 
-      singInData = await authenticate();
+      singInData = await authenticate({dontFetchRCON: false});
       return singInData;
     } catch (e) {
       throw e;

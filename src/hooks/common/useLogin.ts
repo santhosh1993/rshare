@@ -40,7 +40,7 @@ export const useLogin = () => {
     [doc, storeLoginData, storeLoginData, storeRcon],
   );
 
-  const authenticate = useCallback(async () => {
+  const authenticate = useCallback(async ({dontFetchRCON}:{dontFetchRCON?: boolean}) => {
     try {
       const signInData: SingInData = await googleAuth();
       const userData = await doc(
@@ -59,7 +59,9 @@ export const useLogin = () => {
         });
       }
       storeLoginData(signInData);
-      await getUserRcons(signInData.id);
+      if (!dontFetchRCON) {
+        await getUserRcons(signInData.id);
+      }
       updateDefaultProps({userId: signInData.id});
       loginData = signInData;
       return signInData;

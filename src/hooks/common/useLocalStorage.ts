@@ -108,10 +108,9 @@ export const useLocalStorage = ({source}: {source: string}) => {
         const signInData = getLoginData();
         rconConfig.isEditEnabled = false;
         if (signInData) {
-          console.log(signInData)
           if (
-            sharedRconData.sourceId === sharedRconData.userId &&
-            sharedRconData.sourceId === signInData.id
+            sharedRconData.sourceUserId === sharedRconData.userId &&
+            sharedRconData.sourceUserId === signInData.id
           ) {
             rconConfig.sharedRconId = rconId;
             rconConfig.isEditEnabled = true;
