@@ -9,19 +9,27 @@ import {
 import {Text, TextProps} from '@common/text';
 import {colors} from '@common/colors';
 import {FontSize} from './font';
+import { Button, ButtonType } from './button';
+import { useNavigation } from '@src/root/navigation/useNavigation';
+import { Routes } from '@src/root/router/routes';
 
-interface TextInputProps extends ViewProps {
+export interface TextInputProps extends ViewProps {
   inputBarProps?: TIP;
   textProps?: TextProps;
   label?: string;
+  editInPlace?: boolean
 }
 
-export const TextInput: FC<TextInputProps> = ({
-  style,
-  inputBarProps,
-  textProps,
-  label,
-}) => {
+export const TextInput: FC<TextInputProps> = (props) => {
+  const {
+    style,
+    inputBarProps,
+    textProps,
+    label,
+    editInPlace
+  } = props
+  const {global} = useNavigation()
+
   const [textLength, setTextLength] = useState(
     inputBarProps?.value?.length ?? 0,
   );
@@ -33,6 +41,10 @@ export const TextInput: FC<TextInputProps> = ({
     [inputBarProps],
   );
 
+  const onTIPress = useCallback(() => {
+    global.navigate({route: Routes.TEXT_INPUT_OVERLAY, params:{...props}})
+  }, [global])
+
   return (
     <View style={[styles.parent, style]}>
       <Text {...textProps} style={[styles.label, textProps?.style]}>
@@ -41,13 +53,16 @@ export const TextInput: FC<TextInputProps> = ({
       <TI
         {...inputBarProps}
         style={[styles.ti, inputBarProps?.style]}
-        onChangeText={onChangeText}
+        onChangeText={editInPlace ? onChangeText : undefined}
       />
       {inputBarProps?.maxLength && (
         <Text style={styles.maxlength}>
           {textLength} / {inputBarProps?.maxLength}
         </Text>
       )}
+      {!editInPlace && 
+            <Button type={ButtonType.Button} onPress={onTIPress} style={styles.tiOverlayButton}/> }
+
     </View>
   );
 };
@@ -71,4 +86,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingRight: 4,
   },
+  tiOverlayButton: {
+    ...StyleSheet.absoluteFillObject
+  }
 });

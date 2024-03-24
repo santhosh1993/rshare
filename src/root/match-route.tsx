@@ -3,13 +3,14 @@ import {ShareCenter} from '@src/screens/share-center/ShareCenter';
 import React from 'react';
 import {BaseRouteParams, Routes} from './router/routes';
 import {More, MoreInterface} from '@src/screens/more/more';
-import {STACK_NAVIGATION_OPTIONS} from './navigation/navigationOptions';
+import {BOTTOM_SHEET_NAVIGATION_OPTIONS, STACK_NAVIGATION_OPTIONS} from './navigation/navigationOptions';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SuspendedProjectDetailComponent} from '@src/screens/project-detail/project-detail.lazy';
 import {SuspendedProjectDetailFullScreenComponent} from '@src/screens/project-detail-fullscreen/project-detail-fullscreen.lazy';
 import {SuspendedCreateProjectComponent} from '@src/screens/create-project/create-project.lazy';
 import {SuspendedShareProjectFullScreenComponent} from '@src/screens/share-project/share-project.lazy';
 import {Home} from '@src/screens/home/home';
+import { SuspendedTextInputOverlayComponent } from '@src/screens/text-input-overlay/text-input-overlay.lazy';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,9 @@ export function MatchRoute<K extends Routes>(props: {
           initialParams={props.params}
           component={SuspendedShareProjectFullScreenComponent}
         />
+        <Stack.Group screenOptions={BOTTOM_SHEET_NAVIGATION_OPTIONS}>
+          <Stack.Screen name={Routes.TEXT_INPUT_OVERLAY} initialParams={props.params} component={SuspendedTextInputOverlayComponent} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
