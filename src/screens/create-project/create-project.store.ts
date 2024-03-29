@@ -89,8 +89,23 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         set({data: data, collapseDetails: true});
       },
       deleteTab: (index: number) => {
-        console.log(index)
-        
+        let tabs = get().tabs
+        let data = get().data
+
+        tabs.splice(index, 1)
+        data.splice(index, 1)
+
+        if (tabs.length == 0) {
+          categoryIndex+=1
+          const newProject = createNewProject('Category', categoryIndex);
+          data.push(newProject)
+          tabs.push(newProject.title)
+        }
+
+        set({
+          tabs: tabs,
+          data: data
+        })        
       },
       reset: () => {
         const initalProject = createNewProject('Category', 0);
