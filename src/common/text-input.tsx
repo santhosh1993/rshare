@@ -31,7 +31,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
   const {global} = useNavigation()
 
   const [textLength, setTextLength] = useState(
-    inputBarProps?.value?.length ?? 0,
+    inputBarProps?.defaultValue?.length ?? 0,
   );
   const onChangeText = useCallback(
     (text: string) => {

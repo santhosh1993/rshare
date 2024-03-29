@@ -9,20 +9,20 @@ import {
   mapAddNewContentToContentData,
 } from './create-project.utils';
 
-const initalProject = createNewProject('Category', 0);
 
-const INITIAL_STATE = {
-  isLoading: false,
-  data: [initalProject],
-  tabs: [initalProject.title],
-  collapseDetails: false,
-  details: {title: '', descrption: '', keywords: ''},
-};
+let categoryIndex = 0
 
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
+    const initalProject = createNewProject('Category', 0);
+
     return {
-      ...INITIAL_STATE,
+      isLoading: false,
+      data: [initalProject],
+      tabs: [initalProject.title],
+      collapseDetails: false,
+      details: {title: '', descrption: '', keywords: ''},
+
       setIsLoading: show => {
         set({isLoading: show});
       },
@@ -59,7 +59,8 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
       },
       addNewSection: () => {
         let data = get().data;
-        data.push(createNewProject('Category', data.length));
+        categoryIndex += 1
+        data.push(createNewProject('Category', categoryIndex));
         let tabs = get().tabs;
         tabs.push(data[data.length - 1].title);
 
@@ -85,14 +86,22 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
 
         data[index].content = updatedContent;
 
-        set({data: data});
+        set({data: data, collapseDetails: true});
       },
       deleteTab: (index: number) => {
         console.log(index)
         
       },
       reset: () => {
-        set(INITIAL_STATE);
+        const initalProject = createNewProject('Category', 0);
+        categoryIndex = 0
+        set({
+          isLoading: false,
+          data: [initalProject],
+          tabs: [initalProject.title],
+          collapseDetails: false,
+          details: {title: '', descrption: '', keywords: ''},
+        });
       },
     };
   },
