@@ -55,13 +55,13 @@ export const ProjectDetailsInput = () => {
         <AccordionBody>
           <TextInput
             label="Title"
-            inputBarProps={{onChangeText: titleUpdate, value: details.title}}
+            inputBarProps={{onChangeText: titleUpdate, defaultValue: details.title}}
           />
           <TextInput
             label="Details"
             inputBarProps={{
               onChangeText: detailsUpdate,
-              value: details.descrption,
+              defaultValue: details.descrption,
             }}
           />
           <TextInput
@@ -69,7 +69,7 @@ export const ProjectDetailsInput = () => {
             inputBarProps={{
               multiline: true,
               onChangeText: keyWordsUpdate,
-              value: details.keywords,
+              defaultValue: details.keywords,
               maxLength: 256,
             }}
           />

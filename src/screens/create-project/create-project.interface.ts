@@ -33,5 +33,6 @@ export interface CreateProjectStoreInterface {
   addNewSection: () => void;
   addNewContent: (content: Array<AddNewContent>, index: number) => void;
   deleteItem: (sectionIndex: number, index: number) => void;
+  deleteTab: (index: number) => void;
   reset: () => void;
 }

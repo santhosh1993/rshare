@@ -87,6 +87,10 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
 
         set({data: data});
       },
+      deleteTab: (index: number) => {
+        console.log(index)
+        
+      },
       reset: () => {
         set(INITIAL_STATE);
       },

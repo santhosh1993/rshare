@@ -66,6 +66,7 @@ export const MoreComponent: FC<MoreInterface> = props => {
         <TextInput
           label="Name"
           inputBarProps={{value: userName, onChangeText: onUserNameChange}}
+          editInPlace={true}
         />
         <TextInput
           label="Phone No"
@@ -75,6 +76,7 @@ export const MoreComponent: FC<MoreInterface> = props => {
             autoCorrect: false,
             spellCheck: false,
           }}
+          editInPlace={true}
         />
       </View>
     );

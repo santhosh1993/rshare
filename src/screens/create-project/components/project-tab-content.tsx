@@ -21,6 +21,7 @@ import {AccordionIcon} from '@src/components/Accordion/AccordionIcon';
 import SvgChevronDown from '@src/generated/assets/svgs/ChevronDown';
 import {InputType} from '../create-project.interface';
 import SvgCrossWhite from '@src/generated/assets/svgs/CrossWhite';
+import { Button, ButtonType } from '@common/button';
 
 export interface ProjectTabContentInterface {
   index: number;
@@ -29,7 +30,6 @@ export interface ProjectTabContentInterface {
 export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
   const data = useCreateProjectStore(s => s.data)[index];
   const deleteItem = useCreateProjectStore(s => s.deleteItem);
-
   const seperaterItem = useCallback(() => {
     return <View style={styles.seperator} />;
   }, []);
@@ -106,6 +106,10 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
     [index, updateText],
   );
 
+  const deleteTab = useCallback(() => {
+    useCreateProjectStore.getState().deleteTab(index)
+  }, [index])
+
   return (
     <View style={styles.container}>
       <Accordion style={styles.accordion}>
@@ -114,8 +118,11 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
             <Text
               fontWeight={FontWeight.MEDIUM}
               style={{fontSize: FontSize.medium}}>
-              Categrory Details
+              Category Details
             </Text>
+            <Button type={ButtonType.Button} onPress={deleteTab}>
+              <Text>Delete</Text>
+            </Button>
             <AccordionIcon
               animationType={AccordionIconAnimationType.ROTATION}
               children={
@@ -127,16 +134,17 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
           </AccordionHead>
           <AccordionBody>
             <TextInput
-              label="Title"
-              inputBarProps={{value: data.title, onChangeText: titleUpdate}}
+              label="Category Name"
+              inputBarProps={{defaultValue: data.title, onChangeText: titleUpdate}}
             />
+            
             <TextInput
               label="Description"
               inputBarProps={{
                 onChangeText: descriptionUpdate,
                 multiline: true,
                 maxLength: 256,
-                value: data.description,
+                defaultValue: data.description,
               }}
             />
           </AccordionBody>
