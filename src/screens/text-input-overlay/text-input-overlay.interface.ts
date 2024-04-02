@@ -1,4 +1,3 @@
-import { TextInputProps } from "@common/text-input";
+import {TextInputProps} from '@common/text-input';
 
-export interface TextInputOverlayInterface extends TextInputProps {
-}
+export interface TextInputOverlayInterface extends TextInputProps {}

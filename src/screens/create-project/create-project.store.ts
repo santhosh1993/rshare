@@ -9,8 +9,7 @@ import {
   mapAddNewContentToContentData,
 } from './create-project.utils';
 
-
-let categoryIndex = 0
+let categoryIndex = 0;
 
 export const useCreateProjectStore = create<CreateProjectStoreInterface>(
   (set, get) => {
@@ -59,7 +58,7 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
       },
       addNewSection: () => {
         let data = get().data;
-        categoryIndex += 1
+        categoryIndex += 1;
         data.push(createNewProject('Category', categoryIndex));
         let tabs = get().tabs;
         tabs.push(data[data.length - 1].title);
@@ -89,27 +88,27 @@ export const useCreateProjectStore = create<CreateProjectStoreInterface>(
         set({data: data, collapseDetails: true});
       },
       deleteTab: (index: number) => {
-        let tabs = get().tabs
-        let data = get().data
+        let tabs = get().tabs;
+        let data = get().data;
 
-        tabs.splice(index, 1)
-        data.splice(index, 1)
+        tabs.splice(index, 1);
+        data.splice(index, 1);
 
         if (tabs.length == 0) {
-          categoryIndex+=1
+          categoryIndex += 1;
           const newProject = createNewProject('Category', categoryIndex);
-          data.push(newProject)
-          tabs.push(newProject.title)
+          data.push(newProject);
+          tabs.push(newProject.title);
         }
 
         set({
           tabs: tabs,
-          data: data
-        })        
+          data: data,
+        });
       },
       reset: () => {
         const initalProject = createNewProject('Category', 0);
-        categoryIndex = 0
+        categoryIndex = 0;
         set({
           isLoading: false,
           data: [initalProject],

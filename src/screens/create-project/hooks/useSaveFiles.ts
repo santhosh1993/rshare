@@ -53,7 +53,8 @@ export const useFiles = () => {
   const setIsLoading = useCreateProjectStore(s => s.setIsLoading);
 
   const {createDirectory, saveFile} = useLocalFileStore();
-  const {uploadFile, changeAccessToPublic, getDownloadableLink, createFolder} = useGoogle();
+  const {uploadFile, changeAccessToPublic, getDownloadableLink, createFolder} =
+    useGoogle();
 
   const {doc} = useFireStore();
 
@@ -90,7 +91,7 @@ export const useFiles = () => {
         },
       });
 
-      console.log("---->>>> sharedDoc.data.id", sharedDoc.document.id)
+      console.log('---->>>> sharedDoc.data.id', sharedDoc.document.id);
 
       return sharedDoc.document.id;
     },
@@ -103,7 +104,7 @@ export const useFiles = () => {
         setIsLoading(true);
         const {id: userId} = await authenticate();
         const data = useCreateProjectStore.getState();
-        const folderId = await createFolder(data.details.title)
+        const folderId = await createFolder(data.details.title);
 
         for (let section = 0; section < data.data.length; section++) {
           for (
@@ -118,7 +119,7 @@ export const useFiles = () => {
                 localFilePath: file.url,
                 fileName: values[values.length - 1],
                 source: source,
-                parentId: folderId
+                parentId: folderId,
               },
             );
           }
@@ -134,7 +135,7 @@ export const useFiles = () => {
           localFilePath: filepath,
           fileName: data.details.title + '.json',
           source: source,
-          parentId: folderId
+          parentId: folderId,
         });
         const sharedId = await createFireStoreData({
           userId: userId,

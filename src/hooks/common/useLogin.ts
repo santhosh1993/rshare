@@ -40,35 +40,38 @@ export const useLogin = () => {
     [doc, storeLoginData, storeLoginData, storeRcon],
   );
 
-  const authenticate = useCallback(async ({dontFetchRCON}:{dontFetchRCON?: boolean}) => {
-    try {
-      const signInData: SingInData = await googleAuth();
-      const userData = await doc(
-        signInData.id,
-        FireStoreCollection.USERS,
-      ).read();
-      if (userData === undefined) {
-        await doc(
+  const authenticate = useCallback(
+    async ({dontFetchRCON}: {dontFetchRCON?: boolean}) => {
+      try {
+        const signInData: SingInData = await googleAuth();
+        const userData = await doc(
           signInData.id,
           FireStoreCollection.USERS,
-        ).create<FireStoreCollection.USERS>({
-          docData: {
-            name: signInData.name ?? '',
-            phoneNo: '',
-          },
-        });
+        ).read();
+        if (userData === undefined) {
+          await doc(
+            signInData.id,
+            FireStoreCollection.USERS,
+          ).create<FireStoreCollection.USERS>({
+            docData: {
+              name: signInData.name ?? '',
+              phoneNo: '',
+            },
+          });
+        }
+        storeLoginData(signInData);
+        if (!dontFetchRCON) {
+          await getUserRcons(signInData.id);
+        }
+        updateDefaultProps({userId: signInData.id});
+        loginData = signInData;
+        return signInData;
+      } catch (e) {
+        throw e;
       }
-      storeLoginData(signInData);
-      if (!dontFetchRCON) {
-        await getUserRcons(signInData.id);
-      }
-      updateDefaultProps({userId: signInData.id});
-      loginData = signInData;
-      return signInData;
-    } catch (e) {
-      throw e;
-    }
-  }, [doc, getUserRcons, googleAuth, storeLoginData]);
+    },
+    [doc, getUserRcons, googleAuth, storeLoginData],
+  );
 
   return {authenticate, getLoginData};
 };

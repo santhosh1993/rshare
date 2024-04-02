@@ -13,9 +13,12 @@ export const ProjectListContainer = () => {
   const updateData = useShareCenterStore(s => s.updateData);
 
   useEffect(() => {
-    const eventListener = DeviceEventEmitter.addListener('rconListDataUpdated', () => {
-      updateData()
-    });
+    const eventListener = DeviceEventEmitter.addListener(
+      'rconListDataUpdated',
+      () => {
+        updateData();
+      },
+    );
 
     return () => {
       eventListener.remove();

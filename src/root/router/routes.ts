@@ -4,7 +4,7 @@ import {MoreInterface} from '@src/screens/more/more';
 import {ProjectDetailFullScreenInterface} from '@src/screens/project-detail-fullscreen/project-detail-fullscreen.interface';
 import {ProjectDetailInterface} from '@src/screens/project-detail/project-detail.interface';
 import {ShareProjectInterface} from '@src/screens/share-project/share-project.interface';
-import { TextInputOverlayInterface } from '@src/screens/text-input-overlay/text-input-overlay.interface';
+import {TextInputOverlayInterface} from '@src/screens/text-input-overlay/text-input-overlay.interface';
 
 export enum Routes {
   SHARE_CENTER = 'SHARE_CENTER',
@@ -14,7 +14,7 @@ export enum Routes {
   CreateProject = 'CreateProject',
   SHARE_SCREEN = 'ShareScreen',
   HOME = 'HOME',
-  TEXT_INPUT_OVERLAY = 'TextInputOverLay'
+  TEXT_INPUT_OVERLAY = 'TextInputOverLay',
 }
 
 export type BaseRouteParams = {

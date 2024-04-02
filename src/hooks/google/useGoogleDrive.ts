@@ -20,31 +20,32 @@ export const useGoogleDrive = () => {
     const accessToken = tokens.accessToken;
 
     const url = 'https://www.googleapis.com/drive/v3/files';
-  
-  const body = JSON.stringify({
-    name: folderName,
-    mimeType: 'application/vnd.google-apps.folder',
-  });
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: body,
-  });
-  
-  const result = await response.json();
+    const body = JSON.stringify({
+      name: folderName,
+      mimeType: 'application/vnd.google-apps.folder',
+    });
 
-  if (response.ok) {
-    console.log('Folder created successfully:', result.id);
-    await changeAccessToPublic(result.id)
-    return result.id as string
-  } else {
-    console.error('Error creating folder:', result.error);
-    throw result.error
-  }  }, [])
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log('Folder created successfully:', result.id);
+      await changeAccessToPublic(result.id);
+      return result.id as string;
+    } else {
+      console.error('Error creating folder:', result.error);
+      throw result.error;
+    }
+  }, []);
 
   const uploadFile = useCallback(
     async ({localFilePath, fileName, source, parentId}: UploadProps) => {
@@ -150,7 +151,7 @@ export const useGoogleDrive = () => {
     uploadFile,
     changeAccessToPublic,
     getDownloadableLink,
-    createFolder
+    createFolder,
   };
 };
 

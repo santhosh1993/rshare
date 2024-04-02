@@ -55,7 +55,10 @@ export const ProjectDetailsInput = () => {
         <AccordionBody>
           <TextInput
             label="Title"
-            inputBarProps={{onChangeText: titleUpdate, defaultValue: details.title}}
+            inputBarProps={{
+              onChangeText: titleUpdate,
+              defaultValue: details.title,
+            }}
           />
           <TextInput
             label="Details"

@@ -11,7 +11,7 @@ import {
 } from '../firestore/firestore.collections.Interface';
 import {SectionData} from '@src/screens/project-detail/project-detail.interface';
 import {SingInData} from './useLogin';
-import { DeviceEventEmitter } from 'react-native';
+import {DeviceEventEmitter} from 'react-native';
 
 interface RconListObjectInterface {
   rconId: string;
@@ -47,7 +47,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
   const setRconList = useCallback(
     (list: Array<RconListObjectInterface>) => {
       set('rconList', JSON.stringify(list));
-      DeviceEventEmitter.emit('rconListDataUpdated')
+      DeviceEventEmitter.emit('rconListDataUpdated');
     },
     [set],
   );
@@ -98,7 +98,9 @@ export const useLocalStorage = ({source}: {source: string}) => {
             source: source,
             type: 'storeRcon_configData',
           });
-          throw Error('Not a valid rcon Id sharedUserData or configData is undefined');
+          throw Error(
+            'Not a valid rcon Id sharedUserData or configData is undefined',
+          );
         }
 
         const rconConfig: RconConfigDateInterface = (

@@ -25,7 +25,7 @@ export const useGoogleAuth = () => {
       await auth().signInWithCredential(googleCredential);
       return signInData.user;
     } catch (e) {
-      console.log("--->>>> error", e)
+      console.log('--->>>> error', e);
       throw e;
     }
   }, []);

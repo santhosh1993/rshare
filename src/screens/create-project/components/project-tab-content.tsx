@@ -21,7 +21,7 @@ import {AccordionIcon} from '@src/components/Accordion/AccordionIcon';
 import SvgChevronDown from '@src/generated/assets/svgs/ChevronDown';
 import {InputType} from '../create-project.interface';
 import SvgCrossWhite from '@src/generated/assets/svgs/CrossWhite';
-import { Button, ButtonType } from '@common/button';
+import {Button, ButtonType} from '@common/button';
 
 export interface ProjectTabContentInterface {
   index: number;
@@ -107,8 +107,8 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
   );
 
   const deleteTab = useCallback(() => {
-    useCreateProjectStore.getState().deleteTab(index)
-  }, [index])
+    useCreateProjectStore.getState().deleteTab(index);
+  }, [index]);
 
   return (
     <View style={styles.container}>
@@ -135,9 +135,12 @@ export const ProjectTabContent = ({index}: ProjectTabContentInterface) => {
           <AccordionBody>
             <TextInput
               label="Category Name"
-              inputBarProps={{defaultValue: data.title, onChangeText: titleUpdate}}
+              inputBarProps={{
+                defaultValue: data.title,
+                onChangeText: titleUpdate,
+              }}
             />
-            
+
             <TextInput
               label="Description"
               inputBarProps={{
