@@ -91,8 +91,6 @@ export const useFiles = () => {
         },
       });
 
-      console.log('---->>>> sharedDoc.data.id', sharedDoc.document.id);
-
       return sharedDoc.document.id;
     },
     [doc],
@@ -102,7 +100,9 @@ export const useFiles = () => {
     async (source: string) => {
       try {
         setIsLoading(true);
-        const {id: userId} = await authenticate();
+        const {id: userId} = await authenticate(
+          {dontFetchRCON: false}
+        );
         const data = useCreateProjectStore.getState();
         const folderId = await createFolder(data.details.title);
 

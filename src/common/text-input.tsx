@@ -38,15 +38,15 @@ export const TextInput: FC<TextInputProps> = props => {
 
   const onTIPress = useCallback(() => {
     global.navigate({route: Routes.TEXT_INPUT_OVERLAY, params: {...props}});
-  }, [global]);
+  }, [global, props]);
 
   return (
     <View style={[styles.parent, style]}>
       <Text {...textProps} style={[styles.label, textProps?.style]}>
         {label}
       </Text>
-      <View style={{backgroundColor: 'green'}}>
-        <ScrollView style={{backgroundColor: 'red'}}>
+      <View style={editInPlace ? {maxHeight: 200} : {}}>
+        <ScrollView>
           <TI
             {...inputBarProps}
             style={[styles.ti, inputBarProps?.style]}

@@ -1,7 +1,7 @@
 import {withScreenLoadedEvent} from '@src/core/withScreenLoadedEvent';
 import {Routes} from '@src/root/router/routes';
 import React, {useCallback} from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, TextInputProps, View} from 'react-native';
 import {TextInputOverlayInterface} from './text-input-overlay.interface';
 import {useNavigation} from '@src/root/navigation/useNavigation';
 import {Button, ButtonType} from '@common/button';
@@ -12,6 +12,9 @@ const TextInputOverlay = (props: TextInputOverlayInterface) => {
   const onPress = useCallback(() => {
     global.goBack();
   }, [global]);
+
+  const inputBarProps: TextInputProps = {...props.inputBarProps, autoFocus: true}
+
   return (
     <View style={styles.container}>
       <Button
@@ -22,7 +25,7 @@ const TextInputOverlay = (props: TextInputOverlayInterface) => {
       </Button>
       <KeyboardAvoidingView>
         <View style={{backgroundColor: '#fff'}}>
-          <TextInput {...props} editInPlace={true} />
+          <TextInput {...props} editInPlace={true}  inputBarProps={inputBarProps}/>
         </View>
       </KeyboardAvoidingView>
     </View>

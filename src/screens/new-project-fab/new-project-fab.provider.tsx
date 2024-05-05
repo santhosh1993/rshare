@@ -17,7 +17,7 @@ export const NewProjectFabProvider = memo(
     return (
       <NewProjectFabContext.Provider value={contextProps}>
         {props.children}
-        <NewProjectFab />
+        <NewProjectFab source={'CREATE_PROJECT'} />
       </NewProjectFabContext.Provider>
     );
   },
