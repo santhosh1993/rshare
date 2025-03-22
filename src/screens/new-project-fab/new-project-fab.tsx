@@ -26,7 +26,7 @@ export const NewProjectFab: FC<NewProjectFabProps> = memo(props => {
   const onPress = useCallback(async () => {
     createRconFabClicked();
     try {
-      await authenticate();
+      await authenticate({dontFetchRCON: true});
       nav.global.navigate({
         route: Routes.CreateProject,
         params: {

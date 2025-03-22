@@ -138,7 +138,7 @@ export const useLocalStorage = ({source}: {source: string}) => {
         };
 
         let rconList: Array<RconListObjectInterface> = getRconList();
-
+        console.log("--->>>> rconList", rconList.length)
         for (let i = 0; i < rconList.length; i++) {
           if (rconList[i].rconId === rconId) {
             rconList.splice(i, 1);

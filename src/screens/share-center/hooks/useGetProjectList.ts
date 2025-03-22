@@ -8,6 +8,7 @@ export const useShareCenter = () => {
   const getList = useCallback(() => {
     const rconList = getRconList();
     let rconConfigList: Array<ShareCardInterface> = [];
+    console.log("--->>> rconList1", rconList.length);
     for (let i = 0; i < rconList.length; i++) {
       try {
         const rconDate = rconList[i];

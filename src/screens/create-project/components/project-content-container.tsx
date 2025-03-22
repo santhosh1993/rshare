@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useMemo} from 'react';
 import {View} from 'react-native';
 
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {MaterialTopTabNavigationOptions, createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useCreateProjectStore} from '../create-project.store';
 import {styles} from '../create-project.styles';
 import {ProjectTabContent} from './project-tab-content';
@@ -17,12 +17,13 @@ export const ProjectContent = memo(() => {
     return {tabs: s.tabs, addNew: s.addNewSection};
   });
 
-  const screenOptions = useMemo(() => {
+  const screenOptions: MaterialTopTabNavigationOptions = useMemo(() => {
     return {
       tabBarScrollEnabled: true,
       lazy: true,
       lazyPreloadDistance: 2,
       tabBarStyle: styles.tabBar,
+      tabBarBounces: false
     };
   }, []);
 
@@ -52,6 +53,7 @@ export const ProjectContent = memo(() => {
         {tabs.map((section, index) => {
           return (
             <Tab.Screen
+              key={section}
               options={{
                 tabBarLabel: tabBarLabel,
                 tabBarIndicatorStyle: {

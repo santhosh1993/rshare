@@ -105,6 +105,7 @@ export const useFiles = () => {
         );
         const data = useCreateProjectStore.getState();
         const folderId = await createFolder(data.details.title);
+        console.log("--->>> data.data", data.data.length);
 
         for (let section = 0; section < data.data.length; section++) {
           for (
